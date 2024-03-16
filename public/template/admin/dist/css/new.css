@@ -1,0 +1,12 @@
+.title-name h1 {
+    font-size: 50px; /* Kích thước chữ */
+    font-weight: bold; /* Độ đậm của chữ */
+    background: linear-gradient(to right, #ff0000, #0000ff); /* Gradient từ đỏ đến xanh dương */
+    -webkit-background-clip: text; /* Cho phép hiển thị gradient trong vùng chữ */
+    color: transparent;
+    text-align: center; /* Center-align text horizontally */
+    display: flex;
+    align-items: center; /* Center-align text vertically */
+    justify-content: center; /* Center-align text horizontally */
+    height: 70vh; /* Set height to full viewport height to center vertically */
+}
