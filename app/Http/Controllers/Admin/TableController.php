@@ -7,6 +7,7 @@ use App\Models\Table;
 use Illuminate\Http\Request;
 use App\Http\Services\Table\TableService;
 use App\Models\Cart;
+use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
 
 class TableController extends Controller
@@ -21,9 +22,11 @@ class TableController extends Controller
     public function index()
     {
 
+        $customers = Customer::all();
         return view('admin.table.list', [
             'title' => 'Danh Sách Bàn Ăn',
-            'tables' => $this->tableService->getAllTables()
+            'tables' => $this->tableService->getAllTables(),
+            'customers' => $customers
         ]);
     }
 
@@ -85,28 +88,16 @@ class TableController extends Controller
         return response()->json(['error' => true]);
     }
 
-    public function selectTable(Request $request) {
-        // Lấy ID của bàn được chọn từ request
-        $tableId = $request->table_id;
-    
-        // Lấy đơn hàng của người dùng hiện tại (nếu có)
-        $cart = Auth::user()->cart;
-    
-        // Nếu người dùng có đơn hàng, cập nhật cột table_id trong đơn hàng
-        if ($cart) {
-            // Kiểm tra xem đơn hàng có thuộc tính customer_id không trước khi sử dụng nó
-            if ($cart->customer_id !== null) {
-                $cart->table_id = $tableId;
-                $cart->save();
-                return response()->json(['success' => true]);
-            } else {
-                // Trả về lỗi nếu không tìm thấy customer_id trong đơn hàng
-                return response()->json(['error' => true, 'message' => 'Không tìm thấy thông tin đơn hàng của người dùng'], 404);
-            }
-        }
-    
-        // Trả về lỗi nếu không tìm thấy đơn hàng cho người dùng hiện tại
-        return response()->json(['error' => true, 'message' => 'Không tìm thấy đơn hàng của người dùng'], 404);
+    public function updateStatus($id)
+    {
+        // Lấy thông tin bàn từ ID
+        $table = Table::findOrFail($id);
+
+        // Cập nhật trạng thái của bàn
+        $table->active = request('status');
+        $table->save();
+
+        // Trả về thông báo thành công
+        return response()->json(['message' => 'Trạng thái của bàn đã được cập nhật thành công']);
     }
-    
 }

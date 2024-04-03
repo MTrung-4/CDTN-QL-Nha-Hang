@@ -11,7 +11,6 @@ class CustomerController extends Controller
 {
     protected $customer;
 
-
     public function __construct(CustomerService $customer)
     {
         $this->customer = $customer;
@@ -19,11 +18,14 @@ class CustomerController extends Controller
 
     public function create()
     {
-        
+        $customers = Customer::all();
+
         return view('admin.customer.add', [
             'title' => 'Thêm Khách Hàng Mới',
+            'customers' => $customers
         ]);
     }
+
 
     public function store(Request $request)
     {
@@ -89,12 +91,4 @@ class CustomerController extends Controller
 
         return response()->json(['error' => true]);
     }
-
-    public function showCustomers() {
-        $selectedTable = session('selectedTable');
-        return view('admin.carts.customer', ['selectedTable' => $selectedTable]);
-    }
-    
-    
-    
 }

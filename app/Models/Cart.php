@@ -16,7 +16,9 @@ class Cart extends Model
         'product_id',
         'qty',
         'price',
-        'table_id'
+        'table_id',
+        'pay_option',
+        'pay_money',
     ];
 
     public function product()
@@ -27,6 +29,11 @@ class Cart extends Model
     public function table()
     {
         return $this->belongsTo(Table::class);
+    }
+
+    public function customer()
+    {
+        return $this->belongsto(Customer::class);
     }
     
 }

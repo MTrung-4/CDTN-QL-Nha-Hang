@@ -29,15 +29,15 @@
             </div>
 
             <div class="form-group">
-                <label>Kích Hoạt</label>
+                <label>Trạng thái</label>
                 <div class="custom-control custom-radio">
                     <input class="custom-control-input" value="1" type="radio" id="active" name="active"
                         checked="">
-                    <label for="active" class="custom-control-label">Có</label>
+                    <label for="active" class="custom-control-label">Còn trống</label>
                 </div>
                 <div class="custom-control custom-radio">
                     <input class="custom-control-input" value="0" type="radio" id="no_active" name="active">
-                    <label for="no_active" class="custom-control-label">Không</label>
+                    <label for="no_active" class="custom-control-label">Không còn trống</label>
                 </div>
             </div>
 

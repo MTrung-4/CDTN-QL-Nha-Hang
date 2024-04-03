@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CartController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\Login\LoginController;
 use App\Http\Controllers\Admin\MainController;
@@ -62,8 +63,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('edit/{product}', [TableController::class, 'edit']);
             Route::post('edit/{product}', [TableController::class, 'update']);
             Route::DELETE('destroy', [TableController::class, 'destroy']);
-            Route::get('select/{table_id}', [TableController::class, 'selectTable'])->name('admin.tables.select');
-
+            Route::post('/update-status/{id}',[TableController::class, 'updateStatus']);
 
         });
 
@@ -74,9 +74,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('list', [CustomerController::class, 'index']);
             Route::get('edit/{customer}', [CustomerController::class, 'edit']);
             Route::post('edit/{customer}', [CustomerController::class, 'update']);
-            Route::DELETE('destroy', [CustomerController::class, 'destroy']);
-            Route::get('show',[CustomerController::class, 'showCustomers'])->name('customers.show');
-
+            Route::DELETE('destroy', [CustomerController::class, 'destroy']); 
         });
 
         #Slider
@@ -92,11 +90,12 @@ Route::middleware(['auth'])->group(function () {
          #Upload
          Route::post('upload/services', [UploadController::class, 'store']);
 
-          #Cart
+        #Cart
         Route::get('customers', [\App\Http\Controllers\Admin\CartController::class, 'index']);
         Route::get('customers/view/{customer}', [\App\Http\Controllers\Admin\CartController::class, 'show']); 
-        
     });
+
+    Route::post('/admin/carts/select-table', [CartController::class, 'selectTableForCustomer']);
 });
 
 Route::get('/', [App\Http\Controllers\MainController::class, 'index']);
