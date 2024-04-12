@@ -21,20 +21,7 @@
                     công nghiệp đồng hồ Nhật Bản. Các mẫu Đồng hồ Casio nam và Casio nữ đều được nhận xét là “bền, đẹp
                     và giá tốt”
                 </p>
-
-                <div class="p-t-27">
-                    <a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-                        <i class="fa fa-facebook"></i>
-                    </a>
-
-                    <a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-                        <i class="fa fa-instagram"></i>
-                    </a>
-
-                    <a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16">
-                        <i class="fa fa-pinterest-p"></i>
-                    </a>
-                </div>
+             
             </div>
 
             <div class="col-sm-6 col-lg-3 p-b-50">
@@ -65,65 +52,6 @@
                     <p class="stext-107 cl7 size-201">
                         HOTLINE: 0902.678.910
                     </p>
-                </ul>
-            </div>
-
-            <div class="col-sm-6 col-lg-3 p-b-50">
-                <h4 class="stext-301 cl0 p-b-30">
-                    HỖ TRỢ KHÁCH HÀNG
-                </h4>
-
-                <ul>
-                    <li class="p-b-10">
-                        <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-                            Hướng dẫn mua hàng
-                        </a>
-                    </li>
-
-                    <li class="p-b-10">
-                        <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-                            Phương thức thanh toán
-                        </a>
-                    </li>
-
-                    <li class="p-b-10">
-                        <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-                            Phương thức vận chuyển
-                        </a>
-                    </li>
-
-                    <li class="p-b-10">
-                        <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-                            Chính sách đổi đồng hồ
-                        </a>
-                    </li>
-
-                    <li class="p-b-10">
-                        <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-                            Chính sách bảo mật thông tin
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="m-all-1">
-                            <img src="/template/images/icons/icon-pay-01.png" alt="ICON-PAY">
-                        </a>
-
-                        <a href="#" class="m-all-1">
-                            <img src="/template/images/icons/icon-pay-02.png" alt="ICON-PAY">
-                        </a>
-
-                        <a href="#" class="m-all-1">
-                            <img src="/template/images/icons/icon-pay-03.png" alt="ICON-PAY">
-                        </a>
-
-                        <a href="#" class="m-all-1">
-                            <img src="/template/images/icons/icon-pay-04.png" alt="ICON-PAY">
-                        </a>
-
-                        <a href="#" class="m-all-1">
-                            <img src="/template/images/icons/icon-pay-05.png" alt="ICON-PAY">
-                        </a>
-                    </li>
                 </ul>
             </div>
         </div>

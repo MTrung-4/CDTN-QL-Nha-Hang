@@ -15,7 +15,7 @@
 
         .card-body {
             display: flex;
-            align-items: center;
+            align-tables: center;
             justify-content: space-between;
             padding: 1.25rem 1.25rem 0 1.25rem;
         }
@@ -28,7 +28,7 @@
         .ml-1 {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-tables: center;
         }
 
         .divider {
@@ -50,6 +50,12 @@
         .dropdown.dropdown-right .dropdown-menu {
             right: 0;
             left: auto;
+        }
+
+        .dropdown-item:hover {
+            color: black !important;
+            text-decoration: none;
+            opacity: 0.5;
         }
 
         .table-card .status {
@@ -74,7 +80,7 @@
                 <div class="col-md-4 mb-4">
                     <div class="card table-card">
                         <div class="card-body">
-                            <div class="d-flex align-items-center">
+                            <div class="d-flex align-tables-center">
                                 <div class="cardname">
                                     <div class="ml-1">
                                         <h5 class="card-title">{{ $table->name }}</h5>
@@ -131,6 +137,20 @@
         </div>
     </div>
 
+    <div class="card-footer clearfix">
+        <ul class="pagination pagination-sm m-0 float-right">
+            <li class="page-item"><a class="page-link" href="{{ $tables->previousPageUrl() }}">Previous</a></li>
+
+            @for ($i = 1; $i <= $tables->lastPage(); $i++)
+                <li class="page-item{{ $i == $tables->currentPage() ? ' active' : '' }}">
+                    <a class="page-link" href="{{ $tables->url($i) }}">{{ $i }}</a>
+                </li>
+            @endfor
+
+            <li class="page-item"><a class="page-link" href="{{ $tables->nextPageUrl() }}">Next</a></li>
+        </ul>
+    </div>
+
     <!--form thay doi-->
     <div id="editDialog" class="modal fade" tabindex="-1">
         <div class="modal-dialog">
@@ -141,7 +161,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="statusSelect">Trạng thái mới:</label>
-                        <div class="d-flex align-items-center">
+                        <div class="d-flex align-tables-center">
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" name="statusRadio" id="statusRadio1"
                                     value="1">
@@ -171,6 +191,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <script>
+        function showSuccessMessage(message) {
+            alert(message);
+        }
+
         // Lấy giá trị customer_id từ tham số query string
         const customerId = new URLSearchParams(window.location.search).get('customer_id');
 

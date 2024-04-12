@@ -41,20 +41,23 @@ class TableController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string|max:255|unique:products,name',
+            'capacity' => 'required|numeric|min:0',
 
         ], [
-            'name.required' => 'Tên Sản Phẩm không được để trống',
-            'name.unique' => 'Tên Sản Phẩm đã tồn tại',
+            'name.required' => 'Tên bàn ăn không được để trống',
+            'name.unique' => 'Tên bàn ăn đã tồn tại',
+            'capacity.required' => 'Sức chứa của bàn không được để trống',
+            'capacity.min' => 'Sức chứa của bàn phải lớn hơn 0',
         ]);
         $this->tableService->insert($request);
         return redirect()->back();
     }
 
-    public function edit($id)
+    public function edit(Table $table)
     {
-        return view('admin.tables.edit', [
+        return view('admin.table.edit', [
             'title' => 'Chỉnh Sửa Bàn Ăn',
-            'table' => $this->tableService->getTableById($id)
+            'table' => $table
         ]);
     }
 
@@ -62,18 +65,21 @@ class TableController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string|max:255',
-
+            'capacity' => 'required|numeric|min:0',
         ], [
-            'name.required' => 'Tên Sản Phẩm không được để trống',
-
+            'name.required' => 'Tên bàn ăn không được để trống',
+            'capacity.required' => 'Sức chứa của bàn không được để trống',
+            'capacity.min' => 'Sức chứa của bàn phải lớn hơn 0',
         ]);
+
         $result = $this->tableService->update($request, $table);
         if ($result) {
-            return redirect('/admin/table/list');
+            return redirect('/admin/tables/list')->with('success', 'Cập nhật thành công');
         }
 
-        return redirect()->back();
+        return redirect()->back()->with('error', 'Có lỗi, vui lòng thử lại');
     }
+
 
     public function destroy(Request $request)
     {
@@ -81,7 +87,7 @@ class TableController extends Controller
         if ($request) {
             return response()->json([
                 'error' => false,
-                'message' => 'Xóa thành công sản phẩm'
+                'message' => 'Xóa thành công bàn ăn'
             ]);
         }
 

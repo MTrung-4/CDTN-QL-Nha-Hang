@@ -10,15 +10,15 @@ class TableService
 {
     public function getAllTables()
     {
-        return Table::all();
+        return Table::orderByDesc('id')->paginate(10);
     }
+
 
     public function insert($request)
     {
         try {
             $request->except('_token');
-            Table::create($request->all());
-
+            Table::create($request->input());
             Session::flash('success', 'Thêm sản phẩm thành công');
         } catch (\Exception $err) {
             Session::flash('error', 'Thêm sản phẩm thất bại');
@@ -27,11 +27,6 @@ class TableService
         }
 
         return true;
-    }
-
-    public function getTableById($id)
-    {
-        return Table::findOrFail($id);
     }
 
     public function update($request, $table)

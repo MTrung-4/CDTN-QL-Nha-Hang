@@ -10,15 +10,17 @@
 @endif
 
 
-@if (Session::has('error'))
+{{-- @if (Session::has('error'))
     <div class="alert alert-danger">
        {{ Session::get('error') }}
     </div>
 @endif
+ --}}
 
-
-@if (Session::has('sussces'))
-    <div class="alert alert-danger">
-       {{ Session::get('sussces') }}
-    </div>
-@endif
+<script>
+    @if (Session::has('success'))
+        setTimeout(function() {
+            showSuccessMessage("{{ Session::get('success') }}");
+        }, 2000); // 2000 milliseconds = 2 seconds
+    @endif
+</script>

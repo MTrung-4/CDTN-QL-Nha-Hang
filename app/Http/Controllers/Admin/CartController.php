@@ -12,15 +12,16 @@ use App\Models\Table;
 class CartController extends Controller
 {
     protected $cart;
+
     public function __construct(CartService $cart)
     {
         $this->cart = $cart;
     }
 
-    public function index(Customer $customer)
+    public function index()
     {
         $customers = $this->cart->getCustomer();
-        $cartId = Cart::all();
+        $carts = Cart::all();
 
         // Tính tổng giá tiền của từng đơn hàng
         foreach ($customers as $customer) {
@@ -28,9 +29,9 @@ class CartController extends Controller
         }
 
         return view('admin.carts.customer', [
-            'title' => 'Danh Sách Đơn Đặt Hàng',
+            'title' => 'Danh Sách Đơn Đang Xử Lý',
             'customers' => $customers,
-            'cartId' => $cartId,
+            'carts' => $carts,
         ]);
     }
 
@@ -44,6 +45,52 @@ class CartController extends Controller
             'carts' => $carts
         ]);
     }
+
+    public function addCart(Request $request)
+    {
+        $result = $this->cart->addCart($request);
+
+        if ($result) {
+            return redirect()->back()->with('success', 'Đặt hàng thành công!');
+        } else {
+            return redirect()->back()->with('error', 'Đặt hàng thất bại, vui lòng thử lại sau!');
+        }
+    }
+
+    public function waiting()
+    {
+        $customers = $this->cart->getCustomerWithNullStatus(); // Thay đổi để chỉ lấy các đơn hàng chưa có giá trị trong status
+
+        return view('admin.carts.waiting', [
+            'title' => 'Danh Sách Đơn Chờ Duyệt',
+            'customers' => $customers,
+        ]);
+    }
+
+    public function history()
+    {
+        $customers = $this->cart->getApproveCard();
+        $carts = $this->cart->getApproveCard();
+
+        return view('admin.carts.history', [
+            'title' => 'Danh Sách Đơn Đã Hủy',
+            'customers' => $customers,
+            'carts' => $carts,
+        ]);
+    }
+
+    public function cancel()
+    {
+        $customers = $this->cart->getRejectCard();
+        $carts = $this->cart->getRejectCard();
+
+        return view('admin.carts.cancel', [
+            'title' => 'Danh Sách Đơn Đã Hủy',
+            'customers' => $customers,
+            'carts' => $carts,
+        ]);
+    }
+
 
     public function selectTableForCustomer(Request $request)
     {
@@ -70,16 +117,38 @@ class CartController extends Controller
 
         // Kiểm tra nếu bàn đang trống
         if ($table->active == 1) {
-            // Cập nhật trạng thái của bàn trong cơ sở dữ liệu
             $table->active = 0; // Bàn không còn trống
             $table->save();
         }
 
-
         // Lưu table_id vào cart
-        $cart->table_id = $tableId;
-        $cart->save();
+        if ($cart) {
+            $cart->table_id = $tableId;
+            $cart->save();
+        }
 
         return response()->json(['message' => 'Lấy bàn thành công.']);
+    }
+
+    public function savePaymentOption(Request $request)
+    {
+        $response = $this->cart->savePaymentOption($request);
+        return response()->json($response);
+    }
+
+
+    public function updateStatus(Request $request)
+    {
+        $customerId = $request->input('customer_id');
+        $status = $request->input('status');
+        $cancelReason = $request->input('cancel_reason'); // Lấy dữ liệu lý do hủy đơn
+
+        $result = $this->cart->updateStatus($customerId, $status, $cancelReason); // Pass lý do hủy đơn vào phương thức updateStatus
+
+        if ($result) {
+            return response()->json(['success' => true, 'message' => 'Trạng thái của đơn hàng đã được cập nhật thành công']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Không thể cập nhật trạng']);
     }
 }

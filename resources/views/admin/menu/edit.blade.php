@@ -5,21 +5,33 @@
 @endsection
 
 @section('content')
+    <style>
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+    @if (Session::has('error'))
+        <div class="alert alert-error" role="alert">
+            {{ Session::get('error') }}
+        </div>
+    @endif
     <form action="" method="POST">
         <div class="card-body">
 
             <div class="form-group">
                 <label for="menu">Tên Danh Mục</label>
-                <input type="text" name="name" value="{{ $menu->name }}" class="form-control"  placeholder="Nhập tên danh mục">
+                <input type="text" name="name" value="{{ $menu->name }}" class="form-control"
+                    placeholder="Nhập tên danh mục">
             </div>
 
             <div class="form-group">
                 <label>Danh Mục</label>
                 <select class="form-control" name="parent_id">
                     <option value="0" {{ $menu->parent_id == 0 ? 'selected' : '' }}> Danh Mục Cha </option>
-                    @foreach($menus as $menuParent)
-                        <option value="{{ $menuParent->id }}"
-                            {{ $menu->parent_id == $menuParent->id ? 'selected' : '' }}>
+                    @foreach ($menus as $menuParent)
+                        <option value="{{ $menuParent->id }}" {{ $menu->parent_id == $menuParent->id ? 'selected' : '' }}>
                             {{ $menuParent->name }}
                         </option>
                     @endforeach
@@ -40,21 +52,21 @@
             <div class="form-group">
                 <label>Kích Hoạt</label>
                 <div class="custom-control custom-radio">
-                    <input class="custom-control-input" value="1" type="radio" id="active"
-                           name="active" {{ $menu->active == 1 ? 'checked=""' : '' }}>
+                    <input class="custom-control-input" value="1" type="radio" id="active" name="active"
+                        {{ $menu->active == 1 ? 'checked=""' : '' }}>
                     <label for="active" class="custom-control-label">Có</label>
                 </div>
                 <div class="custom-control custom-radio">
-                    <input class="custom-control-input" value="0" type="radio" id="no_active"
-                           name="active" {{ $menu->active == 0 ? 'checked=""' : '' }}>
+                    <input class="custom-control-input" value="0" type="radio" id="no_active" name="active"
+                        {{ $menu->active == 0 ? 'checked=""' : '' }}>
                     <label for="no_active" class="custom-control-label">Không</label>
                 </div>
             </div>
 
-        </div>
-
-        <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Cập Nhật Danh Mục</button>
+            <div class="button-group">
+                <button type="button" class="btn btn-secondary" onclick="goBack()">Quay lại</button>
+                <button type="submit" class="btn btn-primary">Thay Đổi</button>
+            </div>
         </div>
         @csrf
     </form>
@@ -63,5 +75,10 @@
 @section('footer')
     <script>
         CKEDITOR.replace('content');
+
+        function goBack() {
+            window.location.href = "/admin/menus/list";
+        }
+
     </script>
 @endsection

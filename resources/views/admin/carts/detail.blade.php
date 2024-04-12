@@ -5,8 +5,8 @@
         <ul>
             <li>Tên khách hàng: <strong>{{ $customer->name }}</strong></li>
             <li>Số điện thoại: <strong>{{ $customer->phone }}</strong></li>
-            <li>Số Lượng: <strong>{{ $customer->qty }}</strong></li>
-            <li>Thời Gian: <strong>{{  $customer->time }}</strong></li>
+            <li>Số Khách: <strong>{{ $customer->qty }}</strong></li>
+            <li>Thời Gian: <strong>{{ $customer->time }}</strong></li>
             <li>Email: <strong>{{ $customer->email }}</strong></li>
             <li>Ghi chú: <strong>{{ $customer->content }}</strong></li>
         </ul>
@@ -47,10 +47,16 @@
                 </tr>
             </tbody>
         </table>
-        <div class="card-footer clearfix">
-            <a href="/admin/customers" class="btn btn-primary float-right">
-                <i class="fas fa-solid fa-door-open"></i> Trở Về
-            </a>
-          </div>
     </div>
+
+    <!-- Nút quay lại ở góc dưới bên phải -->
+    <div class="fixed-bottom text-right p-3">
+        <button type="button" class="btn btn-secondary" onclick="goBack()">Quay lại</button>
+    </div>
+    
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
 @endsection

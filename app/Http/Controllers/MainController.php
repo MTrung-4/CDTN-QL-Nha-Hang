@@ -24,7 +24,7 @@ class MainController extends Controller
     public function index()
     {
         return view('home', [
-            'title' => 'CASIO Watch STORE',
+            'title' => 'Nhà Hàng Yến',
             'sliders' => $this->slider->show(),
             'menus' => $this->menu->show(),
             'products' => $this->product->get()

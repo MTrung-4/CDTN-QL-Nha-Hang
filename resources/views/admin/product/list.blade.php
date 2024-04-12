@@ -1,6 +1,5 @@
 @extends('admin.users.main')
 
-@include('admin.users.header')
 @section('content')
     <table class="table">
         <thead>
@@ -13,8 +12,8 @@
                 <th>Đơn Vị</th>
                 <th>Giá Gốc</th>
                 <th>Giá Bán</th>
-                <th>Active</th>
-                <th>Update</th>
+                <th>Hoạt Động</th>
+                <th>Cập Nhật</th>
                 <th style="width: 100px">&nbsp;</th>
             </tr>
         </thead>

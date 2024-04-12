@@ -6,9 +6,9 @@
 @endsection
 
 @section('content')
-    @if (Session::has('success'))
-        <div class="alert alert-success" role="alert">
-            {{ Session::get('success') }}
+    @if (Session::has('error'))
+        <div class="alert alert-danger">
+            {{ Session::get('error') }}
         </div>
     @endif
     <form action="" method="POST">
@@ -16,7 +16,7 @@
 
             <div class="form-group">
                 <label for="menu">Tên Danh Mục</label>
-                <input type="text" name="name" class="form-control" placeholder="Nhập tên danh mục">
+                <input type="text" name="name" class="form-control" value="{{ old('name') }}" placeholder="Nhập tên danh mục">
             </div>
 
             <div class="form-group">
@@ -34,12 +34,12 @@
 
             <div class="form-group">
                 <label>Mô Tả </label>
-                <textarea name="description" class="form-control"></textarea>
+                <textarea name="description" class="form-control" placeholder="Nhập mô tả">{{ old('description') }}</textarea>
             </div>
 
             <div class="form-group">
                 <label>Mô Tả Chi Tiết</label>
-                <textarea name="content" id="content" class="form-control"></textarea>
+                <textarea name="content" id="content" class="form-control" placeholder="Nhập mô tả chi tiết">{{ old('content') }}</textarea>
             </div>
 
 
@@ -63,6 +63,12 @@
         </div>
         @csrf
     </form>
+    <script>
+        function showSuccessMessage(message) {
+            alert(message);
+        }
+    </script>
+
 @endsection
 
 

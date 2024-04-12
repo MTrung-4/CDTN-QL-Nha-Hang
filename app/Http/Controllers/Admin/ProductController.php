@@ -7,7 +7,7 @@ use App\Http\Requests\Product\ProductRequest;
 use App\Http\Services\Product\ProductAdminService;
 use App\Models\Product;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -33,29 +33,29 @@ class ProductController extends Controller
      * Show the form for creating a new resource.
      */
     public function create()
-{
-    $types = Product::distinct()->pluck('type')->toArray();
-    $units = Product::distinct()->pluck('unit')->toArray();
-    if (empty($types)) {
-        $types = [];
-    }
-    
-    if (empty($units)) {
-        $units = [];
+    {
+        $types = Product::distinct()->pluck('type')->toArray();
+        $units = Product::distinct()->pluck('unit')->toArray();
+        if (empty($types)) {
+            $types = [];
+        }
+
+        if (empty($units)) {
+            $units = [];
+        }
+
+        // Thêm các giá trị mẫu vào mảng types và units
+        $types = array_merge($types, ['type1', 'type2', 'type3']);
+        $units = array_merge($units, ['unit1', 'unit2', 'unit3']);
+
+        return view('admin.product.add', [
+            'title' => 'Thêm Sản Phẩm Mới',
+            'menus' => $this->productService->getMenu(),
+            'types' => $types,
+            'units' => $units
+        ]);
     }
 
-    // Thêm các giá trị mẫu vào mảng types và units
-    $types = array_merge($types, ['type1', 'type2', 'type3']);
-    $units = array_merge($units, ['unit1', 'unit2', 'unit3']);
-
-    return view('admin.product.add', [
-        'title' => 'Thêm Sản Phẩm Mới',
-        'menus' => $this->productService->getMenu(),
-        'types' => $types,
-        'units' => $units
-    ]);
-}
-    
     /**
      * Store a newly created resource in storage.
      */
@@ -64,11 +64,15 @@ class ProductController extends Controller
 
         $this->validate($request, [
             'name' => 'required|string|max:255|unique:products,name',
-            'thumb' => 'required'
+            'thumb' => 'required',
+            'type' => 'required',
+            'unit' => 'required',
         ], [
-            'name.required' => 'Tên Sản Phẩm không được để trống',
-            'name.unique' => 'Tên Sản Phẩm đã tồn tại',
-            'thumb.required' => 'Ảnh không được để trống'
+            'name.required' => 'Tên sản phẩm không được để trống',
+            'name.unique' => 'Tên sản phẩm đã tồn tại',
+            'thumb.required' => 'Ảnh không được để trống',
+            'type' => 'Kiểu không được để trống',
+            'unit' => 'Đơn vị không được để trống',
         ]);
         $this->productService->insert($request);
 
@@ -85,11 +89,11 @@ class ProductController extends Controller
         if (empty($types)) {
             $types = [];
         }
-        
+
         if (empty($units)) {
             $units = [];
         }
-    
+
         // Thêm các giá trị mẫu vào mảng types và units
         $types = array_merge($types, ['type1', 'type2', 'type3']);
         $units = array_merge($units, ['unit1', 'unit2', 'unit3']);
@@ -111,10 +115,14 @@ class ProductController extends Controller
 
         $this->validate($request, [
             'name' => 'required|string|max:255',
-            'thumb' => 'required'
+            'thumb' => 'required',
+            'type' => 'required',
+            'unit' => 'required',
         ], [
-            'name.required' => 'Tên Sản Phẩm không được để trống',
-            'thumb.required' => 'Ảnh không được để trống'
+            'name.required' => 'Tên sản phẩm không được để trống',
+            'thumb.required' => 'Ảnh không được để trống',
+            'type' => 'Kiểu không được để trống',
+            'unit' => 'Đơn vị không được để trống',
         ]);
         $result = $this->productService->update($request, $product);
         if ($result) {
@@ -140,4 +148,5 @@ class ProductController extends Controller
 
         return response()->json(['error' => true]);
     }
+     
 }

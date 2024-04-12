@@ -46,7 +46,7 @@ class Helper
             : '<span class="btn btn-success btn-xs">YES</span>';
     }
 
-    public static function menus($menus, $parent_id = 0) :string
+    public static function menus($menus, $parent_id = 0): string
     {
         $html = '';
         foreach ($menus as $key => $menu) {
@@ -72,7 +72,7 @@ class Helper
         return $html;
     }
 
-    public static function isChild($menus, $id) : bool
+    public static function isChild($menus, $id): bool
     {
         foreach ($menus as $menu) {
             if ($menu->parent_id == $id) {

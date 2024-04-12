@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Admin\MenuItems;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,5 +24,10 @@ class Product extends Model
     {
         return $this->hasOne(Menu::class, 'id', 'menu_id')
             ->withDefault(['name' => '']);
+    }
+
+    public function item()
+    {
+        return $this->belongsToMany(Item::class);
     }
 }

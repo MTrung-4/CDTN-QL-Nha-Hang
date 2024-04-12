@@ -2,23 +2,23 @@
 
 @section('content')
     <form action="" method="POST">
-        @if (Session::has('success'))
-            <div class="alert alert-success" role="alert">
-                {{ Session::get('success') }}
+        @if (Session::has('error'))
+            <div class="alert alert-danger">
+                {{ Session::get('error') }}
             </div>
         @endif
         <div class="card-body">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-9">
                     <div class="form-group">
                         <label for="menu">Tiêu Đề</label>
-                        <input type="text" name="name" value="{{ old('name') }}" class="form-control">
+                        <input type="text" name="name" value="{{ old('name') }}" class="form-control" placeholder="Nhập tiêu đề slider">
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <div class="form-group">
-                        <label for="menu">Đường Dẫn</label>
-                        <input type="text" name="url" value="{{ old('url') }}" class="form-control">
+                        <label for="menu">Sắp Xếp</label>
+                        <input type="number" name="sort_by" value="1" class="form-control" min="1" placeholder="Nhập số thứ tự của slider">
                     </div>
                 </div>
             </div>
@@ -30,12 +30,6 @@
 
                 </div>
                 <input type="hidden" name="thumb" id="thumb">
-            </div>
-
-
-            <div class="form-group">
-                <label for="menu">Sắp Xếp</label>
-                <input type="number" name="sort_by" value="1" class="form-control">
             </div>
 
             <div class="form-group">
@@ -58,4 +52,11 @@
         </div>
         @csrf
     </form>
+
+    <script>
+        function showSuccessMessage(message) {
+            alert(message);
+        }
+    </script>
+    
 @endsection

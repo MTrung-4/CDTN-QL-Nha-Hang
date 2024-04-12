@@ -3,92 +3,49 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Services\Customer\CustomerService;
 use App\Models\Customer;
-use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
-    protected $customer;
+    public function show()
+    { // Lấy thông tin của tất cả khách hàng
+        $customers = Customer::select('name', 'phone', 'email')->get();
 
-    public function __construct(CustomerService $customer)
-    {
-        $this->customer = $customer;
-    }
+        // Tạo mảng để lưu trữ số lần xuất hiện của mỗi khách hàng
+        $counts = [];
 
-    public function create()
-    {
-        $customers = Customer::all();
+        // Đếm số lần xuất hiện của từng khách hàng
+        foreach ($customers as $customer) {
+            $key = $customer->name . '-' . $customer->phone . '-' . $customer->email;
+            if (!isset($counts[$key])) {
+                $counts[$key] = 1;
+            } else {
+                $counts[$key]++;
+            }
+        }
 
-        return view('admin.customer.add', [
-            'title' => 'Thêm Khách Hàng Mới',
-            'customers' => $customers
-        ]);
-    }
+        // Lọc ra những khách hàng có số lần xuất hiện > 1
+        $duplicates = collect([]);
+        $uniqueCustomers = collect([]);
 
+        foreach ($counts as $key => $count) {
+            [$name, $phone, $email] = explode('-', $key);
+            $customer = ['name' => $name, 'phone' => $phone, 'email' => $email, 'count' => $count];
+            if ($count > 1) {
+                $duplicates->push($customer);
+            } else {
+                $uniqueCustomers->push($customer);
+            }
+        }
 
-    public function store(Request $request)
-    {
+        // Sắp xếp danh sách khách hàng trùng lặp theo số lần trùng lặp giảm dần
+        $sortedDuplicates = $duplicates->sortByDesc('count');
 
-        $this->validate($request, [
-            'name' => 'required|string|max:255',
-            'phone' => 'required',
-            'email' => 'required',
-        ], [
-            'name.required' => 'Tên Khách Hàng không được để trống',
-            'email.required' => 'Email không được để trống',
-            'phone.required' => 'Số Điện Thoại không được để trống'
-        ]);
-        $this->customer->insert($request);
-
-        return redirect()->back();
-    }
-
-    public function index()
-    {
+        // Ghép danh sách khách hàng trùng lặp và không trùng lặp
+        $sortedCustomers = $sortedDuplicates->merge($uniqueCustomers);
         return view('admin.customer.list', [
             'title' => 'Danh Sách Khách Hàng',
-            'customers' => $this->customer->get()
+            'customers' =>  $sortedCustomers
         ]);
-    }
-
-    public function edit(Customer $customer)
-    {
-        return view('admin.customer.edit', [
-            'title' => 'Chỉnh Sửa Khách Hàng',
-            'customer' => $customer,
-        ]);
-    }
-
-    public function update(Request $request, Customer $customer)
-    {
-        $this->validate($request, [
-            'name' => 'required|string|max:255',
-            'phone' => 'required',
-            'email' => 'required',
-        ], [
-            'name.required' => 'Tên Khách Hàng không được để trống',
-            'email.required' => 'Email không được để trống',
-            'phone.required' => 'Số Điện Thoại không được để trống'
-        ]);
-
-        $result = $this->customer->update($request, $customer);
-        if ($result) {
-            return redirect('/admin/customers/list');
-        }
-        return redirect()->back();
-    }
-
-    public function destroy(Request $request)
-    {
-        $result = $this->customer->destroy($request);
-        if ($result) {
-            return response()->json([
-                'error' => false,
-                'message' => 'Xóa thành công Khách Hàng'
-            ]);
-        }
-
-        return response()->json(['error' => true]);
     }
 }

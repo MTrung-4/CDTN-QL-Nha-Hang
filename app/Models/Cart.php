@@ -19,6 +19,8 @@ class Cart extends Model
         'table_id',
         'pay_option',
         'pay_money',
+        'status',
+        'cancel_reason',
     ];
 
     public function product()

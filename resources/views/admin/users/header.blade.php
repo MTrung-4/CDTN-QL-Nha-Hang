@@ -12,12 +12,15 @@
  <link rel="stylesheet" href="/template/admin/dist/css/adminlte.min.css">
  <link rel="stylesheet" href="/template/admin/dist/css/new.css">
 
+ <!-- Ionicons -->
+ <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
  <meta name="csrf-token" content="{{ csrf_token() }}">
 
  @yield('header')
 
  <style>
      .hidden {
-      display: none;
+         display: none;
      }
  </style>

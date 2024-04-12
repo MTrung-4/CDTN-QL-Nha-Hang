@@ -1,24 +1,32 @@
 @extends('admin.users.main')
 
 @section('content')
-    @if (Session::has('success'))
-        <div class="alert alert-success" role="alert">
-            {{ Session::get('success') }}
+    <style>
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+    @if (Session::has('error'))
+        <div class="alert alert-danger">
+            {{ Session::get('error') }}
         </div>
     @endif
     <form action="" method="POST">
         <div class="card-body">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-9">
                     <div class="form-group">
                         <label for="menu">Tiêu Đề</label>
                         <input type="text" name="name" value="{{ $slider->name }}" class="form-control">
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <div class="form-group">
-                        <label for="menu">Đường Dẫn</label>
-                        <input type="text" name="url" value="{{ $slider->url }}" class="form-control">
+                        <label for="menu">Sắp Xếp</label>
+                        <input type="number" name="sort_by" value="{{ $slider->sort_by }}" class="form-control"
+                            min="1">
                     </div>
                 </div>
             </div>
@@ -32,12 +40,6 @@
                     </a>
                 </div>
                 <input type="hidden" name="thumb" value="{{ $slider->thumb }}" id="thumb">
-            </div>
-
-
-            <div class="form-group">
-                <label for="menu">Sắp Xếp</label>
-                <input type="number" name="sort_by" value="{{ $slider->sort_by }}" class="form-control">
             </div>
 
             <div class="form-group">
@@ -54,11 +56,14 @@
                 </div>
             </div>
 
-        </div>
-
-        <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Cập Nhật Slider</button>
+            <div class="button-group">
+                <button type="button" class="btn btn-secondary" onclick="goBack()">Quay lại</button>
+                <button type="submit" class="btn btn-primary">Thay Đổi</button>
+            </div>
         </div>
         @csrf
     </form>
+    <script>
+        window.location.href = "/admin/sliders/list"
+    </script>
 @endsection

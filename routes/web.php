@@ -2,13 +2,17 @@
 
 use App\Http\Controllers\Admin\CartController;
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\InvoiceController;
+use App\Http\Controllers\Admin\ItemController;
 use App\Http\Controllers\Admin\Login\LoginController;
 use App\Http\Controllers\Admin\MainController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SliderController;
+use App\Http\Controllers\Admin\StatisticController;
 use App\Http\Controllers\Admin\TableController;
 use App\Http\Controllers\Admin\UploadController;
+use App\Http\Controllers\ProductController as ControllersProductController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +39,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('users/calendar', [MainController::class, 'index']);
         Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
+        #Customer
+        Route::get('customers/show', [CustomerController::class, 'show']);
+        Route::get('statistics', [StatisticController::class, 'statistics']);
+        
+
         #Menu
         Route::prefix('menus')->group(function () {
             Route::get('add', [MenuController::class, 'create']);
@@ -60,21 +69,10 @@ Route::middleware(['auth'])->group(function () {
             Route::get('add', [TableController::class, 'create']);
             Route::post('add', [TableController::class, 'store']);
             Route::get('list', [TableController::class, 'index']);
-            Route::get('edit/{product}', [TableController::class, 'edit']);
-            Route::post('edit/{product}', [TableController::class, 'update']);
+            Route::get('edit/{table}', [TableController::class, 'edit']);
+            Route::post('edit/{table}', [TableController::class, 'update']);
             Route::DELETE('destroy', [TableController::class, 'destroy']);
-            Route::post('/update-status/{id}',[TableController::class, 'updateStatus']);
-
-        });
-
-        #Customer
-        Route::prefix('customers')->group(function () {
-            Route::get('add', [CustomerController::class, 'create']);
-            Route::post('add', [CustomerController::class, 'store']);
-            Route::get('list', [CustomerController::class, 'index']);
-            Route::get('edit/{customer}', [CustomerController::class, 'edit']);
-            Route::post('edit/{customer}', [CustomerController::class, 'update']);
-            Route::DELETE('destroy', [CustomerController::class, 'destroy']); 
+            Route::post('/update-status/{id}', [TableController::class, 'updateStatus']);
         });
 
         #Slider
@@ -87,15 +85,36 @@ Route::middleware(['auth'])->group(function () {
             Route::DELETE('destroy', [SliderController::class, 'destroy']);
         });
 
-         #Upload
-         Route::post('upload/services', [UploadController::class, 'store']);
+        #Item
+        Route::prefix('items')->group(function () {
+            Route::get('add', [ItemController::class, 'create']);
+            Route::post('add', [ItemController::class, 'store']);
+            Route::get('list', [ItemController::class, 'index']);
+            Route::get('edit/{item}', [ItemController::class, 'edit']);
+            Route::post('edit/{item}', [ItemController::class, 'update']);
+            Route::DELETE('destroy', [ItemController::class, 'destroy']);
+        });
+
+        #Upload
+        Route::post('upload/services', [UploadController::class, 'store']);
 
         #Cart
-        Route::get('customers', [\App\Http\Controllers\Admin\CartController::class, 'index']);
-        Route::get('customers/view/{customer}', [\App\Http\Controllers\Admin\CartController::class, 'show']); 
+        Route::prefix('customers')->group(function () {
+            Route::get('processing', [CartController::class, 'index']);
+            Route::get('view/{customer}', [CartController::class, 'show']);
+            Route::get('waiting', [CartController::class, 'waiting']);
+            Route::get('cancel', [CartController::class, 'cancel']);
+            Route::get('history', [CartController::class, 'history']);
+        });
+
+        Route::prefix('carts')->group(function () {
+            Route::post('update-status', [CartController::class, 'updateStatus'])->name('carts.update_status');
+            Route::post('select-table', [CartController::class, 'selectTableForCustomer']);
+            Route::post('pay', [CartController::class, 'savePaymentOption']);
+        });
     });
 
-    Route::post('/admin/carts/select-table', [CartController::class, 'selectTableForCustomer']);
+    Route::get('/invoices/{customerId}/generate-pdf', [InvoiceController::class, 'generatePDF']);
 });
 
 Route::get('/', [App\Http\Controllers\MainController::class, 'index']);
@@ -104,6 +123,8 @@ Route::get('danh-muc/{id}-{slug}.html', [App\Http\Controllers\MenuController::cl
 Route::get('san-pham/{id}-{slug}.html', [App\Http\Controllers\ProductController::class, 'index']);
 /* Route::view('/lien-he', 'contact'); */
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
+
+
 
 Route::post('add-cart', [App\Http\Controllers\CartController::class, 'index']);
 Route::get('carts', [App\Http\Controllers\CartController::class, 'show']);

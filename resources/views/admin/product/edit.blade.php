@@ -20,10 +20,22 @@
         .add-option:hover {
             background-color: #0056b3;
         }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
     </style>
 @endsection
 
 @section('content')
+    @if (Session::has('error'))
+        <div class="alert alert-danger">
+            {{ Session::get('error') }}
+        </div>
+    @endif
     <form action="" method="POST">
         <div class="card-body">
             <div class="row">
@@ -137,20 +149,12 @@
                 </div>
             </div>
 
+            <div class="button-group">
+                <button type="button" class="btn btn-secondary" onclick="goBack()">Quay lại</button>
+                <button type="submit" class="btn btn-primary">Thay Đổi</button>
+            </div>
         </div>
 
-        <div class="row justify-content-between">
-            <div class="col-auto">
-                <i style="margin:0 5px 0 20px;" class="nav-icon fas fa-regular fa-hand-point-left"></i>
-                <a style="font-weigh: bold" onclick="goBack()">Quay lại</a>
-            </div>
-            <div class="col-auto">
-                <div  class="card-footer">
-                    <button  type="submit" class="btn btn-primary">Sửa Sản Phẩm</button>
-                </div>
-            </div>
-        </div>
-        
         @csrf
     </form>
 @endsection
@@ -175,7 +179,7 @@
         });
 
         function goBack() {
-            window.history.back();
+            window.location.href ="/admin/products/list";
         }
     </script>
 @endsection

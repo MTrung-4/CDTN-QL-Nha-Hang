@@ -1,13 +1,12 @@
 <?php
 
-
 namespace App\Http\Services;
-
 
 use App\Jobs\SendMail;
 use App\Models\Cart;
 use App\Models\Customer;
 use App\Models\Product;
+use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -131,11 +130,6 @@ class CartService
         return Cart::insert($data);
     }
 
-    public function getCustomer()
-    {
-        return Customer::orderByDesc('id')->paginate(15);
-    }
-
     public function getProductForCart($customer)
     {
         return $customer->carts()->with(['product' => function ($query) {
@@ -145,14 +139,92 @@ class CartService
 
     public function getTotalPriceForCustomer(Customer $customer)
     {
-        $carts = $customer->carts()->get(); // Lấy danh sách các mặt hàng trong hóa đơn từ cơ sở dữ liệu
-    
+        $carts = $customer->carts()->get();
+
         $totalPrice = 0;
         foreach ($carts as $cart) {
-            $totalPrice += $cart->price * $cart->qty; // Tính tổng giá tiền dựa trên giá và số lượng của mỗi sản phẩm trong hóa đơn
+            $totalPrice += $cart->price * $cart->qty;
         }
-    
-        return $totalPrice; // Trả về tổng giá tiền của hóa đơn
+
+        return $totalPrice;
     }
-    
+
+    //lay danh sach don cho duyet
+    public function getCustomerWithNullStatus()
+    {
+        return Customer::whereDoesntHave('carts', function ($query) {
+            $query->whereNotNull('status');
+        })->orderByDesc('id')->paginate(15);
+    }
+
+    //don dang xu ly
+    public function getCustomer()
+    {
+        return Customer::whereHas('carts', function ($query) {
+            $query->where('status', 1);
+        })->orderByDesc('id')->paginate(15);
+    }
+
+    //lay danh sach don da huy
+    public function getRejectCard()
+    {
+        return Cart::where('status', 0)->orderByDesc('updated_at')->paginate(15);
+    }
+
+    //danh sach don duyet
+    public function getApproveCard()
+    {
+        return Cart::whereNotNull('pay_option') // Chỉ lấy các bản ghi có giá trị trong trường 'pay_option'
+            ->where('status', 1) // Chỉ lấy các bản ghi có status = 1
+            ->orderByDesc('updated_at') // Sắp xếp theo thời gian cập nhật giảm dần
+            ->paginate(15);
+    }
+
+    //luu phuong thuc thanh toan
+    public function savePaymentOption(HttpRequest $request)
+    {
+        $cartId = $request->input('cart_id');
+        $payOption = $request->input('pay_option');
+        $payMoney = $request->input('pay_money');
+
+        $cart = Cart::find($cartId);
+        if ($cart) {
+            $cart->pay_option = $payOption;
+            $cart->pay_money = $payMoney;
+            $cart->save();
+            return ['success' => true, 'message' => 'Phương thức thanh toán đã được lưu thành công'];
+        }
+
+        return ['success' => false, 'message' => 'Không tìm thấy giỏ hàng'];
+    }
+
+    //duyet
+    const STATUS_APPROVED = 1;
+    const STATUS_REJECTED = 0;
+    const STATUS_COMPLETED = 2; // Thêm hằng số mới cho trạng thái hoàn thành
+
+    public function updateStatus($customerId, $status, $cancelReason = null)
+    {
+        if ($status === 'approved') {
+            $status = self::STATUS_APPROVED;
+        } elseif ($status === 'rejected') {
+            $status = self::STATUS_REJECTED;
+        } elseif ($status === 'completed') { // Thêm điều kiện cho trạng thái hoàn thành
+            $status = self::STATUS_COMPLETED;
+        }
+
+        $cart = Cart::where('customer_id', $customerId)->first();
+        if ($cart) {
+            $cart->status = $status;
+
+            // Nếu tồn tại lý do hủy, cập nhật trường cancel_reason
+            if (!is_null($cancelReason)) {
+                $cart->cancel_reason = $cancelReason;
+            }
+
+            $cart->save();
+            return true;
+        }
+        return false;
+    }
 }

@@ -30,7 +30,6 @@
         }
 
         .right,
-        .dropdown-option,
         .right-footer {
             width: 70%;
         }
@@ -86,7 +85,12 @@
             opacity: 0.5;
         }
 
-        .payment-dropdown-item:hover {
+        .dropdown-item:focus {
+            background-color: var(--cyan);
+        }
+
+        .payment-dropdown-item:hover,
+        .payment-dropdown-item:focus {
             text-decoration: none;
             color: black;
             background-color: var(--cyan);
@@ -114,6 +118,29 @@
             background-color: #17a2b8;
             border: #17a2b8;
         }
+
+        .complete-btn {
+            background-color: #3498db;
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 5px;
+            width: 30px;
+            height: 30px;
+        }
+
+        .btn-option:hover {
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .complete-btn i {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 16px;
+        }
     </style>
 
     <div class="container">
@@ -123,7 +150,14 @@
                 <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-header">
-                            <h5>{{ $customer->name }} - {{ $customer->phone }}</h5>
+                            <div class="row justify-content-between align-items-center">
+                                <h5>{{ $customer->name }} - {{ $customer->phone }}</h5>
+                                @if ($customer->carts->first()->pay_option)
+                                    <button class="btn btn-option complete-btn" data-customer-id="{{ $customer->id }}">
+                                        <i class="fas fa-solid fa-check"></i>
+                                    </button>
+                                @endif
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="half-width left" style="font-weight: bold;  ">
@@ -148,7 +182,6 @@
                         </div>
                         <div class="card-footer">
                             <div class="half-footer left-footer">
-                                <!-- Thêm nút 'Lấy Bàn' vào mỗi khách hàng -->
                                 <a href="/admin/tables/list?redirect=customer&customer_id={{ $customer->id }}"
                                     class="btn btn-primary btn-sm">Lấy Bàn</a>
                             </div>
@@ -158,30 +191,34 @@
                                     Lựa chọn
                                 </button>
                                 <ul id="dropdownMenu" class="dropdown-menu" style="padding: 0">
-                                    <li style="background-color: blueviolet">
-                                        <a class="dropdown-item" href="javascript:void(0);"
-                                            onclick="togglePaymentOptions('{{ $dropdownId }}')">
-                                            <i class="fas fa-solid fa-money-bill-wave"></i>
-                                            Thanh Toán <i class="fas fa-solid fa-angle-right" style="margin-left: 1rem"></i>
-                                        </a>
-                                        <ul id="paymentOptions_{{ $dropdownId }}" class="dropdown-menu dropmenu-pay" style="display: none; padding: 0">
-                                            <li><a class="dropdown-item" href="javascript:void(0);" onclick="">Tiền Mặt</a></li>
-                                            <li><a class="dropdown-item" href="javascript:void(0);" onclick="">Chuyển Khoản</a></li>
-                                            <li><a class="dropdown-item" href="javascript:void(0);" onclick="">VNPay</a></li>
-                                        </ul>
-                                        
+                                    <li style="background-color: #20c997">
+                                        <button class="btn btn-option pay-btn" onclick="toggleDropMenuPay(event)">
+                                            <i class="fas fa-solid fa-angle-right"> Thanh Toán</i>
+                                        </button>
+                                        @foreach ($carts as $cart)
+                                            <ul class="dropdown-menu dropmenu-pay" style="display: none; padding: 0">
+                                                <li><a class="dropdown-item payment-dropdown-item"
+                                                        onclick="savePaymentOption({{ $customer->carts->first()->id }}, 'Tiền Mặt')">Tiền
+                                                        Mặt</a></li>
+                                                <li><a class="dropdown-item payment-dropdown-item"
+                                                        onclick="savePaymentOption({{ $customer->carts->first()->id }}, 'Chuyển Khoản')">Chuyển
+                                                        Khoản</a></li>
+                                                <li><a class="dropdown-item payment-dropdown-item"
+                                                        onclick="savePaymentOption({{ $customer->carts->first()->id }}, 'VNPay')">VNPay</a>
+                                                </li>
+                                            </ul>
+                                        @endforeach
                                     </li>
-
-                                    <li style="background-color:green">
-                                        <a class="dropdown-item" href="/admin/customers/view/{{ $customer->id }}">
-                                            <i class="fas fa-eye"></i> Xem Thông Tin
-                                        </a>
+                                    <li style="background-color: green">
+                                        <button class="btn btn-option view-btn"
+                                            href="/admin/customers/view/{{ $customer->id }}">
+                                            <i class="fas fa-eye"> Xem Thông Tin</i>
+                                        </button>
                                     </li>
-                                    <li style="background-color: red">
-                                        <a class="dropdown-item"
-                                            onclick="removeRow({{ $customer->id }}, '/admin/customers/destroy')">
-                                            <i class="fas fa-trash"></i> Xóa Khách Hàng
-                                        </a>
+                                    <li style="background-color: #FFCC99">
+                                        <button class="btn btn-option invoice-btn" data-customer-id="{{ $customer->id }}">
+                                            <i class="fas fa-solid fa-check"> Xuất hóa đơn</i>
+                                        </button>
                                     </li>
                                 </ul>
                             </div>
@@ -192,29 +229,173 @@
         </div>
     </div>
 
-
+    <!--form-->
+    <div class="modal fade" id="cashModal" tabindex="-1" aria-labelledby="cashModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cashModalLabel">Nhập số tiền thanh toán (VNĐ)</h5>
+                </div>
+                <div class="modal-body">
+                    <form id="cashPaymentForm">
+                        <div class="mb-3">
+                            <label for="cashAmount" class="form-label">Số tiền:</label>
+                            <input type="text" class="form-control" id="cashAmount" name="cashAmount">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" onclick="submitCashPayment()">Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <div class="card-footer clearfix">
         {!! $customers->links() !!}
     </div>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
-        function togglePaymentOptions(dropdownId) {
-            var paymentOptions = document.getElementById('paymentOptions_' + dropdownId);
-            if (paymentOptions.style.display === "none" || !paymentOptions.classList.contains("show")) {
-                paymentOptions.style.display = "block";
-                paymentOptions.classList.add("show");
+        function toggleDropMenuPay(event, cartId) {
+            event.stopPropagation();
+
+            var dropmenuPay = event.currentTarget.nextElementSibling;
+            var displayStyle = window.getComputedStyle(dropmenuPay).display;
+            dropmenuPay.style.display = (displayStyle === 'none') ? 'block' : 'none';
+
+            dropmenuPay.querySelectorAll('.dropdown-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    dropmenuPay.querySelectorAll('.dropdown-item').forEach(item => {
+                        item.classList.remove('selected');
+                    });
+
+                    this.classList.add('selected');
+                    dropmenuPay.style.display = 'none';
+                });
+            });
+        }
+
+        function savePaymentOption(cartId, payOption) {
+            if (payOption === 'Tiền Mặt') {
+                // Mở hộp thoại modal
+                $('#cashModal').modal('show');
+
+                // Gán giá trị cartId vào thuộc tính data-cart-id của nút xác nhận trong modal
+                $('#cashModal').find('.btn-primary').attr('data-cart-id', cartId);
             } else {
-                paymentOptions.style.display = "none";
-                paymentOptions.classList.remove("show");
+                // Gửi yêu cầu AJAX trực tiếp nếu không chọn "Tiền Mặt"
+                $.ajax({
+                    type: 'POST',
+                    url: '/admin/carts/pay',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        cart_id: cartId,
+                        pay_option: payOption
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            console.log('Phương thức thanh toán đã được lưu thành công');
+                            alert(response.message);
+                        } else {
+                            console.error('Không thể lưu phương thức thanh toán');
+                            alert(response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Lỗi khi gửi yêu cầu AJAX');
+                        alert('Đã xảy ra lỗi khi gửi yêu cầu AJAX');
+                    }
+                });
             }
         }
 
-        function selectOption(event, dropdownId) {
-            var selectedOption = event.target.innerText;
-            alert("Bạn đã chọn phương thức thanh toán: " + selectedOption);
-            togglePaymentOptions(dropdownId);
+        // Hàm xử lý khi nhấn nút xác nhận trong modal
+        function submitCashPayment() {
+            var cartId = $('#cashModal').find('.btn-primary').attr('data-cart-id');
+            var cashAmount = $('#cashAmount').val(); // Lấy số tiền từ trường nhập
+
+            // Gửi yêu cầu AJAX để lưu phương thức thanh toán với số tiền
+            $.ajax({
+                type: 'POST',
+                url: '/admin/carts/pay',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    cart_id: cartId,
+                    pay_option: 'Tiền Mặt',
+                    pay_money: cashAmount
+                },
+                success: function(response) {
+                    if (response.success) {
+                        console.log('Phương thức thanh toán đã được lưu thành công');
+                        // Đóng modal
+                        $('#cashModal').modal('hide');
+                        alert(response.message);
+                    } else {
+                        console.error('Không thể lưu phương thức thanh toán');
+                        alert(response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Lỗi khi gửi yêu cầu AJAX');
+                    alert('Đã xảy ra lỗi khi gửi yêu cầu AJAX');
+                }
+            });
         }
+
+
+
+
+        $(document).ready(function() {
+            // Xử lý sự kiện khi nút "Duyệt" được nhấn
+            $('.complete-btn').click(function() {
+                var customerId = $(this).data('customer-id');
+                // Xác nhận trước khi hoàn thành đơn hàng
+                if (confirm("Bạn có chắc chắn muốn hoàn thành đơn hàng này?")) {
+                    updateStatus(customerId, 'completed');
+                }
+            });
+
+            function updateStatus(customerId, status) {
+                // Kiểm tra lý do hủy đơn khi trạng thái là "Từ chối"
+                $.ajax({
+                    type: 'POST',
+                    url: '/admin/carts/update-status',
+                    data: {
+                        '_token': '{{ csrf_token() }}',
+                        'customer_id': customerId,
+                        'status': status,
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            alert(response.message);
+                            window.location.reload();
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Có lỗi xảy ra khi cập nhật trạng thái: ' + error);
+                    }
+                });
+            }
+        });
+
+
+        $('.invoice-btn').click(function() {
+            var customerId = $(this).data('customer-id');
+
+            // Gửi yêu cầu AJAX để tạo và tải xuống tệp PDF
+            $.ajax({
+                type: 'GET',
+                url: '/invoices/' + customerId + '/generate-pdf',
+                success: function(response) {
+                },
+                error: function(xhr, status, error) {
+                }
+            });
+        });
     </script>
 @endsection

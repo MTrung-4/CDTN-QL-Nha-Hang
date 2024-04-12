@@ -33,8 +33,8 @@ class SliderController extends Controller
             'name' => 'required|string|max:255|unique:products,name',
             'thumb' => 'required',
         ], [
-            'name.required' => 'Tên Slider không được để trống',
-            'name.unique' => 'Tên Slider đã tồn tại',
+            'name.required' => 'Tên slider không được để trống',
+            'name.unique' => 'Tên slider đã tồn tại',
             'thumb.required' => 'Ảnh không được để trống',
         ]);
         $this->slider->insert($request);
@@ -67,7 +67,7 @@ class SliderController extends Controller
             'name' => 'required|string|max:255',
             'thumb' => 'required',
         ], [
-            'name.required' => 'Tên Slider không được để trống',
+            'name.required' => 'Tên slider không được để trống',
             'thumb.required' => 'Ảnh không được để trống',
         ]);
 

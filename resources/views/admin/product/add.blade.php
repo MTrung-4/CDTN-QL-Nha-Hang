@@ -31,11 +31,12 @@
 @endsection
 
 @section('content')
-    @if (Session::has('success'))
-        <div class="alert alert-success" role="alert">
-            {{ Session::get('success') }}
+    @if (Session::has('error'))
+        <div class="alert alert-danger">
+            {{ Session::get('error') }}
         </div>
     @endif
+
     <form action="" method="POST">
         <div class="card-body">
             <div class="row">
@@ -136,17 +137,8 @@
                 <textarea name="content" id="content" class="form-control">{{ old('content') }}</textarea>
             </div>
 
-        </div>
-
-        <div class="row justify-content-between">
-            <div class="col-auto">
-                <i style="margin:0 5px 0 20px;" class="nav-icon fas fa-regular fa-hand-point-left"></i>
-                <a style="font-weigh: bold" onclick="goBack()">Quay lại</a>
-            </div>
-            <div class="col-auto">
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Thêm Sản Phẩm</button>
-                </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Thêm Sản Phẩm</button>
             </div>
         </div>
         @csrf
@@ -157,6 +149,10 @@
 @section('footer')
     <script>
         CKEDITOR.replace('content');
+
+        function showSuccessMessage(message) {
+            alert(message);
+        }
 
         document.querySelectorAll('.add-option').forEach(function(element) {
             element.addEventListener('click', function() {
@@ -179,9 +175,5 @@
                 }
             });
         });
-
-        function goBack() {
-            window.history.back();
-        }
     </script>
 @endsection

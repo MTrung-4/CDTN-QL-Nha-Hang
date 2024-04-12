@@ -51,7 +51,7 @@
                     </ul>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item border-bottom mb-2">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-images"></i>
                         <p> Slider
@@ -77,7 +77,7 @@
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-solid fa-users"></i>
+                        <i class="nav-icon fas fa-solid fa-table"></i>
                         <p> Bàn Ăn
 
                         </p>
@@ -101,31 +101,6 @@
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-solid fa-user-plus"></i>
-                        <p> Khách Hàng
-
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="/admin/customers/add" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Thêm Khách Hàng</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/customers/list" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Danh Sách Khách Hàng</p>
-                            </a>
-                        </li>
-
-                    </ul>
-                </li>
-
-
-                <li class="nav-item border-bottom">
-                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-store-alt"></i>
                         <p> Sản Phẩm
 
@@ -146,7 +121,50 @@
                         </li>
                     </ul>
                 </li>
-                <br>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-solid fa-utensils"></i>
+                        <p> Thực Đơn </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/admin/items/add" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Thêm Thực Đơn</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/items/list" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Danh Sách Thực Đơn</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item border-bottom mb-2">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-regular fa-copyright"></i>
+                        <p> Combo
+
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/admin/combos/add" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Thêm Combo</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/combos/list" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Danh Sách Combo</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">
@@ -156,15 +174,46 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/admin/customers" class="nav-link">
+                            <a href="/admin/customers/waiting" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Danh Sách Đơn Hàng</p>
+                                <p>Đơn Chờ Duyệt</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/customers/processing" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Đơn Đang Xử Lý</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/customers/cancel" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Đơn Đã Hủy</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/customers/history" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Lịch Sử Đơn Hàng</p>
                             </a>
                         </li>
                     </ul>
                 </li>
+
+                <li class="nav-item">
+                    <a href="/admin/customers/show" class="nav-link">
+                        <i class="nav-icon fas fa-solid fa-user-plus"></i>
+                        <p> Khách Hàng
+                        </p>
+                    </a>
+                </li>
                 
-        
+                <li class="nav-item">
+                    <a href="/admin/statistics" class="nav-link">
+                        <i class="nav-icon fas fa-solid fa-chart-line"></i>
+                        <p> Thống Kê </p>
+                    </a>
+                </li>
 
                 <li class="nav-item">
                     <a href="{{ route('logout') }}" class="nav-link"

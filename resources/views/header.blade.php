@@ -2,13 +2,29 @@
     @php    $menusHtml = \App\Helpers\Helper::menus($menus); @endphp
     <!-- Header desktop -->
     <div class="container-menu-desktop">
+        <div class="top-bar">
+            <div class="content-topbar flex-sb-m h-full container">
+                <div class="left-top-bar">
+                   <i> Nhà Hàng Yến - Mở cửa từ 11h00 đến 22h00 </i>
+                </div>
 
+                <div class="right-top-bar flex-w h-full">
+
+                    <a href="#" class="flex-c-m trans-04 p-lr-25">
+                        Đăng Nhập
+                    </a>
+
+                </div>
+            </div>
+        </div>
         <div class="wrap-menu-desktop">
             <nav class="limiter-menu-desktop container">
 
                 <!-- Logo desktop -->
                 <div class="logo">
-                    <a href="/"><h4>Yen's Restaurant</h4></a>
+                    <a href="/">
+                        <h4>Yen's Restaurant</h4>
+                    </a>
                 </div>
 
                 <!-- Menu desktop -->
@@ -45,7 +61,9 @@
     <div class="wrap-header-mobile">
         <!-- Logo moblie -->
         <div class="logo-mobile">
-            <a href="/"><h4>Yen's Restarant</h4></a>
+            <a href="/">
+                <h4>Yen's Restarant</h4>
+            </a>
         </div>
 
         <!-- Icon header -->
@@ -99,4 +117,3 @@
         </div>
     </div>
 </header>
-
