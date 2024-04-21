@@ -64,6 +64,8 @@
         @csrf
     </form>
     <script>
-        window.location.href = "/admin/sliders/list"
+        function goBack() {
+            window.location.href = "/admin/sliders/list"
+        }
     </script>
 @endsection

@@ -3,41 +3,167 @@
 namespace App\Http\Controllers\Admin\Login;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Contracts\Session\Session;
+use App\Jobs\SendRegistrationEmail;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\VerifyAccount;
+use Illuminate\Support\Facades\Password;
 
 class LoginController extends Controller
 {
     public function index()
     {
-        return view('admin.users.login', [
+        return view('admin.login.login', [
             'title' => 'Đăng nhập hệ thống'
         ]);
     }
 
     public function store(Request $request)
     {
-
-        $this->validate($request, [
-            'name' => 'required',
-            'password' => 'required',
-        ],[
-            'name.required' => 'Tên đăng nhập không được để trống',
-            'password.required' => 'Mật khẩu không được để trống'
+        $request->validate([
+            'name' => 'required|exists:users,name',
+        ], [
+            'name.required' => 'Vui lòng nhập tên đăng nhập.',
+            'name.exists' => 'Tên đăng nhập không tồn tại',
         ]);
-        
-        if (Auth::attempt([
-            'name' => $request->input('name'),
-            'password' => $request->input('password')
-        ], $request->input('remember'))) {
-            return redirect()->route('admin');
+
+        $credentials = $request->only('name', 'password');
+
+        if (Auth::attempt($credentials, $request->input('remember'))) {
+            if (Auth::user()->role === 'admin') {
+                return redirect()->route('admin');
+            } else {
+                // Kiểm tra xem người dùng đã xác thực email chưa
+                if (Auth::user()->email_verified_at !== null) {
+                    return redirect()->route('home'); // Đổi thành route của trang chính của user
+                } else {
+                    Auth::logout(); // Đăng xuất người dùng nếu chưa xác thực email
+                    return redirect()->back()->withErrors([
+                        'error' => 'Tài khoản của bạn cần phải xác thực email để đăng nhập.'
+                    ]);
+                }
+            }
         }
-        
-        session()->flash('error', 'Tên đăng nhập hoặc mật khẩu không đúng');
-        return redirect()->back();
-        
+
+        return redirect()->back()->withInput()->withErrors([
+            'password' => 'Mật khẩu không chính xác.',
+            'name.exists' => 'Tên đăng nhập không tồn tại',
+        ]);
     }
+
+
+    public function register(Request $request)
+    {
+        $validator = $request->validate([
+            'name' => 'required|string|max:255|unique:users,name',
+            'password' => 'required|string|min:6|confirmed',
+            'email' => 'required|email|unique:users,email',
+        ], [
+            'name.required' => 'Tên Tài Khoản là trường bắt buộc.',
+            'name.string' => 'Tên Tài Khoản phải là chuỗi.',
+            'name.max' => 'Tên Tài Khoản không được vượt quá 255 ký tự.',
+            'name.unique' => 'Tên Tài Khoản đã tồn tại.',
+            'password.required' => 'Mật khẩu là trường bắt buộc.',
+            'password.string' => 'Mật khẩu phải là chuỗi.',
+            'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự.',
+            'password.confirmed' => 'Mật khẩu và xác nhận mật khẩu không khớp.',
+            'email.required' => 'Email là trường bắt buộc.',
+            'email.email' => 'Email không hợp lệ.',
+            'email.unique' => 'Email đã tồn tại.',
+        ]);
+
+        // Tạo tài khoản với role mặc định là 'user'
+        $user = User::create([
+            'name' => $request->name,
+            'password' => Hash::make($request->password),
+            'email' => $request->email,
+            'role' => $request->role ?? 'user', // Nếu không có role được cung cấp, sử dụng 'user' làm giá trị mặc định
+        ]);
+
+        if ($user) {
+            SendRegistrationEmail::dispatch($user);
+            return view('admin.login.success');
+        } else {
+            // Trả về view đăng ký với thông báo lỗi nếu có lỗi xảy ra
+            return redirect()->back()->withInput()->withErrors($validator);
+        }
+    }
+
+    public function verify($email)
+    {
+        $user = User::where('email', $email)->whereNULL('email_verified_at')->firstOrFail();
+        User::where('email', $email)->update(['email_verified_at' => date('Y-m-d H:i:s')]);
+        return view('admin.login.verify_success');
+    }
+
+    public function signup()
+    {
+        return view('admin.login.register', [
+            'title' => 'Đăng kí hệ thống'
+        ]);
+    }
+
+    public function showLinkRequestForm()
+    {
+        return view('admin.login.forgot_password');
+    }
+
+    public function sendResetLinkEmail(Request $request)
+    {
+        $request->validate(['email' => 'required|email']);
+
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+
+        return $status === Password::RESET_LINK_SENT
+            ? back()->with('status', __($status))
+            : back()->withErrors(['email' => __($status)]);
+    }
+
+    public function showResetForm(Request $request, $token)
+    {
+        return view('admin.login.update_password', [
+            'request' => $request,
+            'token' => $token,
+            'email' => $request->email
+        ]);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|string|confirmed|min:6',
+            'email' => 'required|email',
+        ], [
+            'password.string' => 'Mật khẩu phải là chuỗi.',
+            'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự.',
+            'password.confirmed' => 'Mật khẩu và xác nhận mật khẩu không khớp.',
+            'email.required' => 'Vui lòng nhập địa chỉ email.',
+            'email.email' => 'Địa chỉ email không hợp lệ.',
+        ]);
+
+        // Tìm người dùng bằng địa chỉ email
+        $user = User::where('email', $request->input('email'))->first();
+
+        // Kiểm tra nếu người dùng tồn tại
+        if ($user) {
+            // Cập nhật mật khẩu
+            $user->password = Hash::make($request->input('password'));
+            dd($user);
+            $user->save();
+
+            // Chuyển hướng người dùng sau khi cập nhật mật khẩu thành công
+            return redirect()->route('admin.login.login')->with('success', 'Mật khẩu đã được cập nhật thành công. Vui lòng đăng nhập bằng mật khẩu mới của bạn.');
+        } else {
+            // Người dùng không tồn tại
+            return back()->withErrors(['email' => 'Không tìm thấy người dùng với địa chỉ email đã cung cấp.']);
+        }
+    }
+
 
     public function logout(Request $request)
     {

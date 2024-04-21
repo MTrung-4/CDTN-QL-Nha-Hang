@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\CartController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\InvoiceController;
@@ -29,6 +30,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('admin/users/login', [LoginController::class, 'index'])->name('login');
 Route::post('admin/users/login/store', [LoginController::class, 'store']);
+Route::get('admin/users/signup', [LoginController::class, 'signup'])->name('signup');
+Route::post('admin/users/signup/register', [LoginController::class, 'register']); 
+Route::get('/verify-account/{email}', [LoginController::class, 'verify'])->name('verify');
+Route::get('/forgot-password', [LoginController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('/forgot-password', [LoginController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('password/reset/{token}/{email}', [LoginController::class, 'showResetForm'])->name('password.reset');
+Route::post('password/reset', [LoginController::class, 'resetPassword'])->name('password.update');
+
+
 
 Route::middleware(['auth'])->group(function () {
 
@@ -36,7 +46,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/', [MainController::class, 'index'])->name('admin');
         Route::get('main', [MainController::class, 'index']);
-        Route::get('users/calendar', [MainController::class, 'index']);
+        Route::get('welcome', [MainController::class, 'index']);
         Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
         #Customer
@@ -95,6 +105,17 @@ Route::middleware(['auth'])->group(function () {
             Route::DELETE('destroy', [ItemController::class, 'destroy']);
         });
 
+         #Account
+         Route::prefix('accounts')->group(function () {
+            Route::get('add', [AccountController::class, 'create']);
+            Route::post('add', [AccountController::class, 'store']);
+            Route::get('list', [AccountController::class, 'index']);
+            Route::get('edit/{account}', [AccountController::class, 'edit']);
+            Route::post('edit/{account}', [AccountController::class, 'update']);
+            Route::DELETE('destroy', [AccountController::class, 'destroy']);
+        });
+
+
         #Upload
         Route::post('upload/services', [UploadController::class, 'store']);
 
@@ -117,7 +138,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/invoices/{customerId}/generate-pdf', [InvoiceController::class, 'generatePDF']);
 });
 
-Route::get('/', [App\Http\Controllers\MainController::class, 'index']);
+Route::get('/', [App\Http\Controllers\MainController::class, 'index'])->name('home');
 Route::post('/services/load-product', [App\Http\Controllers\MainController::class, 'loadProduct']);
 Route::get('danh-muc/{id}-{slug}.html', [App\Http\Controllers\MenuController::class, 'index']);
 Route::get('san-pham/{id}-{slug}.html', [App\Http\Controllers\ProductController::class, 'index']);

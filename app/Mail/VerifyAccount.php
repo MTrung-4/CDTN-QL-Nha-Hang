@@ -6,9 +6,10 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class OrderShipped extends Mailable
+class VerifyAccount extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -17,9 +18,12 @@ class OrderShipped extends Mailable
      *
      * @return void
      */
-    public function __construct()
+
+    public $user;
+
+    public function __construct($user)
     {
-        //
+        $this->user = $user;
     }
 
     /**
@@ -27,8 +31,17 @@ class OrderShipped extends Mailable
      *
      * @return $this
      */
-    public function build()
+    public function envelope(): Envelope
     {
-        return $this->view('mail.success');
+        return new Envelope(
+            subject: 'Verify Account',
+        );
+    }
+
+    public function content(): Content
+    {
+        return new Content(
+            view: 'admin.login.verify',
+        );
     }
 }

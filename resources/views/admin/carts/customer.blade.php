@@ -211,9 +211,10 @@
                                     </li>
                                     <li style="background-color: green">
                                         <button class="btn btn-option view-btn"
-                                            href="/admin/customers/view/{{ $customer->id }}">
+                                            onclick="window.location.href='/admin/customers/view/{{ $customer->id }}'">
                                             <i class="fas fa-eye"> Xem Thông Tin</i>
                                         </button>
+
                                     </li>
                                     <li style="background-color: #FFCC99">
                                         <button class="btn btn-option invoice-btn" data-customer-id="{{ $customer->id }}">
@@ -234,7 +235,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="cashModalLabel">Nhập số tiền thanh toán (VNĐ)</h5>
+                    <h5 class="modal-title" id="cashModalLabel">Nhập số tiền mà khách hàng thanh toán (VNĐ)</h5>
                 </div>
                 <div class="modal-body">
                     <form id="cashPaymentForm">
@@ -299,9 +300,11 @@
                         if (response.success) {
                             console.log('Phương thức thanh toán đã được lưu thành công');
                             alert(response.message);
+                            window.location.reload();
                         } else {
                             console.error('Không thể lưu phương thức thanh toán');
                             alert(response.message);
+                            window.location.reload();
                         }
                     },
                     error: function(xhr, status, error) {
@@ -315,7 +318,7 @@
         // Hàm xử lý khi nhấn nút xác nhận trong modal
         function submitCashPayment() {
             var cartId = $('#cashModal').find('.btn-primary').attr('data-cart-id');
-            var cashAmount = $('#cashAmount').val(); // Lấy số tiền từ trường nhập
+            var cashAmount = parseFloat($('#cashAmount').val()); // Lấy số tiền từ trường nhập và chuyển thành kiểu số
 
             // Gửi yêu cầu AJAX để lưu phương thức thanh toán với số tiền
             $.ajax({
@@ -332,10 +335,28 @@
                         console.log('Phương thức thanh toán đã được lưu thành công');
                         // Đóng modal
                         $('#cashModal').modal('hide');
-                        alert(response.message);
+                        // Tính số tiền thiếu/dư
+                        var totalPrice = parseFloat(
+                        '{{ $customer->totalPrice }}'); // Tổng giá trị của mỗi đơn hàng
+                        var changeAmount = cashAmount - totalPrice; // Số tiền dư/thiếu
+                        var message = ''; // Chuỗi thông báo
+
+                        if (changeAmount === 0) {
+                            message = 'Khách hàng đã thanh toán đúng số tiền.';
+                        } else if (changeAmount > 0) {
+                            message = 'Khách hàng đã thanh toán đủ số tiền. Số tiền thừa: ' + changeAmount;
+                        } else {
+                            message = 'Khách hàng thanh toán chưa đủ. Số tiền còn thiếu: ' + Math.abs(
+                                changeAmount);
+                        }
+
+                        // Hiển thị hộp thoại thông báo
+                        alert(message);
+                        window.location.reload();
                     } else {
                         console.error('Không thể lưu phương thức thanh toán');
                         alert(response.message);
+                        window.location.reload();
                     }
                 },
                 error: function(xhr, status, error) {
@@ -346,8 +367,7 @@
         }
 
 
-
-
+        //Duyet hoan thanh don hang
         $(document).ready(function() {
             // Xử lý sự kiện khi nút "Duyệt" được nhấn
             $('.complete-btn').click(function() {
@@ -391,10 +411,8 @@
             $.ajax({
                 type: 'GET',
                 url: '/invoices/' + customerId + '/generate-pdf',
-                success: function(response) {
-                },
-                error: function(xhr, status, error) {
-                }
+                success: function(response) {},
+                error: function(xhr, status, error) {}
             });
         });
     </script>

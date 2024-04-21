@@ -41,8 +41,8 @@ class ItemController extends Controller
                 'name' => 'required|string|max:255|unique:items,name',
                 'price' => 'required|numeric|min:0',
                 'description' => 'nullable|string',
-                'products' => 'required|array', // Kiểm tra dữ liệu đầu vào là một mảng
-                'products.*' => 'exists:products,id', // Kiểm tra từng phần tử của mảng có tồn tại trong bảng products
+                'products' => 'required|array', 
+                'products.*' => 'exists:products,id',
             ],
             [
                 'name.required' => 'Tên thực đơn không được để trống',

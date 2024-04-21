@@ -46,6 +46,8 @@
     </form>
 
     <script>
-        window.location.href = "/admin/tables/list"
+        function goBack() {
+            window.location.href = "/admin/tables/list"
+        }
     </script>
 @endsection

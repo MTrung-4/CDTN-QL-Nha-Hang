@@ -122,7 +122,7 @@
                     </ul>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item border-bottom mb-2">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-solid fa-utensils"></i>
                         <p> Thực Đơn </p>
@@ -143,7 +143,7 @@
                     </ul>
                 </li>
 
-                <li class="nav-item border-bottom mb-2">
+                {{-- <li class="nav-item border-bottom mb-2">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-regular fa-copyright"></i>
                         <p> Combo
@@ -164,7 +164,7 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">
@@ -213,6 +213,30 @@
                         <i class="nav-icon fas fa-solid fa-chart-line"></i>
                         <p> Thống Kê </p>
                     </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-solid fa-address-card"></i>
+                        <p> Tài Khoản
+
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/admin/accounts/add" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Thêm Tài Khoản</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/accounts/list" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Danh Sách Tài Khoản</p>
+                            </a>
+                        </li>
+
+                    </ul>
                 </li>
 
                 <li class="nav-item">

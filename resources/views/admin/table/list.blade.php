@@ -225,7 +225,7 @@
                             if (tableStatusElement) {
                                 tableStatusElement.innerText = 'Trạng thái: Không còn trống';
                             }
-                            window.location.href = '/admin/customers';
+                            window.location.href = '/admin/customers/processing';
                         } else {
                             console.error('Error: ' + response.error);
                             alert('Đã xảy ra lỗi: ' + response.error);
