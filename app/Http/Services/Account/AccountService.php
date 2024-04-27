@@ -60,4 +60,11 @@ class AccountService
     {
         return user$user$user::where('active', 1)->orderByDesc('sort_by')->get();
     } */
+
+
+    public function changePassword(User $user, string $newPassword)
+    {
+        $user->password = bcrypt($newPassword);
+        $user->save();
+    }
 }

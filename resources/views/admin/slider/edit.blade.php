@@ -18,13 +18,13 @@
             <div class="row">
                 <div class="col-md-9">
                     <div class="form-group">
-                        <label for="menu">Tiêu Đề</label>
+                        <label for="menu">Tiêu Đề:</label>
                         <input type="text" name="name" value="{{ $slider->name }}" class="form-control">
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label for="menu">Sắp Xếp</label>
+                        <label for="menu">Sắp Xếp:</label>
                         <input type="number" name="sort_by" value="{{ $slider->sort_by }}" class="form-control"
                             min="1">
                     </div>
@@ -32,7 +32,7 @@
             </div>
 
             <div class="form-group">
-                <label for="menu">Ảnh Sản Phẩm</label>
+                <label for="menu">Ảnh Sản Phẩm:</label>
                 <input type="file" class="form-control" id="upload">
                 <div id="image_show">
                     <a href="{{ $slider->thumb }}">
@@ -43,7 +43,7 @@
             </div>
 
             <div class="form-group">
-                <label>Kích Hoạt</label>
+                <label>Kích Hoạt:</label>
                 <div class="custom-control custom-radio">
                     <input class="custom-control-input" value="1" type="radio" id="active" name="active"
                         {{ $slider->active == 1 ? 'checked' : '' }}>

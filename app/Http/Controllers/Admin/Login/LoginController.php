@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Login;
 
 use App\Http\Controllers\Controller;
+use App\Http\Services\Account\AccountService;
 use App\Jobs\SendRegistrationEmail;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,6 +15,13 @@ use Illuminate\Support\Facades\Password;
 
 class LoginController extends Controller
 {
+    protected $userService;
+
+    public function __construct(AccountService $accountService)
+    {
+        $this->userService = $accountService;
+    }
+
     public function index()
     {
         return view('admin.login.login', [
@@ -124,6 +132,7 @@ class LoginController extends Controller
             : back()->withErrors(['email' => __($status)]);
     }
 
+
     public function showResetForm(Request $request, $token)
     {
         return view('admin.login.update_password', [
@@ -146,6 +155,7 @@ class LoginController extends Controller
             'email.email' => 'Địa chỉ email không hợp lệ.',
         ]);
 
+
         // Tìm người dùng bằng địa chỉ email
         $user = User::where('email', $request->input('email'))->first();
 
@@ -153,11 +163,10 @@ class LoginController extends Controller
         if ($user) {
             // Cập nhật mật khẩu
             $user->password = Hash::make($request->input('password'));
-            dd($user);
             $user->save();
 
             // Chuyển hướng người dùng sau khi cập nhật mật khẩu thành công
-            return redirect()->route('admin.login.login')->with('success', 'Mật khẩu đã được cập nhật thành công. Vui lòng đăng nhập bằng mật khẩu mới của bạn.');
+            return redirect()->route('login')->with('success', 'Mật khẩu đã được cập nhật thành công. Vui lòng đăng nhập bằng mật khẩu mới của bạn.');
         } else {
             // Người dùng không tồn tại
             return back()->withErrors(['email' => 'Không tìm thấy người dùng với địa chỉ email đã cung cấp.']);
@@ -174,5 +183,45 @@ class LoginController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/admin/users/login');
+    }
+
+
+    public function infor()
+    {
+        $user = Auth::user();
+
+        return view(
+            'login.account',
+            [
+                'title' => 'Thông tin tài khoản',
+                'user' => $user,
+            ]
+        );
+    }
+
+
+    public function showChangePasswordForm()
+    {
+        return view('login.change_password',[
+            'title' => 'Thay đổi mật khẩu',
+        ]);
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = auth()->user();
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return redirect()->back()->with('error', 'Mật khẩu hiện tại không đúng');
+        }
+
+        $this->userService->changePassword($user, $request->new_password);
+
+        return redirect()->route('account')->with('success', 'Đổi mật khẩu thành công');
     }
 }

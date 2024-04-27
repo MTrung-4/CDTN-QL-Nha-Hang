@@ -48,6 +48,13 @@
         .h2 {
             margin-bottom: 5px;
         }
+
+        p {
+            width: 80%;
+            /* Chiều rộng tùy chỉnh của các thẻ <p> */
+            margin: 0 auto;
+            /* Căn giữa cả hai bên */
+        }
     </style>
 </head>
 

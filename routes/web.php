@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\CartController;
+use App\Http\Controllers\Admin\ComboController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\InvoiceController;
 use App\Http\Controllers\Admin\ItemController;
@@ -31,12 +32,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('admin/users/login', [LoginController::class, 'index'])->name('login');
 Route::post('admin/users/login/store', [LoginController::class, 'store']);
 Route::get('admin/users/signup', [LoginController::class, 'signup'])->name('signup');
-Route::post('admin/users/signup/register', [LoginController::class, 'register']); 
+Route::post('admin/users/signup/register', [LoginController::class, 'register']);
 Route::get('/verify-account/{email}', [LoginController::class, 'verify'])->name('verify');
 Route::get('/forgot-password', [LoginController::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('/forgot-password', [LoginController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::get('password/reset/{token}/{email}', [LoginController::class, 'showResetForm'])->name('password.reset');
 Route::post('password/reset', [LoginController::class, 'resetPassword'])->name('password.update');
+Route::get('/change-password', [LoginController::class, 'showChangePasswordForm'])->name('change-password-form');
+Route::post('/change-password', [LoginController::class, 'changePassword'])->name('change-password');
+
 
 
 
@@ -52,7 +56,7 @@ Route::middleware(['auth'])->group(function () {
         #Customer
         Route::get('customers/show', [CustomerController::class, 'show']);
         Route::get('statistics', [StatisticController::class, 'statistics']);
-        
+
 
         #Menu
         Route::prefix('menus')->group(function () {
@@ -105,14 +109,26 @@ Route::middleware(['auth'])->group(function () {
             Route::DELETE('destroy', [ItemController::class, 'destroy']);
         });
 
-         #Account
-         Route::prefix('accounts')->group(function () {
+        #Account
+        Route::prefix('accounts')->group(function () {
             Route::get('add', [AccountController::class, 'create']);
             Route::post('add', [AccountController::class, 'store']);
             Route::get('list', [AccountController::class, 'index']);
             Route::get('edit/{account}', [AccountController::class, 'edit']);
             Route::post('edit/{account}', [AccountController::class, 'update']);
             Route::DELETE('destroy', [AccountController::class, 'destroy']);
+            Route::get('/profile/create', [AccountController::class, 'information']);
+            Route::post('/profile/store', [AccountController::class, 'save_infor'])->name('save-infor');
+        });
+
+        #Combo
+        Route::prefix('combos')->group(function () {
+            Route::get('add', [ComboController::class, 'create']);
+            Route::post('add', [ComboController::class, 'store']);
+            Route::get('list', [ComboController::class, 'index']);
+            Route::get('edit/{account}', [ComboController::class, 'edit']);
+            Route::post('edit/{account}', [ComboController::class, 'update']);
+            Route::DELETE('destroy', [ComboController::class, 'destroy']);
         });
 
 
@@ -145,6 +161,7 @@ Route::get('san-pham/{id}-{slug}.html', [App\Http\Controllers\ProductController:
 /* Route::view('/lien-he', 'contact'); */
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 
+Route::get('account', [LoginController::class, 'infor'])->name('account');
 
 
 Route::post('add-cart', [App\Http\Controllers\CartController::class, 'index']);

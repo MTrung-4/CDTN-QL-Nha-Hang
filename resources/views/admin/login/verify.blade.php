@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,15 +34,17 @@
         a {
             display: inline-block;
             padding: 10px 20px;
-            background-color: #007bff;
-            color: #ffffff;
+            background-color: #ffffff;
+            border-color: #21ffff;
             text-decoration: none;
             border-radius: 4px;
+            transition: background-color 0.3s;
         }
 
         a:hover {
-            background-color: #0056b3;
+            background-color: #21ffff;
         }
+
 
         .footer {
             margin-top: 30px;
@@ -55,6 +58,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Xác nhận tài khoản</h1>
@@ -68,4 +72,5 @@
         </div>
     </div>
 </body>
+
 </html>

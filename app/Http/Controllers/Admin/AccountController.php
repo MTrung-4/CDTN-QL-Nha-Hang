@@ -100,4 +100,34 @@ class AccountController extends Controller
 
         return response()->json(['error' => true]);
     }
+
+
+    public function information()
+    {
+        $user = Auth::user(); 
+        return view('login.save_infor',[
+            'title' => 'Cập nhật thông tin',
+            'user' => $user
+        ]);
+    }
+
+    public function save_infor(Request $request)
+    {
+
+        /* dd($request->all()); */
+        try {
+            $user = Auth::user(); 
+    
+            $accountService = new AccountService();
+            $accountService->update($request, $user);
+    
+            return redirect()->route('account')->with('success', 'Thông tin cá nhân đã được cập nhật.');
+        } catch (\Exception $err) {
+            // Xử lý lỗi nếu có
+            return redirect()->back()->with('error', 'Đã có lỗi xảy ra khi cập nhật thông tin cá nhân.');
+        }
+    }
+    
+    
+    
 }

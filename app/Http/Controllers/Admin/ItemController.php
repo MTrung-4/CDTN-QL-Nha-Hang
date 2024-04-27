@@ -36,6 +36,7 @@ class ItemController extends Controller
 
     public function store(Request $request)
     {
+
         $validatedData = $request->validate(
             [
                 'name' => 'required|string|max:255|unique:items,name',
@@ -115,7 +116,7 @@ class ItemController extends Controller
         if ($result) {
             return response()->json([
                 'error' => false,
-                'message' => 'Xóa thành công sản phẩm'
+                'message' => 'Xóa thành công thực đơn'
             ]);
         }
 

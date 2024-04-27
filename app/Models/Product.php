@@ -30,4 +30,9 @@ class Product extends Model
     {
         return $this->belongsToMany(Item::class);
     }
+
+    public function combo()
+    {
+        return $this->belongsToMany(Combo::class);
+    }
 }

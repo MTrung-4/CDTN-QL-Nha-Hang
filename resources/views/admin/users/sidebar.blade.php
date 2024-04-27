@@ -122,7 +122,7 @@
                     </ul>
                 </li>
 
-                <li class="nav-item border-bottom mb-2">
+                <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-solid fa-utensils"></i>
                         <p> Thực Đơn </p>
@@ -143,7 +143,7 @@
                     </ul>
                 </li>
 
-                {{-- <li class="nav-item border-bottom mb-2">
+                <li class="nav-item border-bottom mb-2">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-regular fa-copyright"></i>
                         <p> Combo
@@ -164,7 +164,7 @@
                             </a>
                         </li>
                     </ul>
-                </li> --}}
+                </li>
 
                 <li class="nav-item">
                     <a href="#" class="nav-link">

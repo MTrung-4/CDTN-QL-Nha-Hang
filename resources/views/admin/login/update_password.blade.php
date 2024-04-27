@@ -130,8 +130,17 @@
         <form method="POST" action="{{ route('password.update') }}">
             @csrf
             <h2>ĐẶT LẠI MẬT KHẨU</h2>
+            <label for="email">Nhập Lại Email</label>
+            <div class="input-group">
+                <input type="text" name="email" id="email" value="{{ old('email') }}"
+                    placeholder="example@gmail.com" required>
+                <i class="fas fa-solid fa-envelope"></i>
+            </div>
+            @error('email')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
             <input type="hidden" name="token" value="{{ $request->route('token') }}">
-            <label for="password">Mật Khẩu</label>
+            <label for="password">Nhậpk Mật Khẩu Mới</label>
             <div class="input-group">
                 <input type="password" name="password" id="password" placeholder="Mật khẩu" required>
                 <i class="nav-icon fas fa-solid fa-eye" id="togglePassword" aria-hidden="true"></i>
