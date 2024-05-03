@@ -18,7 +18,8 @@ class Product extends Model
         'active',
         'thumb',
         'description',
-        'menu_id'
+        'menu_id',
+        'content'
     ];
     public function menu()
     {

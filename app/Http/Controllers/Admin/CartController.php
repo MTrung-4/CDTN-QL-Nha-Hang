@@ -151,4 +151,16 @@ class CartController extends Controller
 
         return response()->json(['success' => false, 'message' => 'Không thể cập nhật trạng']);
     }
+
+
+    public function orderHistory(Request $request)
+    {
+        $user = $request->user(); 
+        $orderHistory = $this->cart->getUserOrderHistory($user); 
+
+        return view('carts.order-history', [
+            'title' => 'Lịch sử đặt hàng',
+            'orderHistory' => $orderHistory, 
+        ]);
+    }
 }

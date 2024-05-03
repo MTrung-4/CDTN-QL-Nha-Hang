@@ -2,7 +2,7 @@
 @section('content')
     <div class="container p-t-80">
         <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
-            <a href="/" class="stext-109 cl8 hov-cl1 trans-04">
+            <a href="/" class="stext-101 cl8 hov-cl1 trans-04">
                 Home
                 <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
             </a>
@@ -25,14 +25,7 @@
                 <div class="col-md-6 col-lg-7 p-b-30">
                     <div class="p-l-25 p-r-30 p-lr-0-lg">
                         <div class="wrap-slick3 flex-sb flex-w">
-                            <div class="wrap-slick3-dots">
-                                <ul class="slick3-dots" style="" role="tablist">
-                                    <li class="slick-active" role="presentation">
-                                        <img src="{{ $product->thumb }}">
-                                        <div class="slick3-dot-overlay"></div>
-                                    </li>
-                                </ul>
-                            </div>
+    
 
                             <div class="slick3 gallery-lb slick-initialized slick-slider slick-dotted">
                                 <div class="slick-list draggable">
@@ -44,7 +37,7 @@
                                             tabindex="0" role="tabpanel" id="slick-slide10"
                                             aria-describedby="slick-slide-control10">
                                             <div class="wrap-pic-w pos-relative">
-                                                <img src="{{ $product->thumb }}" alt="IMG-PRODUCT">
+                                                <img src="{{ $product->thumb }}" alt="{{  $product->thumb }}">
 
                                                 <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
                                                     href="{{ $product->thumb }}" tabindex="0">
@@ -64,8 +57,8 @@
 
                         @include('admin.users.alert')
 
-                        <h4 class="mtext-105 cl2 js-name-detail p-b-14">
-                            Đồng Hồ {{ $title }}
+                        <h4 style="font-size: 28px; font-weight: bold" class="mtext-105 cl2 js-name-detail p-b-14">
+                           {{ $title }}
                         </h4>
 
                         <span class="mtext-106 cl2">
@@ -107,32 +100,7 @@
                                 </div>
                             </div>
                         </div>
-
-                        <!--  -->
-                        <div class="flex-w flex-m p-l-100 p-t-40 respon7">
-                            <div class="flex-m bor9 p-r-10 m-r-11">
-                                <a href="#"
-                                    class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100"
-                                    data-tooltip="Add to Wishlist">
-                                    <i class="zmdi zmdi-favorite"></i>
-                                </a>
-                            </div>
-
-                            <a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
-                                data-tooltip="Facebook">
-                                <i class="fa fa-facebook"></i>
-                            </a>
-
-                            <a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
-                                data-tooltip="Twitter">
-                                <i class="fa fa-twitter"></i>
-                            </a>
-
-                            <a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
-                                data-tooltip="Google Plus">
-                                <i class="fa fa-google-plus"></i>
-                            </a>
-                        </div>
+                
                     </div>
                 </div>
             </div>
@@ -192,7 +160,7 @@
         <div class="container">
             <div class="p-b-45">
                 <h3 class="ltext-106 cl5 txt-center">
-                    Sản Phẩm Khác
+                    Món Ăn Khác
                 </h3>
             </div>
 

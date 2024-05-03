@@ -45,19 +45,23 @@
             @endforeach
         </tbody>
     </table>
-        
+
     <div class="card-footer clearfix">
         <ul class="pagination pagination-sm m-0 float-right">
             <li class="page-item"><a class="page-link" href="{{ $products->previousPageUrl() }}">Previous</a></li>
-    
+
             @for ($i = 1; $i <= $products->lastPage(); $i++)
-                <li class="page-item{{ ($i == $products->currentPage()) ? ' active' : '' }}">
+                <li class="page-item{{ $i == $products->currentPage() ? ' active' : '' }}">
                     <a class="page-link" href="{{ $products->url($i) }}">{{ $i }}</a>
                 </li>
             @endfor
-    
+
             <li class="page-item"><a class="page-link" href="{{ $products->nextPageUrl() }}">Next</a></li>
         </ul>
     </div>
-    
+    <script>
+        function showSuccessMessage(message) {
+            alert(message);
+        }
+    </script>
 @endsection

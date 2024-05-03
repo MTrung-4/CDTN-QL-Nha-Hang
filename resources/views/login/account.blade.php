@@ -86,7 +86,8 @@
         .button-password {
             background-color: #f44336;
         }
-        p{
+
+        p {
             display: flex;
             justify-content: center;
             font-weight: bold;
@@ -131,7 +132,8 @@
                 <!-- Thêm các trường thông tin tài khoản khác nếu cần -->
             </ul>
             <div class="button-wrapper">
-                <button class="button button-edit" onclick="window.location.href = '/admin/accounts/profile/create';">Chỉnh sửa thông tin</button>
+                <button class="button button-edit" onclick="window.location.href = '/admin/accounts/profile/create';">Chỉnh
+                    sửa thông tin</button>
             </div>
         </div>
     </div>

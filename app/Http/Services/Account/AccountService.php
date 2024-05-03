@@ -32,8 +32,23 @@ class AccountService
     public function update($request, $user)
     {
         try {
-            $user->fill($request->input());
+            // Lấy mật khẩu hiện tại của người dùng
+            $currentPassword = $user->password;
+
+            // Loại bỏ dữ liệu mật khẩu từ $request
+            $requestData = $request->except('password', 'password_confirmation');
+
+            // Điền dữ liệu vào $user
+            $user->fill($requestData);
+
+            // Nếu mật khẩu không được thay đổi, hãy giữ nguyên mật khẩu hiện tại
+            if (!$request->filled('password') || !$request->filled('password_confirmation')) {
+                $user->password = $currentPassword;
+            }
+
+            // Lưu thay đổi
             $user->save();
+
             Session::flash('success', 'Cập nhật Tài Khoản thành công');
         } catch (\Exception $err) {
             Session::flash('error', 'Cập nhật Tài Khoản lỗi');
@@ -42,6 +57,7 @@ class AccountService
         }
         return true;
     }
+
 
     public function destroy($request)
     {

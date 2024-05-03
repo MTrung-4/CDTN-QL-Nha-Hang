@@ -71,4 +71,11 @@ class ItemService
 
         return false;
     }
+
+
+    //Website
+    public function getAllItems()
+    {
+        return Item::where('active', true)->with('products')->get();
+    }
 }

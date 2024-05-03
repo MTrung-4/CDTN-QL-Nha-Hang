@@ -6,8 +6,10 @@ use App\Jobs\SendMail;
 use App\Models\Cart;
 use App\Models\Customer;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
@@ -82,14 +84,24 @@ class CartService
             if (is_null($carts))
                 return false;
 
-            $customer = Customer::create([
+            // Lấy user_id của người dùng đăng nhập (nếu có)
+            $user_id = Auth::id();
+
+            $customerData = [
                 'name' => $request->input('name'),
                 'phone' => $request->input('phone'),
                 'time' => $request->input('time'),
                 'qty' => $request->input('qty'),
                 'email' => $request->input('email'),
                 'content' => $request->input('content')
-            ]);
+            ];
+
+            // Nếu người dùng đã đăng nhập, thêm user_id vào dữ liệu của khách hàng
+            if ($user_id) {
+                $customerData['user_id'] = $user_id;
+            }
+
+            $customer = Customer::create($customerData);
 
             $this->infoProductCart($carts, $customer->id);
 
@@ -226,5 +238,27 @@ class CartService
             return true;
         }
         return false;
+    }
+
+
+    public function getUserOrderHistory(User $user)
+    {
+        // Lấy danh sách đơn hàng của người dùng từ bảng Customer
+        $customers = Customer::where('user_id', $user->id)->get();
+
+        $orderHistory = [];
+
+        // Duyệt qua từng đơn hàng của người dùng
+        foreach ($customers as $customer) {
+            // Truy xuất các đơn hàng tương ứng từ bảng Cart
+            $carts = $customer->carts()->with('product')->get();
+
+            // Lưu thông tin đơn hàng vào danh sách orderHistory
+            $orderHistory[] = [
+                'customer' => $customer,
+                'carts' => $carts,
+            ];
+        }
+        return $orderHistory;
     }
 }

@@ -331,8 +331,8 @@
 
 .main-menu > li > a {
   font-family: Poppins-Medium;
-  font-size: 14px;
-  color: #fff;
+  font-size: 16px;
+  color: #333;
   padding: 5px 0px;
   transition: all 0.4s;
   -webkit-transition: all 0.4s;
@@ -578,7 +578,7 @@
 
 .fix-menu-desktop .wrap-menu-desktop {
   height: 70px;
-  background-color: #212529;
+  background-color: #fff;
   box-shadow: 0 0px 3px 0px rgba(0,0,0,0.2);
   -moz-box-shadow: 0 0px 3px 0px rgba(0,0,0,0.2);
   -webkit-box-shadow: 0 0px 3px 0px rgba(0,0,0,0.2);

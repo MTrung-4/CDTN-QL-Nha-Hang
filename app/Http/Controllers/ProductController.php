@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Services\Product\ProductService;
+use App\Models\Menu;
 use App\Models\Product;
+use App\Helpers\Helper;
 
 class ProductController extends Controller
 {
@@ -44,4 +46,5 @@ class ProductController extends Controller
             ->limit(8)
             ->get();
     }
+
 }

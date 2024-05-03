@@ -4,24 +4,25 @@
         <div class="row">
             <div class="col-sm-6 col-lg-3 p-b-50">
                 <h4 class="stext-301 cl0 p-b-30">
-                    CASIO W STORE
+                    Yen Restaurant
                 </h4>
-                <ul>
-                    <img src="/template/images/icons/casio.png">
-                </ul>
+                {{-- <ul>
+                    <img src="/template/images/">
+                </ul> --}}
             </div>
 
             <div class="col-sm-6 col-lg-3 p-b-50">
                 <h4 class="stext-301 cl0 p-b-30">
-                    CASIO
+                    Lịch sử ra đời
                 </h4>
 
                 <p class="stext-107 cl7 size-201">
-                    Đồng hồ Casio ra đời vào năm 1946 – được xem là một trong những thương hiệu nổi tiếng nhất ngành
-                    công nghiệp đồng hồ Nhật Bản. Các mẫu Đồng hồ Casio nam và Casio nữ đều được nhận xét là “bền, đẹp
-                    và giá tốt”
+                    Tự hào là nhà hàng Việt độc đáo và được ca ngợi nhất tại Nha Trang, Yến's Restaurant đã góp phần làm
+                    nên danh tiếng của thị trấn từ năm 2011. Với sứ mệnh mang lại trải nghiệm ẩm thực tinh tế và đậm đà
+                    văn hóa Việt, chúng tôi đã chinh phục lòng tin của hàng ngàn thực khách. Hãy đến và khám phá lý do
+                    tại sao Yến's Restaurant luôn là điểm đến lý tưởng cho những tín đồ ẩm thực!
                 </p>
-             
+
             </div>
 
             <div class="col-sm-6 col-lg-3 p-b-50">
@@ -31,16 +32,7 @@
 
                 <ul>
                     <p class="stext-107 cl7 size-201" style="text-align: justify;">
-                        Casio Watch Store - Sứ mệnh và Tâm huyết <br>
-
-                        Chào mừng đến với Casio Watch Store, nơi mang đến trải nghiệm mua sắm độc đáo với những sản phẩm
-                        chất lượng từ thương hiệu đồng hồ Casio. Chúng tôi không chỉ đơn thuần là một cửa hàng bán
-                        lẻ, mà là một tâm điểm đam mê cho những người yêu thời trang và đặc biệt, đam mê với nghệ
-                        thuật đồng hồ Casio.
-                    </p>
-
-                    <p class="stext-107 cl7 size-201">
-                        Đại lý chính hãng
+        
                     </p>
 
                     <li class="p-b-10">

@@ -1,11 +1,16 @@
 @extends('main')
 
 @section('content')
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Briem+Hand:wght@100..900&display=swap');
+    </style>
     <div class="bg0 m-t-23 p-b-140 p-t-80">
         <div class="container">
             <div class="flex-w flex-sb-m p-b-52">
                 <div class="flex-w flex-l-m filter-tope-group m-tb-10">
-                    <h1>{{ $title }}</h1>
+                    <h1 style="font-family: Briem Hand, cursive; margin-bottom: 30px;
+                    color: #333; ">
+                        {{ $title }}</h1>
                 </div>
 
                 <div class="flex-w flex-c-m m-tb-10">
@@ -47,7 +52,6 @@
                                 </li>
                             </ul>
                         </div>
-
                     </div>
                 </div>
             </div>

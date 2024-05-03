@@ -42,7 +42,7 @@ class ItemController extends Controller
                 'name' => 'required|string|max:255|unique:items,name',
                 'price' => 'required|numeric|min:0',
                 'description' => 'nullable|string',
-                'products' => 'required|array', 
+                'products' => 'required|array',
                 'products.*' => 'exists:products,id',
             ],
             [

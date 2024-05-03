@@ -185,6 +185,17 @@ class LoginController extends Controller
         return redirect('/admin/users/login');
     }
 
+     // Đăng xuất cho trang web
+     public function logoutWeb(Request $request)
+     {
+         Auth::logout();
+ 
+         $request->session()->invalidate();
+ 
+         $request->session()->regenerateToken();
+ 
+         return redirect('/admin/users/login');
+     }
 
     public function infor()
     {

@@ -15,6 +15,7 @@ class Customer extends Model
         'content',
         'qty',
         'time',
+        'user_id'
     ];
 
     public function carts()

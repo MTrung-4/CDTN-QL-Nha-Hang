@@ -71,12 +71,10 @@ class AccountController extends Controller
         $this->validate($request, [
             'name' => 'required|string|max:255',
             'name' => 'required|string|max:255',
-            'password' => 'string|min:6|confirmed',
+            'password' => 'confirmed',
         ], [
             'name.required' => 'Tên Tài Khoản không được để trống',
             'email.required' => 'Email không được để trống',
-            'password.required' => 'Mật Khẩu không được để trống',
-            'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự',
             'password.confirmed' => 'Mật khẩu và xác nhận mật khẩu không khớp.'
         ]);
 
@@ -113,8 +111,6 @@ class AccountController extends Controller
 
     public function save_infor(Request $request)
     {
-
-        /* dd($request->all()); */
         try {
             $user = Auth::user(); 
     

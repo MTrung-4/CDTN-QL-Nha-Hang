@@ -1,4 +1,3 @@
-
 @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
@@ -10,17 +9,23 @@
 @endif
 
 
-{{-- @if (Session::has('error'))
+@if (Session::has('error'))
     <div class="alert alert-danger">
-       {{ Session::get('error') }}
+        {{ Session::get('error') }}
     </div>
 @endif
- --}}
+
+@if (Session::has('success'))
+    <div class="alert alert-success">
+        {{ Session::get('success') }}
+    </div>
+@endif
+
 
 <script>
     @if (Session::has('success'))
         setTimeout(function() {
             showSuccessMessage("{{ Session::get('success') }}");
-        }, 2000); // 2000 milliseconds = 2 seconds
+        }, 1000); // 2000 milliseconds = 2 seconds
     @endif
 </script>

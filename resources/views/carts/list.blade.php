@@ -10,7 +10,7 @@
     </div>
     <form class="bg0 p-t-130 p-b-85 m-l-25 m-r--38 m-lr-0-xl" method="post">
         @include('admin.users.alert')
-
+        <input type="hidden" name="user_id" value="{{ Auth::id() }}">
         @if (count($products) != 0)
             <div class="container">
                 <div class="row">
@@ -103,8 +103,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="bor8 bg0 m-b-12">
-                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="datetime-local" name="time"
-                                            placeholder="Thời gian">
+                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="datetime-local"
+                                            name="time" placeholder="Thời gian">
                                     </div>
                                     <div class="bor8 bg0 m-b-12">
                                         <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="number" name="qty"

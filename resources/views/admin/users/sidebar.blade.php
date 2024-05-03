@@ -122,7 +122,7 @@
                     </ul>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item border-bottom mb-2">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-solid fa-utensils"></i>
                         <p> Thực Đơn </p>
@@ -138,29 +138,6 @@
                             <a href="/admin/items/list" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Danh Sách Thực Đơn</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="nav-item border-bottom mb-2">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-regular fa-copyright"></i>
-                        <p> Combo
-
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="/admin/combos/add" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Thêm Combo</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/combos/list" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Danh Sách Combo</p>
                             </a>
                         </li>
                     </ul>

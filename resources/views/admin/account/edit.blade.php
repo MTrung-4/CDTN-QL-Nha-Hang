@@ -7,6 +7,13 @@
             justify-content: space-between;
             align-items: center;
         }
+
+        .thumb {
+            box-sizing: border-box;
+            border: solid 1px #cccccc;
+            padding: 5px;
+            height: 350px;
+        }
     </style>
     @if (Session::has('error'))
         <div class="alert alert-danger">
@@ -17,35 +24,79 @@
     <form action="" method="POST">
         <div class="card-body">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group">
-                        <label for="menu">Tên Tài Khoản</label>
-                        <input type="text" name="name" value="{{ $account->name }}" class="form-control"
-                            placeholder="Nhập tên tài khoản">
+                        <label for="thumb">Ảnh Sản Phẩm:</label>
+                        <div class="thumb">
+                            <input type="file" class="form-control" id="upload">
+                            <div class="m-2" id="image_show">
+                                @if ($account->thumb)
+                                    <img src="{{ $account->thumb }}" alt="Thumbnail" style="width:200px">
+                                @endif
+                            </div>
+                            <input type="hidden" name="thumb" id="thumb">
+                        </div>
                     </div>
                 </div>
-
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <div class="form-group">
-                        <label for="menu">Vai Trò</label>
-                        <select name="role" class="form-control">
-                            <option value="user" {{ $account->role === 'user' ? 'selected' : '' }}>Người Dùng</option>
-                            <option value="admin" {{ $account->role === 'admin' ? 'selected' : '' }}>Quản trị viên</option>
-                        </select>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <label for="name">Tên Tài Khoản</label>
+                                <input type="text" name="name" value="{{ $account->name }}" class="form-control"
+                                    placeholder="Nhập tên tài khoản">
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="role">Vai Trò</label>
+                                    <select name="role" class="form-control">
+                                        <option value="user" {{ $account->role === 'user' ? 'selected' : '' }}>Người Dùng
+                                        </option>
+                                        <option value="admin" {{ $account->role === 'admin' ? 'selected' : '' }}>Quản trị
+                                            viên</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-13">
+                                <div class="form-group">
+                                    <label for="fullname">Họ và Tên</label>
+                                    <input type="text" name="fullname" value="{{ $account->fullname }}"
+                                        class="form-control" placeholder="Nhập họ và tên">
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-13">
+                                <div class="form-group">
+                                    <label for="phone">Số Điện Thoại</label>
+                                    <input type="text" name="phone" value="{{ $account->phone }}" class="form-control"
+                                        placeholder="Nhập số điện thoại">
+                                </div>
+                            </div>
+
+                            <div class="col-md-13">
+                                <div class="form-group">
+                                    <label for="address">Địa Chỉ</label>
+                                    <input type="text" name="address" value="{{ $account->address }}"
+                                        class="form-control" placeholder="Nhập địa chỉ">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-
-        <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="password">Mật Khẩu</label>
                         <div class="input-group">
                             <input type="password" name="password" id="password" class="form-control"
-                                placeholder="Nhập mật khẩu mới">
+                                placeholder="Nhập mật khẩu">
                             <div class="input-group-append">
                                 <span style="background-color: #17a2b8;" class="input-group-text" id="togglePassword">
                                     <i class="nav-icon fas fa-solid fa-eye" aria-hidden="true"></i>
@@ -62,7 +113,7 @@
                             <input type="password" name="password_confirmation" id="password_confirmation"
                                 class="form-control" placeholder="Nhập lại mật khẩu">
                             <div class="input-group-append">
-                                <span style="background-color: #17a2b8"; class="input-group-text"
+                                <span style="background-color: #17a2b8;" class="input-group-text"
                                     id="toggleConfirmPassword">
                                     <i class="nav-icon fas fa-solid fa-eye" aria-hidden="true"></i>
                                 </span>
@@ -71,20 +122,21 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="form-group">
-                        <label for="menu">Email</label>
+                        <label for="email">Email</label>
                         <input type="text" name="email" value="{{ $account->email }}" class="form-control"
                             placeholder="Nhập email">
                     </div>
                 </div>
 
             </div>
+
             <div class="button-group">
                 <button type="button" class="btn btn-secondary" onclick="goBack()">Quay lại</button>
                 <button type="submit" class="btn btn-primary">Thay Đổi</button>
             </div>
-        </div> 
+        </div>
         @csrf
     </form>
 

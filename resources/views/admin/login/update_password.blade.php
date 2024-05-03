@@ -140,7 +140,7 @@
                 <div class="alert alert-danger">{{ $message }}</div>
             @enderror
             <input type="hidden" name="token" value="{{ $request->route('token') }}">
-            <label for="password">Nhậpk Mật Khẩu Mới</label>
+            <label for="password">Nhập Mật Khẩu Mới</label>
             <div class="input-group">
                 <input type="password" name="password" id="password" placeholder="Mật khẩu" required>
                 <i class="nav-icon fas fa-solid fa-eye" id="togglePassword" aria-hidden="true"></i>

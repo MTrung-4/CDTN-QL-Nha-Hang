@@ -36,8 +36,6 @@
                 <textarea class="form-control" id="description" name="description">{{ $table->description }}</textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary">Sửa Bàn ăn</button>
-
             <div class="button-group">
                 <button type="button" class="btn btn-secondary" onclick="goBack()">Quay lại</button>
                 <button type="submit" class="btn btn-primary">Thay Đổi</button>

@@ -35,33 +35,6 @@
             font-weight: bold;
         }
 
-        /* .thumb {
-                position: relative;
-            }
-
-            #upload {
-                position: absolute;
-                opacity: 0;
-                width: 100%;
-                height: 100%;
-                cursor: pointer;
-            }
-
-            #image_show {
-                width: 200px;
-                height: 200px;
-                border-radius: 50%;
-                object-fit: cover;
-                margin-left: auto;
-                margin-right: auto;
-                display: block;
-                border: 2px solid #ddd;
-            }
-
-            #thumb {
-                display: none;
-            } */
-
         .upload-wrapper {
             text-align: center;
         }
@@ -85,13 +58,13 @@
                     <label>Ảnh cá nhân:</label>
                     <div class="thumb">
                         <div class="m-2" id="image_show">
-                            @if($user->thumb)
+                            @if ($user->thumb)
                                 <img src="{{ $user->thumb }}" alt="Avatar" style="width:200px">
                             @endif
                         </div>
                         <div class="m-2">
                             <input type="file" class="form-control" id="upload" name="upload">
-                            <input type="hidden" name="thumb" id="thumb" value="{{ $user->thumb ?? old('thumb')  }}">
+                            <input type="hidden" name="thumb" id="thumb" value="{{ $user->thumb ?? old('thumb') }}">
                         </div>
                     </div>
                 </div>
@@ -109,16 +82,19 @@
                     <div class="form-group">
                         <label for="phone">Số điện thoại:</label>
                         <input type="text" class="form-control" id="phone" name="phone"
-                            value="{{ $user->phone ?? old('phone')  }}">
+                            value="{{ $user->phone ?? old('phone') }}">
                     </div>
                     <div class="form-group">
                         <label for="address">Địa chỉ:</label>
                         <input type="text" class="form-control" id="address" name="address"
-                            value="{{ $user->address ?? old('address')  }}">
+                            value="{{ $user->address ?? old('address') }}">
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Lưu</button>
+            <div class="submit" style="text-align: center; margin-top: 5px;">
+                <button type="submit" class="btn btn-primary">Lưu</button>
+            </div>
+
         </form>
     </div>
 

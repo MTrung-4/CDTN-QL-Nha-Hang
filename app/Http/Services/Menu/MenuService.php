@@ -5,6 +5,7 @@ namespace App\Http\Services\Menu;
 
 
 use App\Models\Menu;
+use App\Models\Product;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
@@ -95,5 +96,35 @@ class MenuService
             ->orderByDesc('id')
             ->paginate(12)
             ->withQueryString();
+    }
+
+    public function getAllProducts($menu, $request)
+    {
+        $productQuery = Product::where('active', 1)->newQuery();
+
+        // Lấy tất cả sản phẩm từ menu hiện tại
+        $productQuery->whereIn('menu_id', function ($query) use ($menu) {
+            $query->select('id')->from('menus')->where('id', $menu->id);
+            // Đệ quy để lấy tất cả sản phẩm từ các menu con
+            $this->getSubmenuIdsRecursive($query, $menu->id);
+        });
+
+        if ($request->input('price')) {
+            $productQuery->orderBy('price', $request->input('price'));
+        }
+
+        return $productQuery
+            ->orderByDesc('id')
+            ->paginate(12)
+            ->withQueryString();
+    }
+
+    private function getSubmenuIdsRecursive($query, $menuId)
+    {
+        $submenus = Menu::where('parent_id', $menuId)->get();
+        foreach ($submenus as $submenu) {
+            $query->orWhere('menu_id', $submenu->id);
+            $this->getSubmenuIdsRecursive($query, $submenu->id);
+        }
     }
 }

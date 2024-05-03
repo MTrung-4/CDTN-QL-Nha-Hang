@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\StatisticController;
 use App\Http\Controllers\Admin\TableController;
 use App\Http\Controllers\Admin\UploadController;
+use App\Http\Controllers\ItemController as ControllersItemController;
 use App\Http\Controllers\ProductController as ControllersProductController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
@@ -40,6 +41,9 @@ Route::get('password/reset/{token}/{email}', [LoginController::class, 'showReset
 Route::post('password/reset', [LoginController::class, 'resetPassword'])->name('password.update');
 Route::get('/change-password', [LoginController::class, 'showChangePasswordForm'])->name('change-password-form');
 Route::post('/change-password', [LoginController::class, 'changePassword'])->name('change-password');
+// Route cho đăng xuất web
+Route::post('/logout', [LoginController::class, 'logoutWeb'])->name('web.logout');
+
 
 
 
@@ -121,17 +125,6 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/profile/store', [AccountController::class, 'save_infor'])->name('save-infor');
         });
 
-        #Combo
-        Route::prefix('combos')->group(function () {
-            Route::get('add', [ComboController::class, 'create']);
-            Route::post('add', [ComboController::class, 'store']);
-            Route::get('list', [ComboController::class, 'index']);
-            Route::get('edit/{account}', [ComboController::class, 'edit']);
-            Route::post('edit/{account}', [ComboController::class, 'update']);
-            Route::DELETE('destroy', [ComboController::class, 'destroy']);
-        });
-
-
         #Upload
         Route::post('upload/services', [UploadController::class, 'store']);
 
@@ -142,6 +135,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('waiting', [CartController::class, 'waiting']);
             Route::get('cancel', [CartController::class, 'cancel']);
             Route::get('history', [CartController::class, 'history']);
+            Route::get('/order-history', [CartController::class, 'orderHistory'])->name('order-history');
         });
 
         Route::prefix('carts')->group(function () {
@@ -162,7 +156,7 @@ Route::get('san-pham/{id}-{slug}.html', [App\Http\Controllers\ProductController:
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 
 Route::get('account', [LoginController::class, 'infor'])->name('account');
-
+Route::get('web-item', [App\Http\Controllers\ItemController::class, 'showItem']);
 
 Route::post('add-cart', [App\Http\Controllers\CartController::class, 'index']);
 Route::get('carts', [App\Http\Controllers\CartController::class, 'show']);
