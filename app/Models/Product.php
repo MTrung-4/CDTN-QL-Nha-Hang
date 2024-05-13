@@ -36,4 +36,9 @@ class Product extends Model
     {
         return $this->belongsToMany(Combo::class);
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }

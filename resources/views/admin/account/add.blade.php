@@ -50,8 +50,8 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <div class="col-md-13">
+                        <div class="row">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="fullname">Họ và Tên</label>
                                     <input type="text" name="fullname" value="{{ old('fullname') }}" class="form-control"
@@ -60,7 +60,7 @@
                             </div>
 
 
-                            <div class="col-md-13">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="phone">Số Điện Thoại</label>
                                     <input type="text" name="phone" value="{{ old('phone') }}" class="form-control"
@@ -68,58 +68,60 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-13">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="address">Địa Chỉ</label>
                                     <input type="text" name="address" value="{{ old('address') }}" class="form-control"
                                         placeholder="Nhập địa chỉ">
                                 </div>
                             </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="menu">Email</label>
+                                    <input type="text" name="email" value="{{ old('email') }}" class="form-control"
+                                        placeholder="Nhập email">
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="password">Mật Khẩu</label>
-                        <div class="input-group">
-                            <input type="password" name="password" id="password" class="form-control"
-                                placeholder="Nhập mật khẩu">
-                            <div class="input-group-append">
-                                <span style="background-color: #17a2b8;" class="input-group-text" id="togglePassword">
-                                    <i class="nav-icon fas fa-solid fa-eye" aria-hidden="true"></i>
-                                </span>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="password">Mật Khẩu</label>
+                                <div class="input-group">
+                                    <input type="password" name="password" id="password" class="form-control"
+                                        placeholder="Nhập mật khẩu">
+                                    <div class="input-group-append">
+                                        <span style="background-color: #17a2b8;" class="input-group-text"
+                                            id="togglePassword">
+                                            <i class="nav-icon fas fa-solid fa-eye" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="password_confirmation">Xác Nhận Mật Khẩu</label>
+                                <div class="input-group">
+                                    <input type="password" name="password_confirmation" id="password_confirmation"
+                                        class="form-control" placeholder="Nhập lại mật khẩu">
+                                    <div class="input-group-append">
+                                        <span style="background-color: #17a2b8;" class="input-group-text"
+                                            id="toggleConfirmPassword">
+                                            <i class="nav-icon fas fa-solid fa-eye" aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="password_confirmation">Xác Nhận Mật Khẩu</label>
-                        <div class="input-group">
-                            <input type="password" name="password_confirmation" id="password_confirmation"
-                                class="form-control" placeholder="Nhập lại mật khẩu">
-                            <div class="input-group-append">
-                                <span style="background-color: #17a2b8;" class="input-group-text"
-                                    id="toggleConfirmPassword">
-                                    <i class="nav-icon fas fa-solid fa-eye" aria-hidden="true"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <label for="menu">Email</label>
-                        <input type="text" name="email" value="{{ old('email') }}" class="form-control"
-                            placeholder="Nhập email">
-                    </div>
-                </div>
-
             </div>
 
             <div class="card-footer">

@@ -5,12 +5,17 @@
         <!-- Sidebar user (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex border-bottom">
             <div class="image">
-                <img src="/template/admin/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                @if (Auth::check() && Auth::user()->thumb)
+                    <img src="{{ Auth::user()->thumb }}" class="img-circle elevation-2" alt="{{ Auth::user()->name }}">
+                @else
+                    <img src="/template/admin/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                @endif
             </div>
             <div class="info">
-                <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+                <a href="{{ route('admin') }}" class="d-block">{{ Auth::user()->name }}</a>
             </div>
         </div>
+
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column border-bottom" data-widget="treeview" role="menu"
                 data-accordion="false">
@@ -122,7 +127,7 @@
                     </ul>
                 </li>
 
-                <li class="nav-item border-bottom mb-2">
+                <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-solid fa-utensils"></i>
                         <p> Thực Đơn </p>
@@ -138,6 +143,59 @@
                             <a href="/admin/items/list" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Danh Sách Thực Đơn</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item border-bottom mb-2">
+                    <a href="" class="nav-link">
+                        <i class="nav-icon fas fa-solid fa-comments"></i>
+                        <p> Bình Luận </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/admin/reviews/waiting" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Duyệt Bình Luận</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/reviews/list" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Danh Sách Bình Luận</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="/admin/reviews/cancel" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Bình Luận Bị Hủy</p>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-solid fa-address-card"></i>
+                        <p> Tài Khoản
+
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/admin/accounts/add" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Thêm Tài Khoản</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/accounts/list" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Danh Sách Tài Khoản</p>
                             </a>
                         </li>
                     </ul>
@@ -184,7 +242,7 @@
                         </p>
                     </a>
                 </li>
-                
+
                 <li class="nav-item">
                     <a href="/admin/statistics" class="nav-link">
                         <i class="nav-icon fas fa-solid fa-chart-line"></i>
@@ -192,29 +250,6 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-solid fa-address-card"></i>
-                        <p> Tài Khoản
-
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="/admin/accounts/add" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Thêm Tài Khoản</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/accounts/list" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Danh Sách Tài Khoản</p>
-                            </a>
-                        </li>
-
-                    </ul>
-                </li>
 
                 <li class="nav-item">
                     <a href="{{ route('logout') }}" class="nav-link"

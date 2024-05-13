@@ -10,11 +10,13 @@ use App\Http\Controllers\Admin\Login\LoginController;
 use App\Http\Controllers\Admin\MainController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\StatisticController;
 use App\Http\Controllers\Admin\TableController;
 use App\Http\Controllers\Admin\UploadController;
 use App\Http\Controllers\ItemController as ControllersItemController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController as ControllersProductController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
@@ -52,6 +54,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('admin')->group(function () {
 
+       /*  Route::post('/statistics', [StatisticController::class, 'statistics'])->name('statistics'); */
+        
         Route::get('/', [MainController::class, 'index'])->name('admin');
         Route::get('main', [MainController::class, 'index']);
         Route::get('welcome', [MainController::class, 'index']);
@@ -59,7 +63,9 @@ Route::middleware(['auth'])->group(function () {
 
         #Customer
         Route::get('customers/show', [CustomerController::class, 'show']);
-        Route::get('statistics', [StatisticController::class, 'statistics']);
+
+        #Statistics
+        /* Route::post('/statistics', [StatisticController::class, 'statistics'])->name('statistics'); */
 
 
         #Menu
@@ -143,9 +149,21 @@ Route::middleware(['auth'])->group(function () {
             Route::post('select-table', [CartController::class, 'selectTableForCustomer']);
             Route::post('pay', [CartController::class, 'savePaymentOption']);
         });
+
+        Route::prefix('reviews')->group(function () {
+            Route::post('/review', [ReviewController::class, 'store'])->name('review');
+            Route::get('list',[ReviewController::class, 'index']);
+            Route::DELETE('destroy', [ReviewController::class, 'destroy']);
+            Route::post('update-status', [ReviewController::class, 'updateStatus'])->name('reviews.update_status');
+            Route::get('waiting', [ReviewController::class, 'waiting']);
+            Route::get('cancel', [ReviewController::class, 'cancel']);
+        });
+
     });
 
     Route::get('/invoices/{customerId}/generate-pdf', [InvoiceController::class, 'generatePDF']);
+    Route::match(['get', 'post'], '/admin/statistics', [StatisticController::class, 'statistics'])->name('statistics');
+
 });
 
 Route::get('/', [App\Http\Controllers\MainController::class, 'index'])->name('home');
@@ -163,3 +181,6 @@ Route::get('carts', [App\Http\Controllers\CartController::class, 'show']);
 Route::post('update-cart', [App\Http\Controllers\CartController::class, 'update']);
 Route::get('carts/delete/{id}', [App\Http\Controllers\CartController::class, 'remove']);
 Route::post('carts', [App\Http\Controllers\CartController::class, 'addCart']);
+Route::get('/orders/{id}', [App\Http\Controllers\CartController::class, 'summary'])->name('order.summary');
+
+Route::post('/vnpay_payment',[PaymentController::class, 'vnpay_payment']);

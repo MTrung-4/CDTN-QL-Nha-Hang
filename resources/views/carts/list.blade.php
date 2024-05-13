@@ -122,46 +122,6 @@
                             </button>
                         </div>
                     </div>
-                    <div class="col-sm-10 col-lg-7 col-xl-5 m-lr-auto m-b-50">
-                        <!-- Thay đổi lớp lưới từ col-lg-5 và col-xl-3 sang col-lg-7 và col-xl-5 -->
-                        <div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
-                            <h4 class="mtext-109 cl2 p-b-30">
-                                Phương Thức Thanh Toán
-                            </h4>
-
-                            <div class="d-flex flex-column"> <!-- Sử dụng Flexbox để chia cột dọc -->
-                                <div style="width=100px" class="btn-group">
-                                    <button type="button" class="btn btn-primary dropdown-toggle"
-                                        data-bs-toggle="dropdown">Chuyển Khoản</button>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <p>Số Tài Khoản: 6011309481</p>
-                                        </li>
-                                        <li>
-                                            <p>Ngân Hàng: BIDV</p>
-                                        </li>
-                                        <li>
-                                            <p>Tên: Trần Nguyễn Minh Trung</p>
-                                        </li>
-                                    </ul>
-                                    <button type="button" class="btn btn-primary">Mã QR</button>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-primary dropdown-toggle"
-                                            data-bs-toggle="dropdown">VNPAY</button>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#">Tablet</a></li>
-                                            <li><a class="dropdown-item" href="#">Smartphone</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-
-
-
                 </div>
             </div>
         @else

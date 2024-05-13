@@ -19,11 +19,11 @@
                 <th style="width: 50px">ID</th>
                 <th>Tên Khách Hàng</th>
                 <th>SDT</th>
-                <th>Thời Gian</th>
+                <th>Thời Gian Dùng</th>
                 <th>Trạng Thái</th>
                 <th>Đã Thanh Toán</th>
                 <th>Tiền KH Thanh Toán (Tiền Mặt)</th>
-                <th>Cập Nhật</th>
+                <th>Thời Gian Đặt</th>
                 <th>&nbsp;</th>
             </tr>
         </thead>
@@ -37,7 +37,7 @@
                     <td style="color: green; font-weight: bold">{{ $cart->status === 1 ? 'Đã Xong' : ''}}</td>
                     <td>{{  $cart->pay_option }}</td>
                     <td>{{ $cart->pay_money }}</td>
-                    <td>{{ $cart->customer->updated_at }}</td>
+                    <td>{{ $cart->customer->created_at }}</td>
                     <td>
                         <a class="btn btn-primary btn-sm view-btn" href="/admin/customers/view/{{ $cart->customer->id }}">
                             <i class="fas fa-eye"></i>

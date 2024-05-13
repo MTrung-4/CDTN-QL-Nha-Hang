@@ -1,5 +1,12 @@
 @extends('main')
 @section('content')
+    <style>
+        .comment-container {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+    </style>
     <div class="container p-t-80">
         <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
             <a href="/" class="stext-101 cl8 hov-cl1 trans-04">
@@ -25,7 +32,7 @@
                 <div class="col-md-6 col-lg-7 p-b-30">
                     <div class="p-l-25 p-r-30 p-lr-0-lg">
                         <div class="wrap-slick3 flex-sb flex-w">
-    
+
 
                             <div class="slick3 gallery-lb slick-initialized slick-slider slick-dotted">
                                 <div class="slick-list draggable">
@@ -37,7 +44,7 @@
                                             tabindex="0" role="tabpanel" id="slick-slide10"
                                             aria-describedby="slick-slide-control10">
                                             <div class="wrap-pic-w pos-relative">
-                                                <img src="{{ $product->thumb }}" alt="{{  $product->thumb }}">
+                                                <img src="{{ $product->thumb }}" alt="{{ $product->thumb }}">
 
                                                 <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
                                                     href="{{ $product->thumb }}" tabindex="0">
@@ -58,7 +65,7 @@
                         @include('admin.users.alert')
 
                         <h4 style="font-size: 28px; font-weight: bold" class="mtext-105 cl2 js-name-detail p-b-14">
-                           {{ $title }}
+                            {{ $title }}
                         </h4>
 
                         <span class="mtext-106 cl2">
@@ -100,7 +107,7 @@
                                 </div>
                             </div>
                         </div>
-                
+
                     </div>
                 </div>
             </div>
@@ -116,6 +123,10 @@
 
                         <li class="nav-item p-b-10">
                             <a class="nav-link" data-toggle="tab" href="#information" role="tab">Mô tả chi tiết</a>
+                        </li>
+
+                        <li class="nav-item p-b-10">
+                            <a class="nav-link" data-toggle="tab" href="#reviews" role="tab">Đánh giá</a>
                         </li>
                     </ul>
 
@@ -142,18 +153,109 @@
                                 </div>
                             </div>
                         </div>
+
+                        @php
+                            $reviews = $product->reviews()->orderBy('id', 'desc')->get();
+                        @endphp
+                        <div class="tab-pane fade" id="reviews" role="tabpanel">
+                            <div class="row">
+                                <div class="col-sm-10 col-md-8 col-lg-6 m-lr-auto">
+                                    <div class="p-b-30 m-lr-15-sm">
+                                        <!-- Review -->
+                                        <div class="comment-container">
+                                            @foreach ($reviews as $review)
+                                                <div class="flex-w flex-t p-b-68">
+                                                    <div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
+                                                        <img src="/template/images/an-danh2.jpg" alt="AVATAR">
+                                                    </div>
+
+                                                    <div class="size-207">
+                                                        <div class="flex-w flex-sb-m p-b-17">
+                                                            <span class="mtext-107 cl2 p-r-20">
+                                                                {{ $review->user->name }}
+                                                            </span>
+
+                                                            <span style="margin-right: 10px" class="fs-18 cl11">
+                                                                @if ($review->status == 2)
+                                                                    @for ($i = 1; $i <= $review->rating; $i++)
+                                                                        <i class="fa fa-star"></i>
+                                                                    @endfor
+                                                                @endif
+                                                            </span>
+                                                        </div>
+
+                                                        <p class="stext-102 cl6">
+                                                            @if ($review->status == 2)
+                                                                {{ $review->content }}
+                                                            @elseif($review->status == 1)
+                                                                Đã bị xóa vì nội dung không phù hợp.
+                                                            @else
+                                                                Đang chờ duyệt.
+                                                            @endif
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+
+                                        @if (auth()->check())
+                                            <!-- Add review -->
+                                            <form class="w-full" method="POST" action="{{ route('review') }}">
+                                                @csrf
+                                                <h5 class="mtext-108 cl2 p-b-7">
+                                                    Bình luận
+                                                </h5>
+                                                <input name="product_id" value="{{ $product->id }}" type="hidden">
+
+                                                <div class="flex-w flex-m p-t-50 p-b-23">
+                                                    <span class="stext-102 cl3 m-r-16">
+                                                        Đánh giá
+                                                    </span>
+
+                                                    <span class="wrap-rating fs-18 cl11 pointer">
+                                                        <i class="item-rating pointer zmdi zmdi-star-outline"></i>
+                                                        <i class="item-rating pointer zmdi zmdi-star-outline"></i>
+                                                        <i class="item-rating pointer zmdi zmdi-star-outline"></i>
+                                                        <i class="item-rating pointer zmdi zmdi-star-outline"></i>
+                                                        <i class="item-rating pointer zmdi zmdi-star-outline"></i>
+                                                        <input class="dis-none" type="number" name="rating">
+                                                    </span>
+                                                </div>
+
+                                                <div class="row p-b-25">
+                                                    <div class="col-12 p-b-5">
+                                                        <label class="stext-102 cl3" for="review">Nội dung đánh
+                                                            giá</label>
+                                                        <textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10" id="review" name="content"></textarea>
+                                                    </div>
+                                                </div>
+
+                                                <button
+                                                    class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10">
+                                                    Gửi
+                                                </button>
+                                            </form>
+                                        @else
+                                            <a href="{{ route('login') }}" class="stext-102 cl2 hov-cl1 trans-04">Đăng
+                                                nhập để bình luận.</a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </section>
 
 
-        <div class="bg6 flex-c-m flex-w size-302 m-t-73 p-tb-15">
+    <div class="bg6 flex-c-m flex-w size-302 m-t-73 p-tb-15">
 
-            <span class="stext-107 cl6 p-lr-25">
-                Loại: {{ $product->menu->name }}
-            </span>
-        </div>
+        <span class="stext-107 cl6 p-lr-25">
+            Loại: {{ $product->menu->name }}
+        </span>
+    </div>
     </section>
 
     <section class="sec-relate-product bg0 p-t-45 p-b-105">

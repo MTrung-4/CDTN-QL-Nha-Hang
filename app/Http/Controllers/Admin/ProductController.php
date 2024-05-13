@@ -95,8 +95,8 @@ class ProductController extends Controller
         }
 
         // Thêm các giá trị mẫu vào mảng types và units
-        $types = array_merge($types, ['type1', 'type2', 'type3']);
-        $units = array_merge($units, ['unit1', 'unit2', 'unit3']);
+        $types = array_merge($types, ['Món ăn', 'Thức uống']);
+        $units = array_merge($units, ['Phần', 'Hộp']);
 
         return view('admin.product.edit', [
             'title' => 'Chỉnh Sửa Sản Phẩm',

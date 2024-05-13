@@ -105,6 +105,9 @@ class CartService
 
             $this->infoProductCart($carts, $customer->id);
 
+            // Lưu cart_id vào session
+            Session::put('customer_id', $customer->id);
+
             DB::commit();
             Session::flash('success', 'Đặt Hàng Thành Công');
 
@@ -187,7 +190,7 @@ class CartService
     public function getApproveCard()
     {
         return Cart::whereNotNull('pay_option') // Chỉ lấy các bản ghi có giá trị trong trường 'pay_option'
-            ->where('status', 1) // Chỉ lấy các bản ghi có status = 1
+            ->where('status', 2) // Chỉ lấy các bản ghi có status = 2
             ->orderByDesc('updated_at') // Sắp xếp theo thời gian cập nhật giảm dần
             ->paginate(15);
     }

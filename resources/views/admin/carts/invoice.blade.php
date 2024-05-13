@@ -64,7 +64,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3>Hóa Don</h3>
+                        <p style="font-size: 50px">Hóa Đơn</p>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -84,11 +84,11 @@
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>Tên sản phẩm</th>
-                                        <th>Số lượng</th>
-                                        <th>Đơn giá</th>
-                                        <th>Thành tiền</th>
+                                        <th><strong>#</strong></th>
+                                        <th><strong>Tên sản phẩm<strong></th>
+                                        <th><strong>Số lượng</strong></th>
+                                        <th><strong>Đơn giá</strong></th>
+                                        <th><strong>Thành tiền</strong></th>
                                     </tr>
                                 </thead>
                                 <tbody>

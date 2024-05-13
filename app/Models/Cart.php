@@ -37,5 +37,4 @@ class Cart extends Model
     {
         return $this->belongsto(Customer::class);
     }
-    
 }

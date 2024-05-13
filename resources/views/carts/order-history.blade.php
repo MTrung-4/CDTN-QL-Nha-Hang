@@ -105,10 +105,10 @@
                                                                 </td>
                                                                 <td class="column-2">{{ $cart->product->name }}</td>
                                                                 <td class="column-3">
-                                                                    {{ number_format($cart->price, 0, '', '.') }}</td>
+                                                                    {{ number_format($cart->price, 0, '', '.') }} đ</td>
                                                                 <td class="column-4">{{ $cart->qty }}</td>
                                                                 <td class="column-5">
-                                                                    {{ number_format($price, 0, '', '.') }}</td>
+                                                                    {{ number_format($price, 0, '', '.') }} đ</td>
                                                             </tr>
                                                         @endforeach
                                                     </tbody>

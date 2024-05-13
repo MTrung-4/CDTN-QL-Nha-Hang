@@ -19,8 +19,8 @@
                 <th style="width: 50px">ID</th>
                 <th>Tên Khách Hàng</th>
                 <th>SDT</th>
-                <th>Thời Gian</th>
-                <th>Cập Nhật</th>
+                <th>Thời Gian Dùng</th>
+                <th>Thời Gian Đặt</th>
                 <th style="width: 150px">Xác Nhận</th>
                 <th style="width: 100px">&nbsp;</th>
             </tr>
@@ -32,7 +32,7 @@
                     <td>{{ $customer->name }}</td>
                     <td>{{ $customer->phone }}</td>
                     <td>{{ $customer->time }}</td>
-                    <td>{{ $customer->updated_at }}</td>
+                    <td>{{ $customer->created_at }}</td>
                     <td>
                         <!-- Nút duyệt đơn -->
                         <button style="width:2.3rem; padding: .25rem .5rem;" class="btn btn-success approve-btn"
@@ -49,11 +49,6 @@
                     <td>
                         <a class="btn btn-view btn-sm view-btn" href="/admin/customers/view/{{ $customer->id }}">
                             <i class="fas fa-eye"></i>
-                        </a>
-
-                        <a class="btn btn-danger btn-sm"
-                            onclick="removeRow({{ $customer->id }}, '/admin/customers/destroy')">
-                            <i class="fas fa-trash"></i>
                         </a>
                     </td>
                 </tr>
