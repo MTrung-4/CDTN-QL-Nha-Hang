@@ -1,15 +1,8 @@
 @extends('main')
 
 @section('content')
-    <div class="notify" style="margin-top:62.2px; text-align:center">
-        @if (Session::has('success'))
-            <div class="alert alert-success" role="alert">
-                {{ Session::get('success') }}
-            </div>
-        @endif
-    </div>
     <form class="bg0 p-t-130 p-b-85 m-l-25 m-r--38 m-lr-0-xl" method="post">
-        @include('admin.users.alert')
+        @include('admin.users.alert-web')
         <input type="hidden" name="user_id" value="{{ Auth::id() }}">
         @if (count($products) != 0)
             <div class="container">
@@ -133,6 +126,16 @@
         @endif
     </form>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const successParam = urlParams.get('success');
+
+            if (successParam === 'true') {
+                alert('Đặt bàn thành công!');
+            }
+        });
+    </script>
 
 
 @endsection

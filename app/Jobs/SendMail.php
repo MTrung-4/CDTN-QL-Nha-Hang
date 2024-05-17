@@ -16,16 +16,19 @@ class SendMail implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $email;
+    protected $customerData;
+
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($email)
+    public function __construct($email, $customerData)
     {
         $this->email = $email;
+        $this->customerData = $customerData;
     }
-
     /**
      * Execute the job.
      *
@@ -33,6 +36,6 @@ class SendMail implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to($this->email)->send(new OrderShipped());
+        Mail::to($this->email)->send(new OrderShipped($this->customerData));
     }
 }

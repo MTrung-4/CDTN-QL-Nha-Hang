@@ -15,12 +15,13 @@ class SliderController extends Controller
     public function __construct(SliderService $slider)
     {
         $this->slider = $slider;
+        $this->middleware('checkRole:admin, staff');
     
     }
 
     public function create()
     {
-       
+        $this->authorize('create', Slider::class);
         return view('admin.slider.add', [
             'title' => 'Thêm Slider Mới'
         ]);
@@ -28,9 +29,10 @@ class SliderController extends Controller
 
     public function store(Request $request)
     {
+        $this->authorize('create', Slider::class);
        
         $this->validate($request, [
-            'name' => 'required|string|max:255|unique:products,name',
+            'name' => 'required|string|max:255|unique:sliders,name',
             'thumb' => 'required',
         ], [
             'name.required' => 'Tên slider không được để trống',
@@ -44,7 +46,7 @@ class SliderController extends Controller
 
     public function index()
     {
-       
+        $this->authorize('view', Slider::class);
         return view('admin.slider.list', [
             'title' => 'Danh Sách Slider Mới Nhất',
             'sliders' => $this->slider->get()
@@ -53,7 +55,7 @@ class SliderController extends Controller
 
     public function edit(Slider $slider)
     {
-       
+        $this->authorize('edit', Slider::class);
         return view('admin.slider.edit', [
             'title' => 'Chỉnh Sửa Slider',
             'slider' => $slider
@@ -62,7 +64,7 @@ class SliderController extends Controller
 
     public function update(Request $request, Slider $slider)
     {
-       
+        $this->authorize('update', Slider::class);
         $this->validate($request, [
             'name' => 'required|string|max:255',
             'thumb' => 'required',
@@ -80,7 +82,7 @@ class SliderController extends Controller
 
     public function destroy(Request $request)
     {
-       
+        $this->authorize('delete', Slider::class);
         $result = $this->slider->destroy($request);
         if ($result) {
             return response()->json([

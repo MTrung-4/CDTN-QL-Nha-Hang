@@ -16,13 +16,14 @@ class ProductController extends Controller
     public function __construct(ProductAdminService $productService)
     {
         $this->productService = $productService;
+        $this->middleware('checkRole:admin, staff');
     }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-
+        $this->authorize('view', Product::class);
         return view('admin.product.list', [
             'title' => 'Danh Sách Sản Phẩm',
             'products' => $this->productService->get()
@@ -34,6 +35,7 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Product::class);
         $types = Product::distinct()->pluck('type')->toArray();
         $units = Product::distinct()->pluck('unit')->toArray();
         if (empty($types)) {
@@ -45,8 +47,8 @@ class ProductController extends Controller
         }
 
         // Thêm các giá trị mẫu vào mảng types và units
-        $types = array_merge($types, ['type1', 'type2', 'type3']);
-        $units = array_merge($units, ['unit1', 'unit2', 'unit3']);
+        $types = array_merge($types, ['Thức uống']);
+        $units = array_merge($units, ['Hộp']);
 
         return view('admin.product.add', [
             'title' => 'Thêm Sản Phẩm Mới',
@@ -61,7 +63,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-
+        $this->authorize('create', Product::class);
         $this->validate($request, [
             'name' => 'required|string|max:255|unique:products,name',
             'thumb' => 'required',
@@ -84,6 +86,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
+        $this->authorize('edit', Product::class);
         $types = Product::distinct()->pluck('type')->toArray();
         $units = Product::distinct()->pluck('unit')->toArray();
         if (empty($types)) {
@@ -95,8 +98,8 @@ class ProductController extends Controller
         }
 
         // Thêm các giá trị mẫu vào mảng types và units
-        $types = array_merge($types, ['Món ăn', 'Thức uống']);
-        $units = array_merge($units, ['Phần', 'Hộp']);
+        $types = array_merge($types, ['Thức uống']);
+        $units = array_merge($units, ['Hộp']);
 
         return view('admin.product.edit', [
             'title' => 'Chỉnh Sửa Sản Phẩm',
@@ -112,7 +115,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-
+        $this->authorize('update', Product::class);
         $this->validate($request, [
             'name' => 'required|string|max:255',
             'thumb' => 'required',
@@ -137,7 +140,7 @@ class ProductController extends Controller
      */
     public function destroy(Request $request)
     {
-
+        $this->authorize('delete', Product::class);
         $result = $this->productService->delete($request);
         if ($request) {
             return response()->json([
@@ -148,5 +151,4 @@ class ProductController extends Controller
 
         return response()->json(['error' => true]);
     }
-     
 }

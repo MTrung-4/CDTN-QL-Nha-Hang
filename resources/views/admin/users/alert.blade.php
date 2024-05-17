@@ -1,3 +1,16 @@
+<style>
+    .alert.alert-danger {
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .alert.alert-success {
+        text-align: center;
+        font-weight: bold;
+    }
+</style>
+
+
 @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
@@ -15,17 +28,20 @@
     </div>
 @endif
 
-{{-- @if (Session::has('success'))
+@if (Session::has('success'))
     <div class="alert alert-success">
         {{ Session::get('success') }}
     </div>
-@endif --}}
+@endif
 
 
 <script>
+    // Kiểm tra nếu tồn tại thông báo thành công thì thực hiện ẩn sau 3 giây
     @if (Session::has('success'))
-        setTimeout(function() {
-            showSuccessMessage("{{ Session::get('success') }}");
-        }, 1000); // 2000 milliseconds = 2 seconds
+        setTimeout(() => {
+            document.querySelector('.alert-success').style.display = 'none';
+        }, 5000); // 3 giây
     @endif
 </script>
+
+

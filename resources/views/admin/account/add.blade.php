@@ -19,7 +19,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="product">Ảnh Sản Phẩm:</label>
+                        <label for="product">Ảnh:</label>
                         <div class="thumb">
                             <input type="file" class="form-control" id="upload">
                             <div class="m-2" id="image_show">
@@ -32,18 +32,20 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-8">
-                                <label for="menu">Tên Tài Khoản</label>
+                                <label for="menu">Tên Tài Khoản (*):</label>
                                 <input type="text" name="name" value="{{ old('name') }}" class="form-control"
                                     placeholder="Nhập tên tài khoản">
                             </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="menu">Vai Trò</label>
+                                    <label for="menu">Vai Trò (*):</label>
                                     <select name="role" class="form-control">
                                         <option value="user" {{ old('role') === 'user' ? 'selected' : '' }}>Người Dùng
                                         </option>
                                         <option value="admin" {{ old('role') === 'admin' ? 'selected' : '' }}>Quản trị viên
+                                        </option>
+                                        <option value="staff" {{ old('role') === 'staff' ? 'selected' : '' }}>Nhân viên
                                         </option>
                                     </select>
                                 </div>
@@ -53,7 +55,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="fullname">Họ và Tên</label>
+                                    <label for="fullname">Họ và Tên:</label>
                                     <input type="text" name="fullname" value="{{ old('fullname') }}" class="form-control"
                                         placeholder="Nhập họ và tên">
                                 </div>
@@ -62,7 +64,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="phone">Số Điện Thoại</label>
+                                    <label for="phone">Số Điện Thoại:</label>
                                     <input type="text" name="phone" value="{{ old('phone') }}" class="form-control"
                                         placeholder="Nhập số điện thoại">
                                 </div>
@@ -72,7 +74,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="address">Địa Chỉ</label>
+                                    <label for="address">Địa Chỉ:</label>
                                     <input type="text" name="address" value="{{ old('address') }}" class="form-control"
                                         placeholder="Nhập địa chỉ">
                                 </div>
@@ -80,7 +82,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="menu">Email</label>
+                                    <label for="menu">Email (*):</label>
                                     <input type="text" name="email" value="{{ old('email') }}" class="form-control"
                                         placeholder="Nhập email">
                                 </div>
@@ -91,7 +93,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="password">Mật Khẩu</label>
+                                <label for="password">Mật Khẩu (*):</label>
                                 <div class="input-group">
                                     <input type="password" name="password" id="password" class="form-control"
                                         placeholder="Nhập mật khẩu">
@@ -107,7 +109,7 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="password_confirmation">Xác Nhận Mật Khẩu</label>
+                                <label for="password_confirmation">Xác Nhận Mật Khẩu (*):</label>
                                 <div class="input-group">
                                     <input type="password" name="password_confirmation" id="password_confirmation"
                                         class="form-control" placeholder="Nhập lại mật khẩu">
@@ -155,9 +157,5 @@
             const eyeIconClass = type === 'password' ? 'fa-eye' : 'fa-eye-slash';
             toggleConfirmPassword.innerHTML = `<i class="fa ${eyeIconClass}" aria-hidden="true"></i>`;
         });
-
-        function showSuccessMessage(message) {
-            alert(message);
-        }
     </script>
 @endsection

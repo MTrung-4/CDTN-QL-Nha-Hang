@@ -74,8 +74,8 @@ class ItemService
 
 
     //Website
-    public function getAllItems()
+    public function getAllItemsPaginated($perPage = 5)
     {
-        return Item::where('active', true)->with('products')->get();
+        return Item::where('active', 1)->orderByDesc('id')->with('products')->paginate($perPage);
     }
 }

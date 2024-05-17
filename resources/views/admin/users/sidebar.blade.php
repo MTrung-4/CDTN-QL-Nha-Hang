@@ -148,7 +148,7 @@
                     </ul>
                 </li>
 
-                <li class="nav-item border-bottom mb-2">
+                <li class="nav-item">
                     <a href="" class="nav-link">
                         <i class="nav-icon fas fa-solid fa-comments"></i>
                         <p> Bình Luận </p>
@@ -173,9 +173,15 @@
                                 <p>Bình Luận Bị Hủy</p>
                             </a>
                         </li>
-
-
                     </ul>
+                </li>
+
+                <li class="nav-item border-bottom mb-2">
+                    <a href="/admin/feedbacks/feedback" class="nav-link">
+                        <i class="nav-icon fas fa-solid fa-user-plus"></i>
+                        <p> Phản Hồi
+                        </p>
+                    </a>
                 </li>
 
                 <li class="nav-item">
@@ -199,6 +205,14 @@
                             </a>
                         </li>
                     </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="/admin/customers/show" class="nav-link">
+                        <i class="nav-icon fas fa-solid fa-user-plus"></i>
+                        <p> Khách Hàng
+                        </p>
+                    </a>
                 </li>
 
                 <li class="nav-item">
@@ -235,13 +249,6 @@
                     </ul>
                 </li>
 
-                <li class="nav-item">
-                    <a href="/admin/customers/show" class="nav-link">
-                        <i class="nav-icon fas fa-solid fa-user-plus"></i>
-                        <p> Khách Hàng
-                        </p>
-                    </a>
-                </li>
 
                 <li class="nav-item">
                     <a href="/admin/statistics" class="nav-link">

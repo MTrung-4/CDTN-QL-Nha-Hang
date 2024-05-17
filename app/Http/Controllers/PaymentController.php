@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
+use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class PaymentController extends Controller
 {
@@ -74,5 +77,26 @@ class PaymentController extends Controller
         } else {
             echo json_encode($returnData);
         }
+    }
+
+    public function cancelOrder($id)
+    {
+        try {
+            // Xác định đơn hàng cần hủy từ bảng 'carts'
+            $cart = Cart::findOrFail($id);
+
+            // Xác định thông tin khách hàng liên quan từ bảng 'customers'
+            $customer = Customer::findOrFail($cart->customer_id);
+
+            // Xóa thông tin khách hàng
+            $customer->delete();
+
+            // Xóa đơn hàng
+            $cart->delete();
+        } catch (\Exception $e) {
+        }
+        session()->flash('success', 'Đơn hàng đã được hủy thành công.');
+        // Chuyển hướng về trang home
+        return redirect()->route('carts');
     }
 }

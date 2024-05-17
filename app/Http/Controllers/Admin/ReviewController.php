@@ -4,14 +4,19 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Review;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 
 class ReviewController extends Controller
 {
-
+    public function __construct()
+    {
+        $this->middleware('checkRole:admin, staff');
+    }
 
     public function index()
     {
+        $this->authorize('view', Review::class);
         $reviews = Review::where('status', 2)
             ->orderByDesc('id')
             ->paginate(15);
@@ -24,6 +29,7 @@ class ReviewController extends Controller
 
     public function destroy(Request $request)
     {
+        $this->authorize('delete', Review::class);
         $review = Review::find($request->input('id'));
 
         if ($review) {
@@ -50,13 +56,18 @@ class ReviewController extends Controller
     //web
     public function store(Request $request)
     {
-
         $review = Review::create([
             'product_id' => $request->product_id,
             'user_id' => auth()->id(),
             'content' => $request->content,
             'rating' => $request->rating
         ]);
+
+        if ($review) {
+            Session::flash('success', 'Đánh giá đã được thêm thành công.');
+        } else {
+            Session::flash('error', 'Đã xảy ra lỗi khi thêm đánh giá.');
+        }
 
         return redirect()->back();
     }
@@ -67,6 +78,7 @@ class ReviewController extends Controller
 
     public function updateStatus(Request $request)
     {
+        $this->authorize('update', Review::class);
         $reviewId = $request->input('review_id');
         $status = $request->input('status');
 
@@ -91,6 +103,7 @@ class ReviewController extends Controller
 
     public function waiting()
     {
+        $this->authorize('view', Review::class);
         $reviews = Review::whereNull('status')
             ->orderByDesc('id')->paginate(15);
 
@@ -102,6 +115,7 @@ class ReviewController extends Controller
 
     public function cancel()
     {
+        $this->authorize('view', Review::class);
         $reviews = Review::where('status', 1)
             ->orderByDesc('id')
             ->paginate(15);

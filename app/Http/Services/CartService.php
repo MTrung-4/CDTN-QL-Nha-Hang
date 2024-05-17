@@ -112,7 +112,7 @@ class CartService
             Session::flash('success', 'Đặt Hàng Thành Công');
 
             #Queue
-            SendMail::dispatch($request->input('email'))->delay(now()->addSeconds(2));
+            SendMail::dispatch($request->input('email'), $customerData)->delay(now()->addSeconds(2));
 
             Session::forget('carts');
         } catch (\Exception $err) {
@@ -189,9 +189,9 @@ class CartService
     //danh sach don duyet
     public function getApproveCard()
     {
-        return Cart::whereNotNull('pay_option') // Chỉ lấy các bản ghi có giá trị trong trường 'pay_option'
-            ->where('status', 2) // Chỉ lấy các bản ghi có status = 2
-            ->orderByDesc('updated_at') // Sắp xếp theo thời gian cập nhật giảm dần
+        return Cart::whereNotNull('pay_option') 
+            ->where('status', 2) 
+            ->orderByDesc('updated_at') 
             ->paginate(15);
     }
 

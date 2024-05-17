@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoice</title>
-    
+
     <style>
         body {
             font-family: DejaVu Sans !important;
@@ -55,6 +55,44 @@
         .text-right {
             text-align: right;
         }
+
+        .card-header.position-relative {
+            position: relative;
+        }
+
+        .created-at {
+            position: absolute;
+            top: 10px;
+            /* Thay đổi giá trị top tùy ý */
+            right: 10px;
+            /* Thay đổi giá trị right tùy ý */
+            font-size: 16px;
+            /* Thay đổi kích thước font tùy ý */
+            color: #333;
+            /* Thay đổi màu sắc tùy ý */
+        }
+
+        .bottom-texts {
+            position: absolute;
+            bottom: 10px;
+            /* Thay đổi giá trị bottom tùy ý */
+            right: 10px;
+            /* Thay đổi giá trị right tùy ý */
+            font-size: 16px;
+            /* Thay đổi kích thước font tùy ý */
+            color: #333;
+            /* Thay đổi màu sắc tùy ý */
+        }
+
+        .bottom-texts p {
+            margin: 0;
+            /* Loại bỏ margin mặc định */
+        }
+
+        .bottom-texts p:first-child {
+            margin-bottom: 5px;
+            /* Khoảng cách giữa hai dòng */
+        }
     </style>
 </head>
 
@@ -63,8 +101,9 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header position-relative">
                         <p style="font-size: 50px">Hóa Đơn</p>
+                        <p class="created-at"><strong>Ngày tạo:</strong> {{ date('Y-m-d H:i:s') }}</p>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -110,11 +149,16 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div class="bottom-texts">
+                            <p>Yen's Restaurant</p>
+                            <p>3/13A, Trần Quang Khải, Lộc Thọ, Nha Trang, Khánh Hòa</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 
 </body>
 

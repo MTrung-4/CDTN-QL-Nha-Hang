@@ -17,11 +17,12 @@ class TableController extends Controller
     public function __construct(TableService $tableService)
     {
         $this->tableService = $tableService;
+        $this->middleware('checkRole:admin, staff');
     }
 
     public function index()
     {
-
+        $this->authorize('view', Table::class);
         $customers = Customer::all();
         return view('admin.table.list', [
             'title' => 'Danh Sách Bàn Ăn',
@@ -32,6 +33,7 @@ class TableController extends Controller
 
     public function create()
     {
+        $this->authorize('create', Table::class);
         return view('admin.table.add', [
             'title' => 'Thêm Bàn Ăn Mới'
         ]);
@@ -39,6 +41,7 @@ class TableController extends Controller
 
     public function store(Request $request)
     {
+        $this->authorize('create', Table::class);
         $this->validate($request, [
             'name' => 'required|string|max:255|unique:products,name',
             'capacity' => 'required|numeric|min:0',
@@ -55,6 +58,7 @@ class TableController extends Controller
 
     public function edit(Table $table)
     {
+        $this->authorize('edit', Table::class);
         return view('admin.table.edit', [
             'title' => 'Chỉnh Sửa Bàn Ăn',
             'table' => $table
@@ -63,6 +67,7 @@ class TableController extends Controller
 
     public function update(Request $request, Table $table)
     {
+        $this->authorize('update', Table::class);
         $this->validate($request, [
             'name' => 'required|string|max:255',
             'capacity' => 'required|numeric|min:0',
@@ -83,6 +88,7 @@ class TableController extends Controller
 
     public function destroy(Request $request)
     {
+        $this->authorize('delete', Table::class);
         $result = $this->tableService->delete($request);
         if ($request) {
             return response()->json([
@@ -96,6 +102,7 @@ class TableController extends Controller
 
     public function updateStatus($id)
     {
+        $this->authorize('update', Table::class);
         // Lấy thông tin bàn từ ID
         $table = Table::findOrFail($id);
 

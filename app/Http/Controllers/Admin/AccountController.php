@@ -15,11 +15,13 @@ class AccountController extends Controller
     public function __construct(AccountService $account)
     {
         $this->account = $account;
+
+        $this->middleware('checkRole:admin, staff');
     }
 
     public function create()
     {
-
+        $this->authorize('create', User::class);
         return view('admin.account.add', [
             'title' => 'Thêm Người Dùng Mới',
         ]);
@@ -27,7 +29,7 @@ class AccountController extends Controller
 
     public function store(Request $request)
     {
-
+        $this->authorize('create', User::class);
         $this->validate($request, [
             'name' => 'required|string|max:255|unique:users,name',
             'role' => 'required|in:user,admin',
@@ -50,6 +52,7 @@ class AccountController extends Controller
 
     public function index()
     {
+        $this->authorize('create', User::class);
         return view('admin.account.list', [
             'title' => 'Danh Sách Người Dùng',
             'accounts' => $this->account->get()
@@ -58,7 +61,7 @@ class AccountController extends Controller
 
     public function edit(User $account)
     {
-
+        $this->authorize('edit', User::class);
         return view('admin.account.edit', [
             'title' => 'Chỉnh Sửa Người Dùng',
             'account' => $account,
@@ -67,7 +70,7 @@ class AccountController extends Controller
 
     public function update(Request $request, User $account)
     {
-
+        $this->authorize('update', User::class);
         $this->validate($request, [
             'name' => 'required|string|max:255',
             'name' => 'required|string|max:255',
@@ -87,7 +90,7 @@ class AccountController extends Controller
 
     public function destroy(Request $request)
     {
-
+        $this->authorize('delete', User::class);
         $result = $this->account->destroy($request);
         if ($result) {
             return response()->json([
@@ -102,8 +105,8 @@ class AccountController extends Controller
 
     public function information()
     {
-        $user = Auth::user(); 
-        return view('login.save_infor',[
+        $user = Auth::user();
+        return view('login.save_infor', [
             'title' => 'Cập nhật thông tin',
             'user' => $user
         ]);
@@ -112,18 +115,15 @@ class AccountController extends Controller
     public function save_infor(Request $request)
     {
         try {
-            $user = Auth::user(); 
-    
+            $user = Auth::user();
+
             $accountService = new AccountService();
             $accountService->update($request, $user);
-    
+
             return redirect()->route('account')->with('success', 'Thông tin cá nhân đã được cập nhật.');
         } catch (\Exception $err) {
             // Xử lý lỗi nếu có
             return redirect()->back()->with('error', 'Đã có lỗi xảy ra khi cập nhật thông tin cá nhân.');
         }
     }
-    
-    
-    
 }

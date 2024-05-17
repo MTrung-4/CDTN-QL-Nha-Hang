@@ -191,9 +191,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <script>
-        function showSuccessMessage(message) {
-            alert(message);
-        }
 
         // Lấy giá trị customer_id từ tham số query string
         const customerId = new URLSearchParams(window.location.search).get('customer_id');

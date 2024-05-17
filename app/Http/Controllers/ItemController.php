@@ -16,7 +16,7 @@ class ItemController extends Controller
 
     public function showItem()
     {
-        $items = $this->itemService->getAllItems();
+        $items = $this->itemService->getAllItemsPaginated();
         return view('Item.web_item', [
             'title' => 'Thực đơn',
             'items' => $items

@@ -44,11 +44,7 @@
             margin-top: 10px;
         }
     </style>
-    @if (Session::has('error'))
-        <div class="alert alert-danger">
-            {{ Session::get('error') }}
-        </div>
-    @endif
+    @include('admin.users.alert-web')
     <div class="container account-container">
         <form action="/admin/accounts/profile/store" method="POST" enctype="multipart/form-data">
             @csrf
@@ -97,10 +93,4 @@
 
         </form>
     </div>
-
-    <script>
-        function showSuccessMessage(message) {
-            alert(message);
-        }
-    </script>
 @endsection

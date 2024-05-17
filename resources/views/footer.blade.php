@@ -4,11 +4,11 @@
         <div class="row">
             <div class="col-sm-6 col-lg-3 p-b-50">
                 <h4 class="stext-301 cl0 p-b-30">
-                    Yen Restaurant
+                    Yen's Restaurant
                 </h4>
-                {{-- <ul>
-                    <img src="/template/images/">
-                </ul> --}}
+                <ul>
+                    <img src="/template/images/yen.png" style="width: 200px;">
+                </ul>
             </div>
 
             <div class="col-sm-6 col-lg-3 p-b-50">
@@ -32,7 +32,7 @@
 
                 <ul>
                     <p class="stext-107 cl7 size-201" style="text-align: justify;">
-        
+
                     </p>
 
                     <li class="p-b-10">
@@ -60,7 +60,7 @@
 
 
 <!--===============================================================================================-->
-<script src="/template/vendor/jquery/jquery-3.2.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <!--===============================================================================================-->
 <script src="/template/vendor/animsition/js/animsition.min.js"></script>
 <!--===============================================================================================-->
@@ -117,26 +117,6 @@
 
             $(this).addClass('js-addedwish-b2');
             $(this).off('click');
-        });
-    });
-
-    $('.js-addwish-detail').each(function() {
-        var nameProduct = $(this).parent().parent().parent().find('.js-name-detail').html();
-
-        $(this).on('click', function() {
-            swal(nameProduct, "is added to wishlist !", "success");
-
-            $(this).addClass('js-addedwish-detail');
-            $(this).off('click');
-        });
-    });
-
-    /*---------------------------------------------*/
-
-    $('.js-addcart-detail').each(function() {
-        var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
-        $(this).on('click', function() {
-            swal(nameProduct, "is added to cart !", "success");
         });
     });
 </script>

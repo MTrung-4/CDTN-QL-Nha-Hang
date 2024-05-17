@@ -19,13 +19,13 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="name">Tên bàn ăn:</label>
+                        <label for="name">Tên bàn ăn (*):</label>
                         <input type="text" class="form-control" id="name" name="name" value=" {{ $table->name }}">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="capacity">Sức chứa:</label>
+                        <label for="capacity">Sức chứa (*):</label>
                         <input type="number" class="form-control" id="capacity" name="capacity"
                             value="{{ $table->capacity }}" min="0">
                     </div>

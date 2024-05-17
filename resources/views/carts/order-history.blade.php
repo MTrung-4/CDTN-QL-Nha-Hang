@@ -35,7 +35,7 @@
                                             <td>{{ $order['customer']->email }}</td>
                                             <td>{{ $order['customer']->time }}</td>
                                             <td>{{ $order['customer']->qty }}</td>
-                                            <td>{{ $order['customer']->updated_at }}</td>
+                                            <td>{{ $order['customer']->created_at }}</td>
                                             <td>
                                                 <button class="btn btn-sm btn-info" onclick="toggleReservationInfo(this)">Xem
                                                     Thêm</button>

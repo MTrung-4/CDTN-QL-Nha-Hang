@@ -12,14 +12,17 @@ class OrderShipped extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $customerData;
+
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($customerData)
     {
-        //
+        $this->customerData = $customerData;
     }
 
     /**
@@ -29,6 +32,6 @@ class OrderShipped extends Mailable
      */
     public function build()
     {
-        return $this->view('mail.success');
+        return $this->view('mail.success')->with(['customerData' => $this->customerData]);
     }
 }

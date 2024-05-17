@@ -12,13 +12,13 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="name">Tên bàn ăn:</label>
+                        <label for="name">Tên bàn ăn (*):</label>
                         <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" placeholder="Nhập tên bàn ăn">
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="capacity">Sức chứa:</label>
+                        <label for="capacity">Sức chứa (*):</label>
                         <input type="number" class="form-control" id="capacity" name="capacity" min="0" value="{{ old('capacity') }}" placeholder="Nhập sức chứa">
                     </div>
                 </div>
@@ -29,7 +29,7 @@
             </div>
 
             <div class="form-group">
-                <label>Trạng thái</label>
+                <label>Trạng thái (*):</label>
                 <div class="custom-control custom-radio">
                     <input class="custom-control-input" value="1" type="radio" id="active" name="active"
                         checked="">
@@ -44,9 +44,4 @@
             <button type="submit" class="btn btn-primary">Thêm Bàn ăn</button>
         </div>
     </form>
-    <script>
-        function showSuccessMessage(message) {
-            alert(message);
-        }
-    </script>
 @endsection

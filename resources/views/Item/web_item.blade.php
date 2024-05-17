@@ -95,5 +95,11 @@
                 </div>
             </div>
         @endforeach
+    
+        @if ($items->total() > $items->perPage())
+            {{ $items->links() }}
+        @endif
+    
     </div>
+    
 @endsection

@@ -27,7 +27,7 @@
         <div class="card-body">
             @csrf
             <div class="form-group">
-                <label for="name">Tên Thực Đơn:</label>
+                <label for="name">Tên Thực Đơn (*):</label>
                 <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}"
                     placeholder="Nhập tên thực đơn">
             </div>
@@ -37,7 +37,7 @@
             </div>
 
             <div class="form-group">
-                <label for="product_search">Chọn sản phẩm:</label>
+                <label for="product_search">Chọn sản phẩm (*):</label>
                 <div class="input-group" style="width: 1198px">
                     <select class="form-control select2" id="product_search" name="products[]" multiple
                         aria-placeholder="Nhấn để chọn sản phẩm">
@@ -63,7 +63,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="price">Giá:</label>
+                        <label for="price">Giá (*):</label>
                         <input type="number" class="form-control" id="price" name="price" min="0"
                             value="{{ old('price') }}" placeholder="Nhập tổng tiền">
                     </div>
@@ -77,7 +77,7 @@
             </div>
 
             <div class="form-group">
-                <label>Kích Hoạt</label>
+                <label>Kích Hoạt (*):</label>
                 <div class="custom-control custom-radio">
                     <input class="custom-control-input" value="1" type="radio" id="active" name="active"
                         checked="">
@@ -98,9 +98,6 @@
 
 
     <script>
-        function showSuccessMessage(message) {
-            alert(message);
-        }
 
         $(document).ready(function() {
             // Khởi tạo Select2 cho dropdown select

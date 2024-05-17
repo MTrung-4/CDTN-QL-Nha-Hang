@@ -41,7 +41,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="thumb">Ảnh Sản Phẩm:</label>
+                        <label for="thumb">Ảnh Sản Phẩm (*):</label>
                         <input type="file" class="form-control" id="upload">
                         <div id="image_show">
                             <a href="{{ $product->thumb }}" target="_blank">
@@ -53,12 +53,12 @@
                 </div>
                 <div class="col-md-8">
                     <div class="form-group">
-                        <label for="menu">Tên Sản Phẩm:</label>
+                        <label for="menu">Tên Sản Phẩm (*):</label>
                         <input type="text" name="name" value="{{ $product->name }}" class="form-control"
                             placeholder="Nhập tên sản phẩm">
                     </div>
                     <div class="form-group">
-                        <label for="menu">Menu:</label>
+                        <label for="menu">Menu (*):</label>
                         <select name="menu_id" class="form-control">
                             <option value="">--Chọn Danh Mục--</option>
                             @foreach ($menus as $menu)
@@ -71,7 +71,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="type">Loại:</label>
+                                    <label for="type">Loại (*):</label>
                                     <div class="input-group">
                                         <select name="type" id="type" class="form-control">
                                             <option value="">--Chọn Loại--</option>
@@ -89,7 +89,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="unit">Đơn Vị:</label>
+                                    <label for="unit">Đơn Vị (*):</label>
                                     <div class="input-group">
                                         <select name="unit" id="unit" class="form-control">
                                             <option value="">--Chọn Đơn Vị--</option>
@@ -117,13 +117,26 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="menu">Giá Bán:</label>
+                                <label for="menu">Giá Bán (*):</label>
                                 <input type="number" name="price_sale" value="{{ $product->price_sale }}"
                                     class="form-control">
                             </div>
                         </div>
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label for="active">Kích Hoạt (*):</label>
+                        <div class="custom-control custom-radio">
+                            <input class="custom-control-input" value="1" type="radio" id="active" name="active"
+                                {{ $product->active == 1 ? 'checked' : '' }}>
+                            <label for="active" class="custom-control-label">Có</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                            <input class="custom-control-input" value="0" type="radio" id="no_active" name="active"
+                                {{ $product->active == 0 ? 'checked' : '' }}>
+                            <label for="no_active" class="custom-control-label">Không</label>
+                        </div>
+                    </div>
+                </div>       
             </div>
             <div class="form-group">
                 <label>Ghi Chú:</label>
@@ -133,20 +146,6 @@
             <div class="form-group">
                 <label>Mô Tả Chi Tiết:</label>
                 <textarea name="content" id="content" class="form-control">{{ $product->content }}</textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="active">Kích Hoạt:</label>
-                <div class="custom-control custom-radio">
-                    <input class="custom-control-input" value="1" type="radio" id="active" name="active"
-                        {{ $product->active == 1 ? 'checked' : '' }}>
-                    <label for="active" class="custom-control-label">Có</label>
-                </div>
-                <div class="custom-control custom-radio">
-                    <input class="custom-control-input" value="0" type="radio" id="no_active" name="active"
-                        {{ $product->active == 0 ? 'checked' : '' }}>
-                    <label for="no_active" class="custom-control-label">Không</label>
-                </div>
             </div>
 
             <div class="button-group">

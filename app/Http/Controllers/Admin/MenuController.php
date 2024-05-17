@@ -16,12 +16,12 @@ class MenuController extends Controller
     public function __construct(MenuService $menuService)
     {
         $this->menuService = $menuService;
-
+        $this->middleware('checkRole:admin, staff');
     }
 
     public function create()
     {
-
+        $this->authorize('create', Menu::class);
         return view('admin.menu.add', [
             'title' => 'Thêm Danh Mục Mới',
             'menus' => $this->menuService->getParent()
@@ -31,7 +31,7 @@ class MenuController extends Controller
     public function store(CreateFormRequest $request)
     {
 
-
+        $this->authorize('create', Menu::class);
         $this->menuService->create($request);
 
         return redirect()->back();
@@ -39,7 +39,7 @@ class MenuController extends Controller
 
     public function index()
     {
-        
+        $this->authorize('view', Menu::class);
         return view('admin.menu.list', [
             'title' => 'Danh Sách Danh Mục Mới Nhất',
             'menus' => $this->menuService->getAll()
@@ -48,7 +48,7 @@ class MenuController extends Controller
 
     public function edit(Menu $menu)
     {
-       
+        $this->authorize('edit', Menu::class);
         return view('admin.menu.edit', [
             'title' => 'Chỉnh Sửa Danh Mục: ' . $menu->name,
             'menu' => $menu,
@@ -59,7 +59,7 @@ class MenuController extends Controller
     public function update(Menu $menu, CreateFormRequest $request)
     {
 
-        
+        $this->authorize('update', Menu::class);
         $this->menuService->update($request, $menu);
 
         return redirect('/admin/menus/list');
@@ -68,7 +68,7 @@ class MenuController extends Controller
     public function destroy(Request $request): JsonResponse
     {
 
-      
+        $this->authorize('delete', Menu::class);
         $result = $this->menuService->destroy($request);
         if ($result) {
             return response()->json([

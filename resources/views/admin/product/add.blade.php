@@ -42,7 +42,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="product">Ảnh Sản Phẩm:</label>
+                        <label for="product">Ảnh Sản Phẩm (*):</label>
                         <div class="thumb">
                             <input type="file" class="form-control" id="upload">
                             <div class="m-2" id="image_show">
@@ -55,7 +55,7 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-8">
-                                <label for="product">Tên Sản Phẩm:</label>
+                                <label for="product">Tên Sản Phẩm (*):</label>
                                 <input type="text" name="name" value="{{ old('name') }}" class="form-control"
                                     placeholder="Nhập tên sản phẩm">
                             </div>
@@ -73,7 +73,7 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="product">Loại:</label>
+                                <label for="product">Loại (*):</label>
                                 <div class="input-group">
                                     <select name="type" id="type" class="form-control">
                                         <option value="">--Chọn Loại--</option>
@@ -87,7 +87,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label for="product">Đơn Vị:</label>
+                                <label for="product">Đơn Vị (*):</label>
                                 <div class="input-group">
                                     <select name="unit" id="unit" class="form-control">
                                         <option value="">--Chọn Đơn Vị--</option>
@@ -111,14 +111,14 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="product">Giá Bán:</label>
+                                <label for="product">Giá Bán (*):</label>
                                 <input type="number" name="price_sale" value="{{ old('price_sale') }}"
                                     class="form-control">
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Kích Hoạt:</label>
+                        <label>Kích Hoạt (*):</label>
                         <div class="custom-control custom-radio">
                             <input class="custom-control-input" value="1" type="radio" id="active" name="active"
                                 checked="">
@@ -152,11 +152,7 @@
 @section('footer')
     <script>
         CKEDITOR.replace('content');
-
-        function showSuccessMessage(message) {
-            alert(message);
-        }
-
+        
         document.querySelectorAll('.add-option').forEach(function(element) {
             element.addEventListener('click', function() {
                 var target = this.getAttribute('data-target');

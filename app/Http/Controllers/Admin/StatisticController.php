@@ -89,7 +89,7 @@ class StatisticController extends Controller
             $revenueLabels = [];
             $revenueDataArray = [];
             $revenueData = Cart::join('customers', 'carts.customer_id', '=', 'customers.id')
-                ->where('carts.status', 0)
+                ->where('carts.status', 2)
                 ->whereBetween(DB::raw('DATE(customers.created_at)'), [$startDate, $endDate])
                 ->select(
                     DB::raw('DATE(customers.created_at) as date'),
@@ -163,13 +163,13 @@ class StatisticController extends Controller
 
             // Lấy tổng doanh thu của tháng hiện tại
             $currentMonthRevenue = Cart::join('customers', 'carts.customer_id', '=', 'customers.id')
-                ->where('carts.status', 0)
+                ->where('carts.status', 2)
                 ->whereBetween(DB::raw('DATE(customers.created_at)'), [$firstDayOfMonth, Carbon::now()])
                 ->sum(DB::raw('carts.price * carts.qty'));
 
             // Lấy tổng doanh thu của các tháng trước
             $previousMonthsRevenue = Cart::join('customers', 'carts.customer_id', '=', 'customers.id')
-                ->where('carts.status', 0)
+                ->where('carts.status', 2)
                 ->where(DB::raw('YEAR(customers.created_at)'), '=', Carbon::now()->year)
                 ->where(DB::raw('MONTH(customers.created_at)'), '<', Carbon::now()->month)
                 ->sum(DB::raw('carts.price * carts.qty'));

@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\CartController;
-use App\Http\Controllers\Admin\ComboController;
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\FeedbackController;
 use App\Http\Controllers\Admin\InvoiceController;
 use App\Http\Controllers\Admin\ItemController;
 use App\Http\Controllers\Admin\Login\LoginController;
@@ -15,9 +15,7 @@ use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\StatisticController;
 use App\Http\Controllers\Admin\TableController;
 use App\Http\Controllers\Admin\UploadController;
-use App\Http\Controllers\ItemController as ControllersItemController;
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\ProductController as ControllersProductController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
@@ -46,16 +44,38 @@ Route::post('/change-password', [LoginController::class, 'changePassword'])->nam
 // Route cho đăng xuất web
 Route::post('/logout', [LoginController::class, 'logoutWeb'])->name('web.logout');
 
+//Home
+Route::get('/', [App\Http\Controllers\MainController::class, 'index'])->name('home');
+Route::post('/services/load-product', [App\Http\Controllers\MainController::class, 'loadProduct']);
+Route::get('danh-muc/{id}-{slug}.html', [App\Http\Controllers\MenuController::class, 'index']);
+Route::get('san-pham/{id}-{slug}.html', [App\Http\Controllers\ProductController::class, 'index']);
+
+//More
+Route::view('/lien-he', 'contact');
+Route::view('/news', 'news.news');
+Route::post('/submit-feedback', [FeedbackController::class, 'store'])->name('submit-feedback');
+Route::get('/search', [SearchController::class, 'index'])->name('search.index');
+Route::get('account', [LoginController::class, 'infor'])->name('account');
+Route::get('web-item', [App\Http\Controllers\ItemController::class, 'showItem']);
+
+//Cart
+Route::post('add-cart', [App\Http\Controllers\CartController::class, 'index']);
+Route::get('carts', [App\Http\Controllers\CartController::class, 'show']);
+Route::post('update-cart', [App\Http\Controllers\CartController::class, 'update']);
+Route::get('carts/delete/{id}', [App\Http\Controllers\CartController::class, 'remove']);
+Route::post('carts', [App\Http\Controllers\CartController::class, 'addCart'])->name('carts');
+Route::get('/orders/{id}', [App\Http\Controllers\CartController::class, 'summary'])->name('order.summary');
 
 
+//Payment
+Route::post('/vnpay_payment', [PaymentController::class, 'vnpay_payment']);
+Route::post('/cancel-order/{id}', [PaymentController::class, 'cancelOrder']);
 
 
 Route::middleware(['auth'])->group(function () {
 
     Route::prefix('admin')->group(function () {
 
-       /*  Route::post('/statistics', [StatisticController::class, 'statistics'])->name('statistics'); */
-        
         Route::get('/', [MainController::class, 'index'])->name('admin');
         Route::get('main', [MainController::class, 'index']);
         Route::get('welcome', [MainController::class, 'index']);
@@ -64,12 +84,8 @@ Route::middleware(['auth'])->group(function () {
         #Customer
         Route::get('customers/show', [CustomerController::class, 'show']);
 
-        #Statistics
-        /* Route::post('/statistics', [StatisticController::class, 'statistics'])->name('statistics'); */
-
-
         #Menu
-        Route::prefix('menus')->group(function () {
+        Route::prefix('menus')->middleware(['checkRole:admin, staff'])->group(function () {
             Route::get('add', [MenuController::class, 'create']);
             Route::post('add', [MenuController::class, 'store']);
             Route::get('list', [MenuController::class, 'index']);
@@ -79,7 +95,7 @@ Route::middleware(['auth'])->group(function () {
         });
 
         #Product
-        Route::prefix('products')->group(function () {
+        Route::prefix('products')->middleware(['checkRole:admin, staff'])->group(function () {
             Route::get('add', [ProductController::class, 'create']);
             Route::post('add', [ProductController::class, 'store']);
             Route::get('list', [ProductController::class, 'index']);
@@ -89,7 +105,7 @@ Route::middleware(['auth'])->group(function () {
         });
 
         #Table
-        Route::prefix('tables')->group(function () {
+        Route::prefix('tables')->middleware(['checkRole:admin, staff'])->group(function () {
             Route::get('add', [TableController::class, 'create']);
             Route::post('add', [TableController::class, 'store']);
             Route::get('list', [TableController::class, 'index']);
@@ -100,7 +116,7 @@ Route::middleware(['auth'])->group(function () {
         });
 
         #Slider
-        Route::prefix('sliders')->group(function () {
+        Route::prefix('sliders')->middleware(['checkRole:admin, staff'])->group(function () {
             Route::get('add', [SliderController::class, 'create']);
             Route::post('add', [SliderController::class, 'store']);
             Route::get('list', [SliderController::class, 'index']);
@@ -110,7 +126,7 @@ Route::middleware(['auth'])->group(function () {
         });
 
         #Item
-        Route::prefix('items')->group(function () {
+        Route::prefix('items')->middleware(['checkRole:admin, staff'])->group(function () {
             Route::get('add', [ItemController::class, 'create']);
             Route::post('add', [ItemController::class, 'store']);
             Route::get('list', [ItemController::class, 'index']);
@@ -120,7 +136,7 @@ Route::middleware(['auth'])->group(function () {
         });
 
         #Account
-        Route::prefix('accounts')->group(function () {
+        Route::prefix('accounts')->middleware(['checkRole:admin, staff'])->group(function () {
             Route::get('add', [AccountController::class, 'create']);
             Route::post('add', [AccountController::class, 'store']);
             Route::get('list', [AccountController::class, 'index']);
@@ -150,37 +166,21 @@ Route::middleware(['auth'])->group(function () {
             Route::post('pay', [CartController::class, 'savePaymentOption']);
         });
 
-        Route::prefix('reviews')->group(function () {
+        //Review
+        Route::prefix('reviews')->middleware(['checkRole:admin, staff'])->group(function () {
             Route::post('/review', [ReviewController::class, 'store'])->name('review');
-            Route::get('list',[ReviewController::class, 'index']);
+            Route::get('list', [ReviewController::class, 'index']);
             Route::DELETE('destroy', [ReviewController::class, 'destroy']);
             Route::post('update-status', [ReviewController::class, 'updateStatus'])->name('reviews.update_status');
             Route::get('waiting', [ReviewController::class, 'waiting']);
             Route::get('cancel', [ReviewController::class, 'cancel']);
         });
-
+        Route::prefix('feedbacks')->middleware(['checkRole:admin, staff'])->group(function () {
+            Route::get('feedback', [FeedbackController::class, 'show']);
+        });
     });
 
+    //Statistic and PDF
     Route::get('/invoices/{customerId}/generate-pdf', [InvoiceController::class, 'generatePDF']);
     Route::match(['get', 'post'], '/admin/statistics', [StatisticController::class, 'statistics'])->name('statistics');
-
 });
-
-Route::get('/', [App\Http\Controllers\MainController::class, 'index'])->name('home');
-Route::post('/services/load-product', [App\Http\Controllers\MainController::class, 'loadProduct']);
-Route::get('danh-muc/{id}-{slug}.html', [App\Http\Controllers\MenuController::class, 'index']);
-Route::get('san-pham/{id}-{slug}.html', [App\Http\Controllers\ProductController::class, 'index']);
-/* Route::view('/lien-he', 'contact'); */
-Route::get('/search', [SearchController::class, 'index'])->name('search.index');
-
-Route::get('account', [LoginController::class, 'infor'])->name('account');
-Route::get('web-item', [App\Http\Controllers\ItemController::class, 'showItem']);
-
-Route::post('add-cart', [App\Http\Controllers\CartController::class, 'index']);
-Route::get('carts', [App\Http\Controllers\CartController::class, 'show']);
-Route::post('update-cart', [App\Http\Controllers\CartController::class, 'update']);
-Route::get('carts/delete/{id}', [App\Http\Controllers\CartController::class, 'remove']);
-Route::post('carts', [App\Http\Controllers\CartController::class, 'addCart']);
-Route::get('/orders/{id}', [App\Http\Controllers\CartController::class, 'summary'])->name('order.summary');
-
-Route::post('/vnpay_payment',[PaymentController::class, 'vnpay_payment']);

@@ -5,7 +5,7 @@
         <div class="top-bar">
             <div class="content-topbar flex-sb-m h-full container">
                 <div class="left-top-bar">
-                    <i> Nhà Hàng Yến - Mở cửa từ 11h00 đến 22h00 </i>
+                    <i> Yen's Restaurant - Mở cửa từ 11h00 đến 22h00 </i>
                 </div>
 
                 @if (auth()->check())
@@ -26,11 +26,9 @@
             <nav class="limiter-menu-desktop container">
 
                 <!-- Logo desktop -->
-                <div class="logo">
-                    <a href="/">
-                        <h4>Yen's Restaurant</h4>
-                    </a>
-                </div>
+                <a href="/" class="logo">
+                    <img src="/template/images/yen.png" alt="Yen's Restaurant">
+                </a>
 
                 <!-- Menu desktop -->
                 <div class="menu-desktop">
@@ -42,6 +40,10 @@
 
                         <li>
                             <a href="/web-item">Thực Đơn</a>
+                        </li>
+
+                        <li>
+                            <a href="/lien-he">Liên Hệ</a>
                         </li>
                     </ul>
                 </div>
@@ -72,7 +74,7 @@
         <!-- Logo moblie -->
         <div class="logo-mobile">
             <a href="/">
-                <h4>Yen's Restarant</h4>
+                <img src="/template/images/yen.png" alt="Yen's Restaurant">
             </a>
         </div>
 
@@ -99,6 +101,33 @@
 
     <!-- Menu Mobile -->
     <div class="menu-mobile">
+        <ul class="topbar-mobile">
+            <li>
+                <div class="left-top-bar">
+                    <i> Yen's Restaurant - Mở cửa từ 11h00 đến 22h00 </i>
+                </div>
+            </li>
+
+            <li>
+                <div class="right-top-bar flex-w h-full">
+
+
+                    <a href="#" class="flex-c-m p-lr-10 trans-04">
+                        @if (auth()->check())
+                            <!-- Kiểm tra xem người dùng đã đăng nhập hay chưa -->
+                            <div class="right-top-bar flex-w h-full">
+                                <span class="flex-c-m trans-04 p-lr-25">Chào mừng, {{ auth()->user()->name }}</span>
+                            </div>
+                        @else
+                            <!-- Nút đăng nhập nếu người dùng chưa đăng nhập -->
+                            <div class="right-top-bar flex-w h-full">
+                                <a href="{{ route('login') }}" class="flex-c-m trans-04 p-lr-25">Đăng Nhập</a>
+                            </div>
+                        @endif
+                    </a>
+                </div>
+            </li>
+        </ul>
         <ul class="main-menu-m">
             <li class="active-menu"><a href="/">Trang Chủ</a> </li>
 
@@ -108,6 +137,9 @@
                 <a href="/web-item">Thực Đơn</a>
             </li>
 
+            <li>
+                <a href="/lien-he">Liên Hệ</a>
+            </li>
         </ul>
     </div>
 
@@ -163,7 +195,7 @@
                     </li>
 
                     <li class="p-b-13">
-                        <a href="#" class="stext-102 cl2 hov-cl1 trans-04">
+                        <a href="/lien-he" class="stext-102 cl2 hov-cl1 trans-04">
                             Liên Hệ
                         </a>
                     </li>
@@ -173,7 +205,8 @@
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             Đăng Xuất
                         </a>
-                        <form id="logout-form" action="{{ route('web.logout') }}" method="POST" style="display: none;">
+                        <form id="logout-form" action="{{ route('web.logout') }}" method="POST"
+                            style="display: none;">
                             @csrf
                         </form>
                     </li>

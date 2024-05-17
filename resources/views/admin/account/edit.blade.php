@@ -26,7 +26,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="thumb">Ảnh Sản Phẩm:</label>
+                        <label for="thumb">Ảnh:</label>
                         <div class="thumb">
                             <input type="file" class="form-control" id="upload">
                             <div class="m-2" id="image_show">
@@ -42,19 +42,21 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-8">
-                                <label for="name">Tên Tài Khoản</label>
+                                <label for="name">Tên Tài Khoản (*):</label>
                                 <input type="text" name="name" value="{{ $account->name }}" class="form-control"
                                     placeholder="Nhập tên tài khoản">
                             </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="role">Vai Trò</label>
+                                    <label for="role">Vai Trò (*):</label>
                                     <select name="role" class="form-control">
                                         <option value="user" {{ $account->role === 'user' ? 'selected' : '' }}>Người Dùng
                                         </option>
                                         <option value="admin" {{ $account->role === 'admin' ? 'selected' : '' }}>Quản trị
                                             viên</option>
+                                        <option value="staff" {{ old('role') === 'staff' ? 'selected' : '' }}>Nhân viên
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -63,7 +65,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="fullname">Họ và Tên</label>
+                                    <label for="fullname">Họ và Tên:</label>
                                     <input type="text" name="fullname" value="{{ $account->fullname }}"
                                         class="form-control" placeholder="Nhập họ và tên">
                                 </div>
@@ -72,7 +74,7 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="phone">Số Điện Thoại</label>
+                                    <label for="phone">Số Điện Thoại:</label>
                                     <input type="text" name="phone" value="{{ $account->phone }}" class="form-control"
                                         placeholder="Nhập số điện thoại">
                                 </div>
@@ -82,14 +84,14 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="address">Địa Chỉ</label>
+                                    <label for="address">Địa Chỉ:</label>
                                     <input type="text" name="address" value="{{ $account->address }}"
                                         class="form-control" placeholder="Nhập địa chỉ">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="email">Email</label>
+                                    <label for="email">Email (*):</label>
                                     <input type="text" name="email" value="{{ $account->email }}" class="form-control"
                                         placeholder="Nhập email">
                                 </div>
@@ -101,7 +103,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="password">Mật Khẩu</label>
+                                <label for="password">Mật Khẩu (*):</label>
                                 <div class="input-group">
                                     <input type="password" name="password" id="password" class="form-control"
                                         placeholder="Nhập mật khẩu">
@@ -117,7 +119,7 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="password_confirmation">Xác Nhận Mật Khẩu</label>
+                                <label for="password_confirmation">Xác Nhận Mật Khẩu (*):</label>
                                 <div class="input-group">
                                     <input type="password" name="password_confirmation" id="password_confirmation"
                                         class="form-control" placeholder="Nhập lại mật khẩu">

@@ -14,11 +14,12 @@ class ItemController extends Controller
     public function __construct(ItemService $itemService)
     {
         $this->itemService = $itemService;
+        $this->middleware('checkRole:admin, staff');
     }
 
     public function index()
     {
-
+        $this->authorize('view', Item::class);
         return view('admin.item.list', [
             'title' => 'Danh Sách Thực Đơn',
             'items' => $this->itemService->get()
@@ -27,6 +28,7 @@ class ItemController extends Controller
 
     public function create()
     {
+        $this->authorize('create', Item::class);
         $products = $this->itemService->getAllProducts(); // Lấy danh sách sản phẩm
         return view('admin.item.add', [
             'title' => 'Thêm Thực Đơn Mới',
@@ -36,7 +38,7 @@ class ItemController extends Controller
 
     public function store(Request $request)
     {
-
+        $this->authorize('create', Item::class);
         $validatedData = $request->validate(
             [
                 'name' => 'required|string|max:255|unique:items,name',
@@ -71,6 +73,7 @@ class ItemController extends Controller
 
     public function edit($id)
     {
+        $this->authorize('edit', Item::class);
         $data = $this->itemService->getItemById($id);
         $products = $this->itemService->getAllProducts(); // Lấy danh sách sản phẩm
 
@@ -84,6 +87,7 @@ class ItemController extends Controller
 
     public function update(Request $request, $id)
     {
+        $this->authorize('update', Item::class);
         $validatedData = $request->validate(
             [
                 'name' => 'required|string|max:255',
@@ -109,6 +113,7 @@ class ItemController extends Controller
 
     public function destroy(Request $request)
     {
+        $this->authorize('delete', Item::class);
         $id = $request->input('id'); // Lấy id từ request
 
         $result = $this->itemService->deleteItem($id); // Gọi phương thức deleteItem từ service

@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Policies\Polices;
+
+use App\Models\User;
+
+class ReviewPolicy
+{
+    public function view(User $user)
+    {
+        return $user->role === 'admin' || $user->role === 'staff'; 
+    }
+    
+    public function update(User $user)
+    {
+        return $user->role === 'admin' || $user->role === 'staff';
+    }
+    
+    public function delete(User $user)
+    {
+        return $user->role === 'admin'|| $user->role === 'staff'; 
+    }
+}

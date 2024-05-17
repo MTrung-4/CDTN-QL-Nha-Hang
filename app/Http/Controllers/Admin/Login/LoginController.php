@@ -37,16 +37,16 @@ class LoginController extends Controller
             'name.required' => 'Vui lòng nhập tên đăng nhập.',
             'name.exists' => 'Tên đăng nhập không tồn tại',
         ]);
-
+    
         $credentials = $request->only('name', 'password');
-
+    
         if (Auth::attempt($credentials, $request->input('remember'))) {
-            if (Auth::user()->role === 'admin') {
-                return redirect()->route('admin');
+            if (Auth::user()->role === 'admin' || Auth::user()->role === 'staff') {
+                return redirect()->route('admin')->with('success', 'Đăng nhập thành công!');
             } else {
                 // Kiểm tra xem người dùng đã xác thực email chưa
                 if (Auth::user()->email_verified_at !== null) {
-                    return redirect()->route('home'); // Đổi thành route của trang chính của user
+                    return redirect()->route('home')->with('success', 'Đăng nhập thành công!'); // Đổi thành route của trang chính của user
                 } else {
                     Auth::logout(); // Đăng xuất người dùng nếu chưa xác thực email
                     return redirect()->back()->withErrors([
@@ -55,12 +55,13 @@ class LoginController extends Controller
                 }
             }
         }
-
+    
         return redirect()->back()->withInput()->withErrors([
             'password' => 'Mật khẩu không chính xác.',
             'name.exists' => 'Tên đăng nhập không tồn tại',
         ]);
     }
+    
 
 
     public function register(Request $request)
@@ -222,7 +223,10 @@ class LoginController extends Controller
     {
         $request->validate([
             'current_password' => 'required',
-            'new_password' => 'required|string|min:8|confirmed',
+            'new_password' => 'required|string|min:6|confirmed',
+        ],[
+            'current_password.required' => ' Mật khẩu cũ không được để trống',
+            'new_password.min' => 'Mật khẩu phải dài ít nhất 6 kí tự',
         ]);
 
         $user = auth()->user();

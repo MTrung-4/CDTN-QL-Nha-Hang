@@ -8,7 +8,6 @@
     <section class="section-slide">
         <div class="wrap-slick1">
             <div class="slick1">
-
                 @foreach ($sliders as $slider)
                     <div class="item-slick1" style="background-image: url({{ $slider->thumb }});">
                         <div class="container h-full">
@@ -19,20 +18,16 @@
     </section>
 
     <!-- Product -->
+    @include('admin.users.alert-web')
     <section class="bg0 p-t-23 p-b-140">
         <div class="container">
             <div class="p-b-10">
                 <h3 class="ltext-103 cl5">
                     món ăn bạn thích
                 </h3>
-                <h3 style=" font-family: Dancing Script, cursive; font-weight: bold; font-size: 2rem; line-height: 1.5;">
+                <h3 style=" font-family: Dancing Script, cursive; font-weight: bold; font-size: 2rem; line-height: 1.5; margin-bottom:40px;">
                     Khám phá thế giới hương vị độc đáo tại nhà hàng chúng tôi - mời bạn chọn món ngay!
                 </h3>
-            </div>
-
-            <div class="flex-w flex-sb-m p-b-52">
-                <div class="flex-w flex-l-m filter-tope-group m-tb-10">
-                </div>
             </div>
 
             <div id="loadProduct">
@@ -48,4 +43,16 @@
             </div>
         </div>
     </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        @if(Session::has('success'))
+            swal({
+                title: "Thành công!",
+                text: "{{ Session::get('success') }}",
+                icon: "success",
+                button: "OK",
+            });
+        @endif
+    </script>
 @endsection
