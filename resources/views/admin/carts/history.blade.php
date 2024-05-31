@@ -52,7 +52,7 @@
                     <td>{{ $cart->customer->name }}</td>
                     <td>{{ $cart->customer->phone }}</td>
                     <td>{{ $cart->customer->time }}</td>
-                    <td style="color: green; font-weight: bold">{{ $cart->status === 1 ? 'Đã Xong' : '' }}</td>
+                    <td style="color: green; font-weight: bold">{{ $cart->status === 2 ? 'Đã Xong' : '' }}</td>
                     <td>{{ $cart->pay_option }}</td>
                     <td>{{ $cart->pay_money }}</td>
                     <td>{{ $cart->customer->created_at }}</td>

@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ItemController;
 use App\Http\Controllers\Admin\Login\LoginController;
 use App\Http\Controllers\Admin\MainController;
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\SliderController;
@@ -58,18 +59,24 @@ Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 Route::get('account', [LoginController::class, 'infor'])->name('account');
 Route::get('web-item', [App\Http\Controllers\ItemController::class, 'showItem']);
 
+#News
+Route::get('show-news', [NewsController::class, 'showNews'])->name('shownews');
+Route::get('/news/{id}', [NewsController::class, 'showNewsDetail'])->name('news.detail');
+
 //Cart
 Route::post('add-cart', [App\Http\Controllers\CartController::class, 'index']);
 Route::get('carts', [App\Http\Controllers\CartController::class, 'show']);
 Route::post('update-cart', [App\Http\Controllers\CartController::class, 'update']);
 Route::get('carts/delete/{id}', [App\Http\Controllers\CartController::class, 'remove']);
 Route::post('carts', [App\Http\Controllers\CartController::class, 'addCart'])->name('carts');
-Route::get('/orders/{id}', [App\Http\Controllers\CartController::class, 'summary'])->name('order.summary');
+Route::match(['get', 'post'], '/orders/{id}', [App\Http\Controllers\CartController::class, 'summary'])->name('order.summary');
+Route::post('/payment-option', [App\Http\Controllers\CartController::class, 'savePaymentOptionForWeb'])->name('save.payment.option');
+Route::get('/cart/callback', [PaymentController::class, 'handlePaymentCallback'])->name('handlePaymentCallback');
 
 
 //Payment
 Route::post('/vnpay_payment', [PaymentController::class, 'vnpay_payment']);
-Route::post('/cancel-order/{id}', [PaymentController::class, 'cancelOrder']);
+Route::delete('/cancel-order/{id}', [App\Http\Controllers\CartController::class, 'cancelOrder']);
 
 
 Route::middleware(['auth'])->group(function () {
@@ -146,6 +153,17 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/profile/create', [AccountController::class, 'information']);
             Route::post('/profile/store', [AccountController::class, 'save_infor'])->name('save-infor');
         });
+
+        #News
+        Route::prefix('news')/* ->middleware(['checkRole:admin, staff']) */->group(function () {
+            Route::get('add', [NewsController::class, 'create']);
+            Route::post('add', [NewsController::class, 'store']);
+            Route::get('list', [NewsController::class, 'index']);
+            Route::get('edit/{news}', [NewsController::class, 'edit']);
+            Route::post('edit/{news}', [NewsController::class, 'update']);
+            Route::DELETE('destroy', [NewsController::class, 'destroy']);
+        });
+
 
         #Upload
         Route::post('upload/services', [UploadController::class, 'store']);

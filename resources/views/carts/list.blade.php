@@ -83,25 +83,25 @@
                                 <div class="col-md-6">
                                     <div class="bor8 bg0 m-b-12">
                                         <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="name"
-                                            placeholder="Tên khách Hàng">
+                                            placeholder="Tên khách Hàng" required>
                                     </div>
                                     <div class="bor8 bg0 m-b-12">
                                         <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="phone"
-                                            placeholder="Số Điện Thoại">
+                                            placeholder="Số Điện Thoại" required>
                                     </div>
                                     <div class="bor8 bg0 m-b-12">
                                         <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text" name="email"
-                                            placeholder="Email Liên Hệ">
+                                            placeholder="Email Liên Hệ" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="bor8 bg0 m-b-12">
                                         <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="datetime-local"
-                                            name="time" placeholder="Thời gian">
+                                            name="time" placeholder="Thời gian" required>
                                     </div>
                                     <div class="bor8 bg0 m-b-12">
-                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="number" name="qty"
-                                            placeholder="Số lượng">
+                                        <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="number" name="qty" min="0"
+                                            placeholder="Số lượng" required>
                                     </div>
                                     <div class="bor8 bg0 m-b-12">
                                         <textarea class="stext-111 cl8 plh3 size-111 p-lr-15" name="content" placeholder="Ghi Chú"></textarea>
@@ -125,17 +125,4 @@
             <br>
         @endif
     </form>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const successParam = urlParams.get('success');
-
-            if (successParam === 'true') {
-                alert('Đặt bàn thành công!');
-            }
-        });
-    </script>
-
-
 @endsection

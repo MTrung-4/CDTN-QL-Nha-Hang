@@ -29,14 +29,12 @@ class MainController extends Controller
 
     public function index(Request $request)
     {
-        $filteredProducts = $this->product->filter($request);
 
         return view('home', [
             'title' => 'Nhà Hàng Yến',
             'sliders' => $this->slider->show(),
             'menus' => $this->menu->show(),
             'products' => $this->product->get(),
-            'filteredProducts' => $filteredProducts,
         ]);
     }
 

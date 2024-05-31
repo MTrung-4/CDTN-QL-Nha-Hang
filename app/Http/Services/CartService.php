@@ -109,10 +109,6 @@ class CartService
             Session::put('customer_id', $customer->id);
 
             DB::commit();
-            Session::flash('success', 'Đặt Hàng Thành Công');
-
-            #Queue
-            SendMail::dispatch($request->input('email'), $customerData)->delay(now()->addSeconds(2));
 
             Session::forget('carts');
         } catch (\Exception $err) {

@@ -169,9 +169,9 @@
                                                                 @if ($review->status == 2)
                                                                 {{ $review->user->name }}
                                                                 @elseif ($review->status == 1)
-                                                                Anonymous
+                                                                Ẩn danh
                                                                 @else
-                                                                Anonymous
+                                                                Ẩn danh
                                                                 @endif
                                                             </span>
 

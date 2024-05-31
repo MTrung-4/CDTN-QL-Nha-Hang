@@ -39,22 +39,4 @@ class ProductService
             ->limit(8)
             ->get();
     }
-
-    public function filter(Request $request)
-    {
-        // Bắt đầu với một truy vấn cơ bản
-        $query = Product::query();
-
-        // Áp dụng lọc theo giá nếu có tham số 'price' trong yêu cầu
-        if ($request->has('price')) {
-            if ($request->price == 'asc') {
-                $query->orderBy('price', 'asc');
-            } elseif ($request->price == 'desc') {
-                $query->orderBy('price', 'desc');
-            }
-        }
-
-        // Trả về kết quả sau khi áp dụng bộ lọc
-        return $query->get();
-    }
 }

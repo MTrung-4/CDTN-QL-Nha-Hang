@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendMail;
 use App\Models\Cart;
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 
 class PaymentController extends Controller
@@ -14,14 +16,14 @@ class PaymentController extends Controller
         $data = $request->all();
         $code_cart = rand(00, 9999);
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "http://sneaker-shop.test/cart/callback";
+        $vnp_Returnurl = "http://nhahang.vtest/cart/callback?cart_id=" . $request->input('cart_id');
         $vnp_TmnCode = "L6F3PAKI"; //Mã website tại VNPAY
         $vnp_HashSecret = "OENYL9B734YNG8P50DVCO9JQSHTF9MSO"; //Chuỗi bí mật
 
         $vnp_TxnRef = $data['cart_id'];
         //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
         $vnp_OrderInfo = 'Thanh Toán Hóa Đơn';
-        $vnp_OrderType = 'Yen Restaurant';
+        $vnp_OrderType = 'Yen Restaurant';/*  */
         $vnp_Amount = $data['total'] * 100;
         $vnp_Locale = 'vn';
         $vnp_BankCode = 'NCB';
@@ -79,24 +81,40 @@ class PaymentController extends Controller
         }
     }
 
-    public function cancelOrder($id)
+    public function handlePaymentCallback(Request $request)
     {
-        try {
-            // Xác định đơn hàng cần hủy từ bảng 'carts'
-            $cart = Cart::findOrFail($id);
+        $cartId = $request->input('cart_id');
 
-            // Xác định thông tin khách hàng liên quan từ bảng 'customers'
-            $customer = Customer::findOrFail($cart->customer_id);
+        // Truy vấn cơ sở dữ liệu để lấy thông tin liên quan đến đơn hàng
+        $cart = Cart::find($cartId);
 
-            // Xóa thông tin khách hàng
-            $customer->delete();
+        // Log thông tin đơn hàng
+        if ($cart) {
 
-            // Xóa đơn hàng
-            $cart->delete();
-        } catch (\Exception $e) {
+            // Lấy thông tin khách hàng từ đơn hàng
+            $customerId = $cart->customer_id;
+            $customer = Customer::find($customerId);
+        } else {
+            Log::error('Cart not found with ID: ' . $cartId);
         }
-        session()->flash('success', 'Đơn hàng đã được hủy thành công.');
-        // Chuyển hướng về trang home
-        return redirect()->route('carts');
+
+        $vnp_ResponseCode = '01';  // Giả lập mã phản hồi thất bại
+        /* $vnp_ResponseCode = $request->input('vnp_ResponseCode'); */
+
+        if ($vnp_ResponseCode === '00') {
+            SendMail::dispatch($customer->email, $customer)->delay(now()->addSeconds(2));
+            return view('vnpay.success');
+        } else {
+            // Xóa thông tin đơn hàng và khách hàng liên quan
+            if ($cart) {
+                $cart->delete();
+            }
+            if ($customer) {
+                $customer->delete();
+            }
+            Log::info('Order and customer data deleted due to failed payment');
+
+            return view('vnpay.failure');
+        }
     }
 }

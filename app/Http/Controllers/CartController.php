@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Services\CartService;
+use App\Jobs\SendMail;
 use App\Models\Cart;
 use App\Models\Customer;
-use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\DB;
+
 
 class CartController extends Controller
 {
@@ -103,5 +103,57 @@ class CartController extends Controller
             'cart' => $cart,
             'products' => $products,
         ]);
+    }
+
+    public function savePaymentOptionForWeb(Request $request)
+    {
+        $response = $this->cartService->savePaymentOption($request);
+
+        if ($response['success'] && $request->has('customer_id')) {
+            $customerId = $request->input('customer_id');
+            $payOption = $request->input('pay_option'); // Lấy phương thức thanh toán từ request
+
+            // Truy vấn thông tin đơn hàng từ bảng cart và các liên kết
+            $customer = Customer::find($customerId);
+
+            // Kiểm tra phương thức thanh toán
+            if ($payOption !== 'VNPAY') {
+                // Gửi email xác nhận đơn hàng
+                SendMail::dispatch($customer->email, $customer)->delay(now()->addSeconds(2));
+
+                // Trả về thông báo thành công qua Flash Session
+                Session::flash('success', 'Đặt hàng thành công, email xác nhận đã được gửi đi.');
+            } else {
+                // Trả về thông báo thành công nhưng không gửi email
+                Session::flash('success', 'Đặt hàng thành công với VNPAY.');
+            }
+
+            return redirect()->route('carts');
+        } else {
+            Session::flash('error', $response['message']);
+        }
+        return redirect()->back();
+    }
+
+
+    public function cancelOrder($id)
+    {
+        try {
+            // Xác định đơn hàng cần hủy từ bảng 'carts'
+            $cart = Cart::findOrFail($id);
+
+            // Xác định thông tin khách hàng liên quan từ bảng 'customers'
+            $customer = Customer::findOrFail($cart->customer_id);
+
+            // Xóa thông tin khách hàng
+            $customer->delete();
+
+            // Xóa đơn hàng
+            $cart->delete();
+        } catch (\Exception $e) {
+        }
+        session()->flash('success', 'Đơn hàng đã được hủy thành công.');
+        // Chuyển hướng về trang home
+        return redirect()->route('carts');
     }
 }

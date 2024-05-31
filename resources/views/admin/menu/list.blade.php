@@ -51,10 +51,6 @@
         </ul>
     </div>
     <script>
-        function showSuccessMessage(message) {
-            alert(message);
-        }
-
         document.addEventListener("DOMContentLoaded", function() {
             // Lấy danh sách các hàng
             var rows = document.querySelectorAll('.table tbody tr');

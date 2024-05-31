@@ -149,6 +149,27 @@
                 </li>
 
                 <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-solid fa-newspaper"></i>
+                        <p>  Tin Tức </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/admin/news/add" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Thêm Tin Tức</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/news/list" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Danh Sách Tin Tức</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
                     <a href="" class="nav-link">
                         <i class="nav-icon fas fa-solid fa-comments"></i>
                         <p> Bình Luận </p>

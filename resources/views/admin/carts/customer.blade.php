@@ -204,7 +204,7 @@
                                                         onclick="savePaymentOption({{ $customer->carts->first()->id }}, 'Chuyển Khoản')">Chuyển
                                                         Khoản</a></li>
                                                 <li><a class="dropdown-item payment-dropdown-item"
-                                                        onclick="savePaymentOption({{ $customer->carts->first()->id }}, 'VNPay')">VNPay</a>
+                                                        onclick="savePaymentOption({{ $customer->carts->first()->id }}, 'VNPAY')">VNPAY</a>
                                                 </li>
                                             </ul>
                                         @endforeach

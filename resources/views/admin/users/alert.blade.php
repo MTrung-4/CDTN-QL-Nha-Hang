@@ -35,7 +35,7 @@
 @endif
 
 
-<script>
+{{-- <script>
     // Kiểm tra nếu tồn tại thông báo thành công thì thực hiện ẩn sau 3 giây
     @if (Session::has('success'))
         setTimeout(() => {
@@ -43,5 +43,5 @@
         }, 5000); // 3 giây
     @endif
 </script>
-
+ --}}
 

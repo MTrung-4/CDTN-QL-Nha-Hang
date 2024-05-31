@@ -45,6 +45,10 @@
                         <li>
                             <a href="/lien-he">Liên Hệ</a>
                         </li>
+
+                        <li>
+                            <a href="/show-news">Tin Tức</a>
+                        </li>
                     </ul>
                 </div>
 
@@ -139,6 +143,10 @@
 
             <li>
                 <a href="/lien-he">Liên Hệ</a>
+            </li>
+
+            <li>
+                <a href="/show-news">Tin Tức</a>
             </li>
         </ul>
     </div>

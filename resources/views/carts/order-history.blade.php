@@ -44,7 +44,6 @@
                                         <tr class="reservation-info" style="display: none;">
                                             <td colspan="6">
                                                 <table class="table table-striped table-hover" id="reservationTable">
-                                                    <!-- Your table to display detailed reservation information -->
                                                     <thead>
                                                         <tr>
                                                             <th>Tên Bàn</th>

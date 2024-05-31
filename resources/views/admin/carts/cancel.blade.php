@@ -38,6 +38,7 @@
                 <th>Tên Khách Hàng</th>
                 <th>SDT</th>
                 <th>Thời Gian Dùng</th>
+                <th>PT Thanh Toán</th>
                 <th>Trạng Thái</th>
                 <th>Lý Do Hủy</th>
                 <th>Thời Gian Đặt</th>
@@ -51,6 +52,7 @@
                     <td>{{ $cart->customer->name }}</td>
                     <td>{{ $cart->customer->phone }}</td>
                     <td>{{ $cart->customer->time }}</td>
+                    <td>{{ $cart->pay_option }}</td>
                     <td style="color: red; font-weight: bold">{{ $cart->status === 0 ? 'Đã Hủy' : '' }}</td>
                     <td>{{ $cart->cancel_reason }}</td>
                     <td>{{ $cart->customer->created_at }}</td>

@@ -98,7 +98,9 @@
             bottom: 10px;
         }
     </style>
+
     <div style="margin: 100px auto;" class="container payment-container">
+        @include('admin.users.alert-web')
         <div class="row">
             <div class="col-md-8">
                 <div class="customer-info">
@@ -125,19 +127,19 @@
                     </div>
                     <div class="form-group">
                         <label for="qty">Số lượng:</label>
-                        <p>{{ $cart->qty }}</p> <!-- Giả sử có trường quantity trong đơn hàng -->
+                        <p>{{ $cart->qty }}</p>
                     </div>
                     <div class="form-group">
                         <label for="content">Ghi chú:</label>
-                        <p>{{ $cart->content }}</p> <!-- Giả sử có trường note trong đơn hàng -->
+                        <p>{{ $cart->content }}</p>
                     </div>
                     @php
                         $total = 0;
                     @endphp
                     @foreach ($products as $product)
                         @php
-                            $price = $product->price * $product->qty; // Tính giá sản phẩm
-                            $total += $price; // Cộng vào tổng số tiền
+                            $price = $product->price * $product->qty;
+                            $total += $price;
                         @endphp
                     @endforeach
 
@@ -151,31 +153,37 @@
                 <h2>Thanh toán</h2>
                 <div class="payment-methods">
                     <div tyle="background-color: blue;" class="form-group">
-                        <form action="{{ url('/vnpay_payment') }}" method="post">
+                        <form id="vnpayForm" action="{{ url('/vnpay_payment') }}" method="post">
                             @csrf
                             <input type="hidden" name="total" value="{{ $total }}">
                             <input type="hidden" name="cart_id" value="{!! $cart->id !!}">
-                            <button type="submit" name="redirect" class="primary-btn checkout-btn">VNPAY</button>
+                            <button type="submit" id="vnpayButton" name="redirect"
+                                class="primary-btn checkout-btn">VNPAY</button>
                         </form>
                         <button type="button" id="payment_transfer" data-method="transfer"> Chuyển khoản </button>
                         <button type="button" id="payment_cash" data-method="cash"> Thanh toán bằng tiền mặt </button>
                     </div>
                     <div class="form-group">
-                        <div class="payment-details" id="transfer_details">
+                        <div class="payment-details" id="transfer_details" style="display: none;">
                             <img style="width: 300px" src="/template/images/BIDV.jpg">
                         </div>
-                        <div class="payment-details" id="cash_details">
+                        <div class="payment-details" id="cash_details" style="display: none;">
                             <p>(*) Vui lòng thanh toán trực tiếp tại nhà hàng. (*)</p>
                         </div>
                     </div>
                 </div>
                 <div class="button-group">
+                    <form id="confirmPaymentForm" method="post">
+                        @csrf
+                        <input type="hidden" id="customer_id" value="{{ $customer->id }}">
+                        <input type="hidden" id="paymentOption" name="payment_option">
+                        <button type="submit" class="btn btn-primary">Xác nhận thanh toán</button>
+                    </form>
                     <form action="/cancel-order/{{ $cart->id }}" method="post">
                         @csrf
+                        @method('DELETE')
                         <button type="submit" id="cancel_order" class="btn btn-danger">Hủy</button>
                     </form>
-
-                    <button type="submit" class="btn btn-primary">Xác nhận thanh toán</button>
                 </div>
             </div>
         </div>
@@ -185,6 +193,7 @@
         // JavaScript để hiển thị thông tin thanh toán khi lựa chọn phương thức
         const paymentButtons = document.querySelectorAll('.payment-methods button');
         const paymentDetails = document.querySelectorAll('.payment-details');
+        let selectedPaymentMethod = null;
 
         paymentButtons.forEach(button => {
             button.addEventListener('click', () => {
@@ -192,38 +201,105 @@
                 paymentDetails.forEach(detail => {
                     detail.style.display = 'none';
                 });
-                selectedMethod.style.display = 'block';
+                if (selectedMethod) {
+                    selectedMethod.style.display = 'block';
+                }
+                selectedPaymentMethod = button.dataset.method;
             });
         });
 
         document.addEventListener("DOMContentLoaded", function() {
             const confirmButton = document.querySelector('.btn.btn-primary');
-            confirmButton.addEventListener('click', function() {
-                if (confirm("Bạn có chắc chắn muốn xác nhận không?")) {
-                    window.location.href = '{{ url('/carts?success=true') }}';
+            confirmButton.addEventListener('click', function(event) {
+                event.preventDefault();
+                if (selectedPaymentMethod === null) {
+                    alert("Vui lòng chọn phương thức thanh toán");
+                    return;
                 }
+                if (confirm("Bạn có chắc chắn muốn xác nhận không?")) {
+                    document.querySelector('#paymentOption').value = selectedPaymentMethod;
+                    savePaymentOption('{{ $cart->id }}', selectedPaymentMethod, function() {
+                        document.getElementById('confirmPaymentForm').submit();
+                    });
+                }
+            });
+
+            const vnpayButton = document.querySelector('#vnpayButton');
+            vnpayButton.addEventListener('click', function() {
+                savePaymentOption('{{ $cart->id }}', 'VNPAY', function() {
+                    document.getElementById('vnpayForm').submit();
+                });
             });
         });
 
+        function savePaymentOption(cartId, payOption, callback) {
+            var customerId = document.getElementById('customer_id').value;
+            if (customerId) {
+                // In ra giá trị của customerId trên DevTools
+                console.log("customerId: ", customerId);
 
+                $.ajax({
+                    type: 'POST',
+                    url: '/payment-option',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        customer_id: customerId,
+                        cart_id: cartId,
+                        pay_option: payOption
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            console.log('Phương thức thanh toán đã được lưu thành công');
+                            callback();
+                        } else {
+                            console.error('Không thể lưu phương thức thanh toán');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Lỗi khi gửi yêu cầu AJAX');
+                        alert('Đã xảy ra lỗi khi gửi yêu cầu AJAX');
+                    }
+                });
+            } else {
+                // Nếu không tồn tại, in ra thông báo lỗi
+                console.error("Không tìm thấy customerId");
+            }
+        }
 
         document.addEventListener("DOMContentLoaded", function() {
             const cancelButton = document.querySelector('#cancel_order');
 
-            cancelButton.addEventListener('click', function() {
+            cancelButton.addEventListener('click', function(event) {
+                event.preventDefault();
                 if (confirm("Bạn có chắc chắn muốn hủy đơn hàng không?")) {
                     const orderId = "{{ $cart->id }}"; // Lấy id của đơn hàng
+
                     // Gửi yêu cầu AJAX
                     fetch('/cancel-order/' + orderId, {
                             method: 'DELETE',
                             headers: {
-                                'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                            }
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': "{{ csrf_token() }}",
+                                'X-Requested-With': 'XMLHttpRequest'
+                            },
+                            body: JSON.stringify({
+                                _token: "{{ csrf_token() }}",
+                                cart_id: orderId
+                            })
                         })
                         .then(response => {
-                            if (response.ok) {} else {
-                                throw new Error('Có lỗi xảy ra khi hủy đơn hàng.');
+                            if (response.ok) {
+                                return response.json();
+                            } else {
+                                // Không cần throw lỗi ở đây
+                                console.error('Có lỗi xảy ra khi hủy đơn hàng.');
+                                /*  window.location.href = "{{ route('carts') }}"; */
                             }
+                        })
+                        .then(data => {
+                            console.log('Đơn hàng đã được hủy thành công:', data);
+                            /* window.location.href =
+                            "{{ route('carts') }}";  */ // Chuyển hướng sau khi hủy đơn hàng
                         })
                         .catch(error => {
                             console.error('Error:', error);

@@ -1,12 +1,11 @@
 <style>
     .alert {
         position: fixed;
-        top: 0;
+        bottom: 0;
         right: 0;
         width: 300px;
-        /* Điều chỉnh độ rộng của alert nếu cần */
         margin: 120px 20px 20px 20px;
-        /* Khoảng cách từ mép của alert đến cạnh màn hình */
+        z-index: 9999; /* Đặt giá trị z-index cao để đảm bảo thông báo nổi lên trên */
     }
 
     .alert.alert-danger {
@@ -20,7 +19,6 @@
     }
 </style>
 
-
 @if ($errors->any())
     <div class="alert alert-danger">
         <ul>
@@ -30,7 +28,6 @@
         </ul>
     </div>
 @endif
-
 
 @if (Session::has('error'))
     <div class="alert alert-danger">
@@ -49,7 +46,6 @@
     @if (Session::has('success'))
         setTimeout(() => {
             document.querySelector('.alert-success').style.display = 'none';
-        }, 10000); // 3 giây
+        }, 10000); // 10 giây
     @endif
 </script>
-
