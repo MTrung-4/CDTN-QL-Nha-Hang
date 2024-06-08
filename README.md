@@ -1,3 +1,4 @@
+<div style="text-align: justify;">
 **<span style="font-size: 18px;">Ngày nay, với sự bùng phát triển bùng nổ của thế giới, đi kèm theo đó là phát triển mạnh mẽ của công nghệ, ngành công nghệ thông tin được áp dụng trong mọi lĩnh vực, phổ biến trong đó có thể nói đến lĩnh vực thương mại, là môi trường kết nối giữa các doanh nghiệp, thực khách. Việc sử dụng công nghệ thông tin vào thương mại thúc đẩy ngành này phát triển, tối ưu hóa việc hợp tác trao đổi giữa mọi người, góp phần thúc đẩy nền kinh tế phát triển.</span>**
 
 
@@ -79,5 +80,5 @@ Truy cập vào Composer tại trang chủ theo đường dẫn sau: [https://ge
 
 ## WEB
 - Website hiện có chức năng đặt bàn với các thông tin khách hàng và thông tin món ăn, gửi bình luận hoặc phản hồi riêng tư, xem lịch sử đặt hàng hoặc thay đổi thông tin tài khoản của khách hàng.
-
+</div>
 
