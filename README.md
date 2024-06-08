@@ -12,7 +12,7 @@ Xây dựng Website kinh doanh có các vai trò sau:
 - Nhân viên thực hiện đăng nhập và khi đăng nhập thành công vào hệ thống có quyền: thêm, xóa, sửa danh mục, slide, bàn ăn, món ăn, thực đơn, các thao tác về xử lý đơn hàng, duyệt bình luận, xem danh sách thực khách, xem danh sách phản hồi, xem thống kê.
 - Quản trị viên thực hiện đăng nhập và khi đăng nhập thành công vào hệ thống có quyền: thêm, xóa, sửa danh mục, slide, bàn ăn, món ăn, thực đơn, các thao tác về xử lý đơn hàng, duyệt bình luận, xem danh sách thực khách, xem danh sách phản hồi, xem thống kê, và đặc biệt có thể thao tác với tài khoản.
 
-#1 KHẢO SÁT HỆ THỐNG
+# KHẢO SÁT HỆ THỐNG
 
 ## Tổng quan về cửa hàng
 Nhà hàng Yến's Nha Trang ra đời từ những ký ức ấm áp về món ăn Việt thời ấu thơ. Khi đến Nha Trang, bạn nhớ trải nghiệm những bữa cơm gia đình thơm, ngon được chế biến bởi những con người chất lượng và tâm huyết với nghề nấu ăn trong căn bếp nhỏ của Nhà hàng Yến. Với kinh nghiệm phong phú và ẩm thực địa phương đa dạng, hương vị của từng món ăn ở đây đều phản ánh khẩu vị của người Việt. Điều này giúp Nhà hàng Yến Nha Trang nhận được những phản hồi tích cực lời khen ngợi từ thực khách và làm hài lòng thực khách sau mỗi bữa ăn. 
@@ -78,6 +78,6 @@ Truy cập vào Composer tại trang chủ theo đường dẫn sau: [https://ge
 - Trang ADMIN hiện có các chức năng thêm, xóa, sửa cơ bản của: "danh mục, slide, bàn ăn, sản phẩm, thực đơn, tin tức, tài khoản", ngoài ra còn có duyệt bình luận, duyệt và xử lý đơn hàng, danh sách khách hàng, và thống kê.
 
 ## WEB
--Website hiện có chức năng đặt bàn với các thông tin khách hàng và thông tin món ăn, gửi bình luận hoặc phản hồi riêng tư, xem lịch sử đặt hàng hoặc thay đổi thông tin tài khoản của khách hàng.
+- Website hiện có chức năng đặt bàn với các thông tin khách hàng và thông tin món ăn, gửi bình luận hoặc phản hồi riêng tư, xem lịch sử đặt hàng hoặc thay đổi thông tin tài khoản của khách hàng.
 
 
