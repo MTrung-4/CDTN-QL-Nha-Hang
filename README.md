@@ -59,6 +59,21 @@ In order to ensure that the Laravel community is welcoming to all, please review
 
 ## Security Vulnerabilities
 
+
+# Chương 1: TỔNG QUAN ĐỀ TÀI
+
+## 1.1 LÝ DO CHỌN ĐỀ TÀI
+Nắm bắt được lợi thế của công nghệ vào thương mại, kinh doanh, các công ty hoặc cửa hàng lớn nhỏ hiện nay không thể không có website riêng cho mình để phục vụ việc buôn bán và quảng bá với thực khách. Website là công cụ thích hợp nhất để thực khách có thể kết nối với các doanh nghiệp, công ty.
+
+Vì vậy, em quyết định chọn đề tài: “Xây dựng Website đặt bàn online và quản lý nhà hàng” cho nhà hàng “Yen’s Restaurant” địa chỉ: “73/6 Trần Quang Khải, P. Lộc Thọ, TP Nha Trang, Khánh Hòa”. Website xây dựng bằng PHP (sử dụng framework Laravel), cơ sở dữ liệu MySQL và sử dụng HTML, CSS, Boostrap.
+
+## 1.2 MỤC TIÊU ĐỀ TÀI
+Xây dựng Website kinh doanh có các vai trò sau:
+- Thực khách có thể xem và tìm kiếm món ăn, có thể thực hiện xem chi tiết món ăn đó với các thông tin cần thiết, thêm món ăn vào giỏ hàng, chỉnh sửa số lượng và xóa món ăn, có thể để lại bình luận tại món ăn cũng như email phản hồi cho nhà hàng, thực khách có thể đặt bàn gồm các thông tin về món ăn cũng như thông tin thực khách dùng bữa.
+- Nhân viên thực hiện đăng nhập và khi đăng nhập thành công vào hệ thống có quyền: thêm, xóa, sửa danh mục, slide, bàn ăn, món ăn, thực đơn, các thao tác về xử lý đơn hàng, duyệt bình luận, xem danh sách thực khách, xem danh sách phản hồi, xem thống kê.
+- Quản trị viên thực hiện đăng nhập và khi đăng nhập thành công vào hệ thống có quyền: thêm, xóa, sửa danh mục, slide, bàn ăn, món ăn, thực đơn, các thao tác về xử lý đơn hàng, duyệt bình luận, xem danh sách thực khách, xem danh sách phản hồi, xem thống kê, và đặc biệt có thể thao tác với tài khoản.
+
+
 If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
 ## License
