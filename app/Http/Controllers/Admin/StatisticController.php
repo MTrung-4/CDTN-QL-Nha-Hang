@@ -9,7 +9,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 
 class StatisticController extends Controller
 {
@@ -105,7 +104,7 @@ class StatisticController extends Controller
 
             // Thống kê doanh thu
             $currentMonthTotalRevenue = $this->calculateCurrentMonthRevenue();
-            $currentMonthTotalRevenue = max(0, $currentMonthTotalRevenue);
+            /* $currentMonthTotalRevenue = max(0, $currentMonthTotalRevenue); */
 
 
             //--- Thống kê tài khoản ---//
@@ -167,17 +166,17 @@ class StatisticController extends Controller
                 ->whereBetween(DB::raw('DATE(customers.created_at)'), [$firstDayOfMonth, Carbon::now()])
                 ->sum(DB::raw('carts.price * carts.qty'));
 
-            // Lấy tổng doanh thu của các tháng trước
+       /*      // Lấy tổng doanh thu của các tháng trước
             $previousMonthsRevenue = Cart::join('customers', 'carts.customer_id', '=', 'customers.id')
                 ->where('carts.status', 2)
                 ->where(DB::raw('YEAR(customers.created_at)'), '=', Carbon::now()->year)
                 ->where(DB::raw('MONTH(customers.created_at)'), '<', Carbon::now()->month)
-                ->sum(DB::raw('carts.price * carts.qty'));
+                ->sum(DB::raw('carts.price * carts.qty')); */
 
-            // Tính tổng số tiền doanh thu của tháng hiện tại bằng cách trừ tổng số tiền doanh thu của các tháng trước
-            $currentMonthTotalRevenue = $currentMonthRevenue - $previousMonthsRevenue;
+          /*   // Tính tổng số tiền doanh thu của tháng hiện tại bằng cách trừ tổng số tiền doanh thu của các tháng trước
+            $currentMonthTotalRevenue = $currentMonthRevenue - $previousMonthsRevenue; */
 
-            return $currentMonthTotalRevenue;
+            return $currentMonthRevenue;
         } catch (\Exception $e) {
             // Bắt lỗi và trả về 0 nếu có lỗi xảy ra
             return 0;

@@ -173,7 +173,7 @@ class CartService
     {
         return Customer::whereHas('carts', function ($query) {
             $query->where('status', 1);
-        })->orderByDesc('id')->paginate(15);
+        })->orderByDesc('id')->paginate(9);
     }
 
     //lay danh sach don da huy
@@ -182,7 +182,7 @@ class CartService
         return Cart::where('status', 0)->orderByDesc('updated_at')->paginate(15);
     }
 
-    //danh sach don duyet
+    //danh sach don xu ly xong
     public function getApproveCard()
     {
         return Cart::whereNotNull('pay_option') 

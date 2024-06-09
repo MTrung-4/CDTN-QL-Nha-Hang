@@ -7,6 +7,7 @@ use App\Jobs\SendThankYouEmail;
 use App\Models\Feedback;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class FeedbackController extends Controller
 {
@@ -53,5 +54,23 @@ class FeedbackController extends Controller
                 'feedbacks' => $feedbacks,
             ]
         );
+    }
+
+    public function destroy(Request $request)
+    {
+        $feedbacks = Feedback::where('id', $request->input('id'))->first();
+
+        if ($feedbacks) {
+            $path = str_replace('storage', 'public', $feedbacks->thumb);
+            Storage::delete($path);
+            $feedbacks->delete();
+
+            return response()->json([
+                'error' => false,
+                'message' => 'Xóa thành công tin'
+            ]);
+        }
+
+        return response()->json(['error' => true]);
     }
 }

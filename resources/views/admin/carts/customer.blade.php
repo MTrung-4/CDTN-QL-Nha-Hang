@@ -152,7 +152,7 @@
                         <div class="card-header">
                             <div class="row justify-content-between align-items-center">
                                 <h5>{{ $customer->name }} - {{ $customer->phone }}</h5>
-                                @if ($customer->carts->first()->pay_option)
+                                @if ($customer->carts->first()->pay_option && $customer->carts->first()->table_id)
                                     <button class="btn btn-option complete-btn" data-customer-id="{{ $customer->id }}">
                                         <i class="fas fa-solid fa-check"></i>
                                     </button>
@@ -337,7 +337,7 @@
                         $('#cashModal').modal('hide');
                         // Tính số tiền thiếu/dư
                         var totalPrice = parseFloat(
-                        '{{ $customer->totalPrice }}'); // Tổng giá trị của mỗi đơn hàng
+                            '{{ $customer->totalPrice }}'); // Tổng giá trị của mỗi đơn hàng
                         var changeAmount = cashAmount - totalPrice; // Số tiền dư/thiếu
                         var message = ''; // Chuỗi thông báo
 

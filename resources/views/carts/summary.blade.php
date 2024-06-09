@@ -235,9 +235,6 @@
         function savePaymentOption(cartId, payOption, callback) {
             var customerId = document.getElementById('customer_id').value;
             if (customerId) {
-                // In ra giá trị của customerId trên DevTools
-                console.log("customerId: ", customerId);
-
                 $.ajax({
                     type: 'POST',
                     url: '/payment-option',
@@ -248,20 +245,14 @@
                         pay_option: payOption
                     },
                     success: function(response) {
-                        if (response.success) {
-                            console.log('Phương thức thanh toán đã được lưu thành công');
-                            callback();
-                        } else {
-                            console.error('Không thể lưu phương thức thanh toán');
+                        console.log('Phương thức thanh toán đã được lưu thành công:', response);
+                        callback();
+                        if (payOption !== 'VNPAY') {
+                            window.location.href = "{{ route('carts') }}";
                         }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Lỗi khi gửi yêu cầu AJAX');
-                        alert('Đã xảy ra lỗi khi gửi yêu cầu AJAX');
                     }
                 });
             } else {
-                // Nếu không tồn tại, in ra thông báo lỗi
                 console.error("Không tìm thấy customerId");
             }
         }
@@ -287,22 +278,15 @@
                                 cart_id: orderId
                             })
                         })
-                        .then(response => {
-                            if (response.ok) {
-                                return response.json();
-                            } else {
-                                // Không cần throw lỗi ở đây
-                                console.error('Có lỗi xảy ra khi hủy đơn hàng.');
-                                /*  window.location.href = "{{ route('carts') }}"; */
-                            }
-                        })
+                        .then(response => response.json())
                         .then(data => {
                             console.log('Đơn hàng đã được hủy thành công:', data);
-                            /* window.location.href =
-                            "{{ route('carts') }}";  */ // Chuyển hướng sau khi hủy đơn hàng
                         })
                         .catch(error => {
                             console.error('Error:', error);
+                        })
+                        .finally(() => {
+                            window.location.href = "{{ route('carts') }}";
                         });
                 }
             });

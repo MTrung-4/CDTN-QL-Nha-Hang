@@ -98,8 +98,8 @@ class PaymentController extends Controller
             Log::error('Cart not found with ID: ' . $cartId);
         }
 
-        $vnp_ResponseCode = '01';  // Giả lập mã phản hồi thất bại
-        /* $vnp_ResponseCode = $request->input('vnp_ResponseCode'); */
+      /*   $vnp_ResponseCode = '01';  // Giả lập mã phản hồi thất bại */
+        $vnp_ResponseCode = $request->input('vnp_ResponseCode');
 
         if ($vnp_ResponseCode === '00') {
             SendMail::dispatch($customer->email, $customer)->delay(now()->addSeconds(2));

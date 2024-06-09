@@ -124,15 +124,12 @@ class CartController extends Controller
                 // Trả về thông báo thành công qua Flash Session
                 Session::flash('success', 'Đặt hàng thành công, email xác nhận đã được gửi đi.');
             } else {
-                // Trả về thông báo thành công nhưng không gửi email
-                Session::flash('success', 'Đặt hàng thành công với VNPAY.');
+
             }
 
-            return redirect()->route('carts');
         } else {
             Session::flash('error', $response['message']);
         }
-        return redirect()->back();
     }
 
 
@@ -154,6 +151,6 @@ class CartController extends Controller
         }
         session()->flash('success', 'Đơn hàng đã được hủy thành công.');
         // Chuyển hướng về trang home
-        return redirect()->route('carts');
+       /*  return redirect()->route('carts'); */
     }
 }

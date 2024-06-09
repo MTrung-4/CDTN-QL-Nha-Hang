@@ -193,8 +193,11 @@ Route::middleware(['auth'])->group(function () {
             Route::get('waiting', [ReviewController::class, 'waiting']);
             Route::get('cancel', [ReviewController::class, 'cancel']);
         });
+
+        //Feedback
         Route::prefix('feedbacks')->middleware(['checkRole:admin, staff'])->group(function () {
             Route::get('feedback', [FeedbackController::class, 'show']);
+            Route::DELETE('destroy', [FeedbackController::class, 'destroy']);
         });
     });
 
